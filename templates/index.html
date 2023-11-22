@@ -1,0 +1,89 @@
+{% extends 'base.htm' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+
+<body>
+    {% block content %}
+    <div class="card">
+        <div class="agent-new mt-2">
+            <div class="card-block-table">
+                    <style>
+        /* Custom CSS for black table header */
+        .table-black th {
+            background-color: #01a9ac;
+            color: #fff;
+            border-left: 1px solid #fff;
+        }
+    </style>
+        <table class="table table-striped">
+            <thead class="table-black">
+                <tr>
+<th class="city" width="20%">City</th>
+<th class="place" width="20%">Place</th>
+<th class="cost" width="10%">Price</th>
+<th class="halava" width="10%">Free from</th>
+<th class="time" width="10%">Delivery time</th>
+</tr>
+            </thead>
+            <tbody>
+                <tr class="not_places ">
+<td class="city">
+Batumi
+<a class="remove_city_delivery" data-id="481921" href="/delivery/?id=481921">Remove</a>
+</td>
+<td class="place">
+<input id="city_481921_0_work" name="city[481921][0][work]" type="hidden" value="0">
+<input checked="checked" id="city_481921_0_work" name="city[481921][0][work]" type="checkbox" value="1">
+<span>
+Any location
+</span>
+</td>
+<td class="cost">
+<input id="city_481921_0_cost" name="city[481921][0][cost]" type="number" value="100">
+</td>
+<td class="halava">
+<input id="city_481921_0_halava" name="city[481921][0][halava]" type="number" value="150">
+</td>
+<td class="time">
+<select id="city_481921_0_hours" name="city[481921][0][hours]"><option value="0">0</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option selected="selected" value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option></select>
+<span>
+h.
+</span>
+<select id="city_481921_0_minutes" name="city[481921][0][minutes]"><option selected="selected" value="0.0">00</option>
+<option value="0.25">15</option>
+<option value="0.5">30</option>
+<option value="0.75">45</option></select>
+<span>
+m.
+</span>
+</td>
+</tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>

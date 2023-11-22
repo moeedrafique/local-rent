@@ -1,0 +1,91 @@
+{% extends 'base.htm' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+
+<body>
+    {% block content %}
+    <div class="card">
+        <div class="agent-new mt-2">
+            <div class="card-block-table">
+                <style>
+        /* Custom CSS for black table header */
+        .table-black th {
+            background-color: #01a9ac;
+            color: #fff;
+            border-left: 1px solid #fff;
+        }
+    </style>
+                <table id="discounts" class="table table-striped">
+            <thead class="table-black">
+            <tr>
+                <th width="15%">Discount name</th>
+                <th width="25%">Valid from</th>
+                <th width="50%"></th>
+                <th width="10%">
+                <a href="{% url 'add_discounts' %}"><button type="submit" class="float-right btn btn-success">Add Discount</button></a>
+                </th>
+            </tr>
+
+            </thead>
+            <tbody>
+                {% for discount in car_discount %}
+                <tr>
+                    <td>{{ discount.name }}</td>
+                    <td>{{ discount.discount_percentage }}% {{ discount.valid_from }} - {{ discount.valid_to }}</td>
+                    <td class="tariff-car-list">
+                        <div title="{% with car_count=discount.cars.all|length %} {{ car_count }} cars: {% for car in discount.cars.all %}{{ car.brand }} {{ car.model }}{% endfor %}{% endwith %}">
+                            {% with car_count=discount.cars.all|length %} {{ car_count }} cars: {% for car in discount.cars.all %}{{ car.brand }} {{ car.model }}{% endfor %}{% endwith %}
+                        </div>
+                    </td>
+                    <td class="tariff-edit-button">
+                        <a class="btn btn-success" href="/discounts/12335/edit/">Discount Editing</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+                <table id="markups" class="table table-striped">
+            <thead class="table-black">
+            <tr>
+                <th width="15%">Price rise name</th>
+                <th width="25%">Valid from</th>
+                <th width="50%"></th>
+                <th width="10%">
+                    <a href="{% url 'add_raise' %}"><button type="submit" class="float-right btn btn-success">Add price rise</button></a>
+                </th>
+            </tr>
+
+            </thead>
+            <tbody>
+                {% for raise in add_raise %}
+                <tr>
+                    <td>{{ raise.name }}</td>
+                    <td>{{ raise.raise_percentage }}% {{ raise.valid_from }} - {{ raise.valid_to }}</td>
+                    <td class="tariff-car-list">
+                        <div title="{% with car_count=raise.cars.all|length %} {{ car_count }} cars: {% for car in raise.cars.all %}{{ car.brand }} {{ car.model }}{% endfor %}{% endwith %}">
+                            {% with car_count=raise.cars.all|length %} {{ car_count }} cars: {% for car in raise.cars.all %}{{ car.brand }} {{ car.model }}{% endfor %}{% endwith %}
+                        </div>
+                    </td>
+                    <td class="tariff-edit-button">
+                        <a class="btn btn-success" href="/discounts/12335/edit/">Discount Editing</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>
