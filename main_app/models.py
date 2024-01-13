@@ -1,21 +1,69 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import timezone
+from django.utils.text import slugify
 from django_countries.fields import CountryField
+from django.contrib.gis.db import models
+
+
+class Country(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name
+
+class City(models.Model):
+    name = models.CharField(max_length=255)
+    latitude = models.FloatField(default=None, null=True, blank=True)
+    longitude = models.FloatField(default=None, null=True, blank=True)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    location = models.PointField(srid=4326, null=True, blank=True)  # 4326 is a common SRID for WGS 84
+
+    slug = models.SlugField(blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug and self.name:
+            self.slug = slugify(self.name)
+        super(City, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.name}, {self.country}"
+
+
 # Create your models here.
+class Company(models.Model):
+    name_of_company = models.CharField(max_length=255)
+    language = models.CharField(max_length=50)
+    legal_name_of_business = models.CharField(max_length=255)
+    phone = models.CharField(max_length=15)  # Adjust the max_length based on your requirements
+    second_phone = models.CharField(max_length=15, blank=True, null=True)  # Adjust the max_length based on your requirements
+    country = models.CharField(max_length=100)
+    company_logo = models.ImageField(upload_to='company_logos/', null=True, blank=True)
+    central_office_location = models.ForeignKey(City, on_delete=models.CASCADE, default=None, null=True, blank=True)
+    email = models.EmailField()
+    web_site = models.URLField()
+    central_office_address = models.TextField()
+
+    def __str__(self):
+        return f"{self.name_of_company} - Language: {self.language} - Legal Name: {self.legal_name_of_business} - Phone: {self.phone} - Country: {self.country}"
 
 
 class CustomUser(AbstractUser):
-    company_name = models.CharField(max_length=100)
+    company_name = models.ForeignKey(Company, on_delete=models.CASCADE, default=None, null=True, blank=True)
     country = models.CharField(max_length=100)
 
 
 class Car(models.Model):
+    dealer = models.ForeignKey(Company, on_delete=models.CASCADE, default=None, null=True, blank=True)
+    city = models.ForeignKey(City, on_delete=models.CASCADE, default=None, null=True, blank=True)
     brand = models.CharField(max_length=255, default=None)
     model = models.CharField(max_length=255, default=None)
     license_plate = models.CharField(max_length=20, unique=True, default=None)
     year_of_manufacture = models.CharField(max_length=50, blank=True, null=True)
     body_color = models.CharField(max_length=50, default=None)
     body_type = models.CharField(max_length=50, default=None)
+    available = models.BooleanField(default=True)
     PENDING_MODERATION = 'Pending Moderation'
     AVAILABLE_FOR_SALE = 'Available for Sale'
     INTERNAL_USE_ONLY = 'Internal Use Only'
@@ -47,7 +95,7 @@ class Extras(models.Model):
         return self.name
 
 class CarExtras(models.Model):
-    name = models.OneToOneField(Extras, on_delete=models.CASCADE, related_name='car_extras')
+    name = models.ForeignKey(Extras, on_delete=models.CASCADE, related_name='car_extras')
     price_per_day = models.DecimalField(max_digits=10, decimal_places=2, default=None, blank=True, null=True)
     minimal_price = models.DecimalField(max_digits=10, decimal_places=2, default=None, blank=True, null=True)
     maximum_price = models.DecimalField(max_digits=10, decimal_places=2, default=None, blank=True, null=True)
@@ -55,6 +103,7 @@ class CarExtras(models.Model):
 
     def __str__(self):
         return self.name.name
+
 class CarGallery(models.Model):
     car = models.ForeignKey(Car, on_delete=models.CASCADE, default=None)
     image = models.ImageField(upload_to='car_gallery/')
@@ -62,14 +111,28 @@ class CarGallery(models.Model):
     def __str__(self):
         return f"{self.car} - {self.image}"
 
-class PriceAndConditions(models.Model):
-    car = models.ForeignKey(Car, on_delete=models.CASCADE, default=None)
-    service_name = models.CharField(max_length=255, blank=True, null=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    conditions = models.TextField(blank=True, null=True)
+class Season(models.Model):
+    name = models.CharField(max_length=255)
+    start_month = models.IntegerField()  # Assuming 1-12 for January-December
+    start_day = models.IntegerField()
+    end_month = models.IntegerField()
+    end_day = models.IntegerField()
+
+class Tariff(models.Model):
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+    min_days = models.IntegerField()
+    max_days = models.IntegerField()
+    # price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"{self.service_name} - Price: {self.price}"
+        return f"{self.car} - {self.min_days} to {self.max_days} days"
+
+class Rate(models.Model):
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+    season = models.ForeignKey(Season, on_delete=models.CASCADE, null=True, blank=True)
+    tariff = models.ForeignKey(Tariff, on_delete=models.CASCADE, null=True, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
 
 class Mileage(models.Model):
     car = models.ForeignKey(Car, on_delete=models.CASCADE, default=None)
@@ -184,21 +247,6 @@ class VehicleRegistrationCertificate(models.Model):
 #         return f"{self.name} - Email: {self.email} - Phone: {self.phone} - Percent: {self.percent}%"
 
 
-class Company(models.Model):
-    name_of_company = models.CharField(max_length=255)
-    language = models.CharField(max_length=50)
-    legal_name_of_business = models.CharField(max_length=255)
-    phone = models.CharField(max_length=15)  # Adjust the max_length based on your requirements
-    second_phone = models.CharField(max_length=15, blank=True, null=True)  # Adjust the max_length based on your requirements
-    country = models.CharField(max_length=100)
-    company_logo = models.ImageField(upload_to='company_logos/', null=True, blank=True)
-    central_office_location = models.CharField(max_length=255)
-    email = models.EmailField()
-    web_site = models.URLField()
-    central_office_address = models.TextField()
-
-    def __str__(self):
-        return f"{self.name_of_company} - Language: {self.language} - Legal Name: {self.legal_name_of_business} - Phone: {self.phone} - Country: {self.country}"
 
 class WorkingHours(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
@@ -254,12 +302,70 @@ class LocationType(models.Model):
         return self.name
 
 class Delivery(models.Model):
-    location_type = models.ForeignKey(LocationType, on_delete=models.CASCADE)
-    city = models.CharField(max_length=255)
-    place = models.CharField(max_length=255)
+    city = models.ForeignKey(City, on_delete=models.CASCADE, default=None, null=True, blank=True)
+    location_type = models.ForeignKey(LocationType, on_delete=models.CASCADE, default=None)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     free_from = models.DecimalField(max_digits=10, decimal_places=2)
     delivery_time = models.PositiveIntegerField()  # Assuming delivery time is in minutes
 
     def __str__(self):
-        return f"{self.place}, {self.city} ({self.location_type})"
+        return f"{self.city} ({self.location_type})"
+
+
+class Customer(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    primary_phone = models.CharField(max_length=15, blank=True, null=True)
+    is_primary_whatsapp = models.BooleanField(default=False, blank=True, null=True)
+    is_primary_viber = models.BooleanField(default=False, blank=True, null=True)
+    is_primary_telegram = models.BooleanField(default=False, blank=True, null=True)
+    secondary_phone = models.CharField(max_length=15, blank=True, null=True)
+    is_secondary_whatsapp = models.BooleanField(default=False, blank=True, null=True)
+    is_secondary_viber = models.BooleanField(default=False, blank=True, null=True)
+    is_secondary_telegram = models.BooleanField(default=False, blank=True, null=True)
+    date_of_birth = models.DateField(blank=True, null=True)
+
+    @property
+    def age(self):
+        today = timezone.now().date()
+        return today.year - self.date_of_birth.year - ((today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
+
+class BookingService(models.Model):
+    booking = models.ForeignKey('Booking', related_name='selected_services', on_delete=models.CASCADE)
+    car_extra = models.ForeignKey(CarExtras, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=0)
+    service_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+class Booking(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, default=None)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
+    pickup_location = models.CharField(max_length=255)
+    pickup_time = models.TimeField(blank=True, null=True)
+    drop_location = models.CharField(max_length=255)
+    drop_time = models.TimeField(blank=True, null=True)
+
+    def clean(self):
+        if self.start_date and self.end_date and self.start_date > self.end_date:
+            raise ValidationError("End date must be equal to or after the start date.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Booking for {self.car} from {self.start_date} to {self.end_date} "
+
+list_of_reservation_ids = Booking.objects.values_list('id', flat=True)
+
+class Payment(models.Model):
+    booking = models.OneToOneField(Booking, on_delete=models.CASCADE, related_name='payment')
+    transaction_id = models.CharField(max_length=100)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Payment for Booking {self.booking.id}"
+    
+# by {self.user.username}

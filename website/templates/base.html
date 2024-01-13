@@ -1,0 +1,73 @@
+{% load static %}
+<!doctype html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en">
+<head>
+
+    <title itemprop="name">Local Royal Rent</title>
+    <meta name="og:title" content="">
+    <meta property="og:image:secure_url" content="">
+    <meta property="og:title" content="">
+    <meta itemprop="description" name="description" content="">
+    <meta name="robots" content="INDEX,FOLLOW">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="">
+    <meta name="keywords" content="">
+    <meta name="twitter:title" content="">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:image" content="">
+    <meta name="twitter:url" content="">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="">
+    <meta name="twitter:creator" content="">
+    <link rel="canonical" href="">
+    <link rel="shortcut icon" href="{% static 'website/img/logo-car-2.png' %}" type="image/png">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=1">
+    <meta name="theme-color" content="#2e054e">
+    <meta name="msapplication-navbutton-color" content="#2e054e">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#2e054e">
+    <link rel="stylesheet" type="text/css" href="{% static 'website/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'website/css/filter.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'website/css/modal.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
+
+    <!-- Add Owl Carousel CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+
+    <!-- Add jQuery (Owl Carousel requires jQuery) -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+
+    <!-- Add Owl Carousel JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="{% static 'website/js/fetch.js' %}"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+</head>
+<body>
+
+    <div style="height:100%">
+        <div class="styles__App">
+            <div class="styles__pageContent">
+                <div class="HomeDesktop__container">
+
+                    {% include 'navbar.html' %}
+
+
+                    {% block content %}
+
+                    {% endblock %}
+
+                    {% include 'footer.html' %}
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

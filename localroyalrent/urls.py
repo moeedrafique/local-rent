@@ -22,8 +22,10 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('main_app.urls')),
+    path('', include('website.urls')),
+    path('partner/', include('main_app.urls')),
     path('accounts/', include('allauth.urls')),
+    path("stripe/", include("djstripe.urls", namespace="djstripe")),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

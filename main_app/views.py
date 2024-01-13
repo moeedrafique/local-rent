@@ -1,3 +1,6 @@
+from django.contrib import messages
+from django.db.models import F, Value
+from django.db.models.functions import Concat
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from allauth.account.views import SignupView
@@ -19,6 +22,16 @@ class RentalCompanyRegistrationView(SignupView):
 ############## CARS ###################
 def home(request):
     return render(request, 'index.html')
+
+def carsList(request):
+    # Filter cars that have bookings and belong to the user's company
+    cars_with_bookings = Car.objects.filter(
+        booking__isnull=False,
+        dealer=request.user.company_name
+    ).distinct().prefetch_related('booking_set')
+    context = {'cars_with_bookings':cars_with_bookings}
+    return render(request, 'all_bookings.html', context)
+
 def convert_to_boolean(value):
     return value == 'on'
 # def addCars(request):
@@ -95,7 +108,12 @@ def convert_to_boolean(value):
 
 
 ############## AGENTS ###################
+
+
 def addCars(request):
+    # Fetch all extras and annotate with a concatenated string of prices for each extra
+    extras = Extras.objects.prefetch_related('car_extras').distinct()
+
     if request.method == 'POST':
         brand = request.POST.get('brand')
         model = request.POST.get('model')
@@ -153,6 +171,7 @@ def addCars(request):
             return JsonResponse({'error': 'Brand and Model are required fields. Please fill them out.'}, status=400)
 
         try:
+            # company = Company.objects.filter()
             # Save data to the Car model
             car = Car.objects.create(
                 brand=brand,
@@ -162,6 +181,11 @@ def addCars(request):
                 body_color=body_color,
                 body_type=body_type
             )
+            car.dealer = request.user.company_name
+            print(car.dealer)
+            car.city = request.user.company_name.central_office_location
+            print(car.city)
+            car.save()
 
 
 
@@ -221,19 +245,21 @@ def addCars(request):
                 image=vehicle_registration_certificate,
             )
             print(features)
-            # You can add more logic or return success messages as needed
-            return JsonResponse({'success': 'Car added successfully!'})
+            messages.success(request, 'Car added successfully!')
+            return redirect('all_cars')  # Redirect to the car list page
 
         except Exception as e:
             # Handle any other exceptions
             return JsonResponse({'error': str(e)}, status=500)
-
-    return render(request, 'add_car.html')
+    context = {
+        'extras': extras,
+    }
+    return render(request, 'add_car.html', context)
 def Agents(request):
     return render(request, 'all_agents.html')
 
 def addAgents(request):
-    return render(request, 'add_agents.html')
+    return render(request, 'add_agent.html')
 
 ############## INOVOICES ###################
 
@@ -298,6 +324,33 @@ def addRaise(request, raise_id=None):
 #     return render(request, 'edit_raise.html')
 
 ############## EXTRAS ###################
+def get_extra_details_view(request, extra_id):
+    try:
+        # Filter instead of get, as there can be multiple CarExtras with the same name
+        extras_list = CarExtras.objects.filter(id=extra_id)
+
+        # Handle the case where there are no CarExtras
+        if not extras_list.exists():
+            return JsonResponse({'error': 'No CarExtras found for the given Extras ID'}, status=404)
+
+        # Assuming you want to return details of the first CarExtras
+        extra = extras_list.first()
+
+        extra_details = {
+            'price_per_day': str(extra.price_per_day),
+            'minimal_price': str(extra.minimal_price),
+            'maximum_price': str(extra.maximum_price),
+        }
+
+        return JsonResponse(extra_details)
+
+    except CarExtras.DoesNotExist:
+        # Handle the case where no CarExtras are found
+        return JsonResponse({'error': 'CarExtras not found for the given Extras ID'}, status=404)
+    except CarExtras.MultipleObjectsReturned:
+        # Handle the case where multiple CarExtras are found
+        return JsonResponse({'error': 'Multiple CarExtras found for the given Extras ID'}, status=500)
+
 def extraCosts(request):
     car_extras = CarExtras.objects.all()
     return render(request, 'all_extras.html', {'car_extras': car_extras})
@@ -309,18 +362,18 @@ def editExtraCosts(request, extra_id=None):
     extra_instance = None
 
     if extra_id:
-        extra_instance = get_object_or_404(Extras, pk=extra_id)
+        extra_instance = get_object_or_404(CarExtras, pk=extra_id)
 
     if request.method == 'POST':
         extras_form = ExtrasForm(request.POST, instance=extra_instance)
         car_extras_form = CarExtrasForm(request.POST,
-                                        instance=extra_instance.car_extras if extra_instance and extra_instance.car_extras else None)
+                                        instance=extra_instance if extra_instance else None)
 
         if extras_form.is_valid() and car_extras_form.is_valid():
             extras_instance = extras_form.save()
 
             # If extra_instance exists, update the existing CarExtras instance
-            if extra_instance and extra_instance.car_extras:
+            if extra_instance:
                 car_extras_instance = car_extras_form.save()
             else:
                 # If extra_instance doesn't exist or it doesn't have a CarExtras, create a new one
@@ -331,7 +384,7 @@ def editExtraCosts(request, extra_id=None):
             return redirect('extra_costs')  # Redirect to your extras list view
     else:
         extras_form = ExtrasForm(instance=extra_instance)
-        car_extras_instance = extra_instance.car_extras if extra_instance and extra_instance.car_extras else None
+        car_extras_instance = extra_instance if extra_instance and extra_instance else None
         car_extras_form = CarExtrasForm(instance=car_extras_instance)
 
     return render(request, 'add_or_update_extra.html',
@@ -373,3 +426,5 @@ def file_upload(request):
         CarGallery.objects.create(image=my_file)
         return HttpResponse('')
     return JsonResponse({'post':'fasle'})
+
+

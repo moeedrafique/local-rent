@@ -1,0 +1,68 @@
+{% extends 'base.htm' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+
+<body>
+    {% block content %}
+    <div class="card">
+        <div class="agent-new mt-2">
+            <div class="card-block-table">
+                <style>
+        /* Custom CSS for black table header */
+        .table-black th {
+            background-color: #01a9ac;
+            color: #fff;
+            border-left: 1px solid #fff;
+        }
+    </style>
+                <table id="discounts" class="table table-striped">
+            <thead class="table-black">
+                <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th class="align-center">Total reservations cost</th>
+                <th class="align-center">Number of reservations</th>
+                <th>Comment</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr>
+<td>
+<a href="/clients/161897/edit/">Dmitry Belousov</a>
+</td>
+<td class="align-center">
+<a href="/clients/161897/edit/">+79659880850</a>
+</td>
+<td class="align-center">
+<a href="/clients/161897/edit/">Belousov.dmitry92@gmail.com</a>
+</td>
+<td class="amount align-center">
+128,00
+₽
+</td>
+<td class="align-center">
+1
+</td>
+<td class="comment-field">
+
+</td>
+</tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>

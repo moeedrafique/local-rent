@@ -9,6 +9,7 @@ urlpatterns = [
     ############## CARS ###################
     path('', views.home, name='home'),
     path('cars/new/', views.addCars, name='add_cars'),
+    path('cars/', views.carsList, name='all_cars'),
 
     ############## USERS ###################
 
@@ -37,7 +38,7 @@ urlpatterns = [
     path('extra-costs/', views.extraCosts, name='extra_costs'),
     path('extra-costs/new/', views.editExtraCosts, name='add_extra_costs'),
     path('extra-costs/<int:extra_id>/edit/', views.editExtraCosts, name='edit_extra_costs'),
-
+    path('get_extra_details/<int:extra_id>/', get_extra_details_view, name='get_extra_details'),
     ############## SETTINGS ###################
     path('settings/', views.Settings, name='settings'),
     path('upload/', views.file_upload, name='upload'),

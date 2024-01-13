@@ -1,0 +1,76 @@
+{% extends 'base.htm' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<body>
+{% block content %}
+<div class="card">
+    <div class="agent-new mt-2">
+        <div class="card-block-table">
+            <style>
+        /* Custom CSS for black table header */
+        .table-black th {
+            background-color: #01a9ac;
+            color: #fff;
+            border-left: 1px solid #fff;
+        }
+
+            </style>
+            <table id="extras" class="table table-striped">
+                <thead class="table-black">
+                <tr>
+                    <th width="10%">Extras</th>
+                    <th width="10%">Price per day $</th>
+                    <th width="10%">Minimal price $</th>
+                    <th width="10%">Maximum price $</th>
+                    <th width="50%">Cars</th>
+                    <th width="10%">
+                        <a class="btn btn-success float-right" href="{% url 'add_extra_costs' %}"
+                           style="white-space:nowrap; margin-right: 20%;">Add</a>
+                    </th>
+                </tr>
+
+                </thead>
+                <tbody>
+                {% for extra in car_extras %}
+                <tr>
+                    <td>
+                        {{ extra.name }}
+                    </td>
+                    <td>
+                        ${{ extra.price_per_day }}
+                    </td>
+                    <td>
+                        ${{ extra.minimal_price }}
+                    </td>
+                    <td>
+                        ${{ extra.maximum_price }}
+                    </td>
+                    <td style="    white-space: normal;
+    word-wrap: break-word;" class="tariff-car-list">
+                        <div>
+                            <p>{% with car_count=extra.cars.all|length %} {{ car_count }} cars: {% for car in extra.cars.all %}{{ car.brand }} {{ car.model }}{% endfor %}{% endwith %}</p>
+                        </div>
+                    </td>
+                    <td class="tariff-edit-button">
+                        <a class="btn btn-success" href="{% url 'edit_extra_costs' extra.id %}">Edit</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+</body>
+</html>

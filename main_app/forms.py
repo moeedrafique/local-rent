@@ -19,19 +19,19 @@ class CompanyForm(forms.ModelForm):
 WorkingHoursFormSet = inlineformset_factory(Company, WorkingHours, fields='__all__')
 ServiceHoursFormSet = inlineformset_factory(Company, ServiceAtNonBusinessHours, fields='__all__')
 
-class CarForm(forms.ModelForm):
-    class Meta:
-        model = Car
-        fields = ['brand', 'model', 'license_plate', 'year_of_manufacture', 'body_color', 'body_type']
-
-CarGalleryFormSet = inlineformset_factory(Car, CarGallery, fields=['image'], extra=1)
-PriceAndConditionsFormSet = inlineformset_factory(Car, PriceAndConditions, fields=['service_name', 'price', 'conditions'], extra=1)
-MileageFormSet = inlineformset_factory(Car, Mileage, fields=['unlimited_mileage', 'limited_mileage', 'overage_fee'], extra=1)
-InsuranceFormSet = inlineformset_factory(Car, Insurance, fields=['franchise', 'deposit'], extra=1)
-CarDetailsFormSet = inlineformset_factory(Car, CarDetails, fields=['engine_type', 'capacity', 'tank_size', 'fuel_consumption', 'fuel_type', 'drive_type', 'abs_system', 'ebd_system', 'esp_system', 'transmission'], extra=1)
-CarFeaturesFormSet = inlineformset_factory(Car, CarFeatures, fields=['required_license_category', 'seats', 'number_of_doors', 'air_conditioning', 'interior', 'roof', 'powered_windows', 'airbags', 'side_wheel', 'cruise_control', 'rear_view_camera', 'parking_assist'], extra=1)
-CarAudioFeaturesFormSet = inlineformset_factory(Car, CarAudioFeatures, fields=['has_radio', 'has_audio_cd', 'has_mp3', 'has_usb', 'has_aux', 'has_bluetooth'], extra=1)
-# VehicleRegistrationCertificateFormSet = inlineformset_factory(Car, VehicleRegistrationCertificate, fields=['registration_number', 'owner_name', 'owner_address', 'engine_number', 'chassis_number'], extra=1)
+# class CarForm(forms.ModelForm):
+#     class Meta:
+#         model = Car
+#         fields = ['brand', 'model', 'license_plate', 'year_of_manufacture', 'body_color', 'body_type']
+#
+# CarGalleryFormSet = inlineformset_factory(Car, CarGallery, fields=['image'], extra=1)
+# PriceAndConditionsFormSet = inlineformset_factory(Car, Rate, fields=['price'], extra=1)
+# MileageFormSet = inlineformset_factory(Car, Mileage, fields=['unlimited_mileage', 'limited_mileage', 'overage_fee'], extra=1)
+# InsuranceFormSet = inlineformset_factory(Car, Insurance, fields=['franchise', 'deposit'], extra=1)
+# CarDetailsFormSet = inlineformset_factory(Car, CarDetails, fields=['engine_type', 'capacity', 'tank_size', 'fuel_consumption', 'fuel_type', 'drive_type', 'abs_system', 'ebd_system', 'esp_system', 'transmission'], extra=1)
+# CarFeaturesFormSet = inlineformset_factory(Car, CarFeatures, fields=['required_license_category', 'seats', 'number_of_doors', 'air_conditioning', 'interior', 'roof', 'powered_windows', 'airbags', 'side_wheel', 'cruise_control', 'rear_view_camera', 'parking_assist'], extra=1)
+# CarAudioFeaturesFormSet = inlineformset_factory(Car, CarAudioFeatures, fields=['has_radio', 'has_audio_cd', 'has_mp3', 'has_usb', 'has_aux', 'has_bluetooth'], extra=1)
+# # VehicleRegistrationCertificateFormSet = inlineformset_factory(Car, VehicleRegistrationCertificate, fields=['registration_number', 'owner_name', 'owner_address', 'engine_number', 'chassis_number'], extra=1)
 
 class RentalCompanyRegistrationView(SignupForm):
     company_name = forms.CharField(max_length=100, label='Company Name')
@@ -58,7 +58,7 @@ class ExtrasForm(forms.ModelForm):
     # Override the default widget for the 'name' field to use a select box
     name = forms.ModelChoiceField(queryset=Extras.objects.all(), to_field_name='name', empty_label=None)
     class Meta:
-        model = Extras
+        model = CarExtras
         fields = ['name']
 
 class CarExtrasForm(forms.ModelForm):
@@ -86,6 +86,12 @@ class RaiseForm(forms.ModelForm):
     # Override the default widget for the 'valid_from' and 'valid_to' fields to use date input
     valid_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     valid_to = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+
+class TariffForm(forms.ModelForm):
+    class Meta:
+        model = Tariff
+        fields = ['car', 'min_days', 'max_days']
+
 # class RentalCompanyRegistrationForm(SignupForm):
 #     company_name = forms.CharField(max_length=100, label='Company Name')
 #     country = CountryField().formfield()
