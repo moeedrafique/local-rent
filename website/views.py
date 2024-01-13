@@ -14,8 +14,7 @@ import stripe
 from rest_framework import viewsets, filters
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.gis.db.models.functions import Distance
-from django.contrib.gis.geos import Point
+
 from website.bank_of_georgia_api import  make_tbcbank_api_request
 from main_app.models import *
 from .tasks import *
@@ -342,79 +341,6 @@ def car_details(request):
         return JsonResponse({'error': 'Car features not found'}, status=404)
     except CarAudioFeatures.DoesNotExist:
         return JsonResponse({'error': 'Car audio features not found'}, status=404)
-
-
-@csrf_exempt
-def cars_near_city(request):
-    if request.method == 'POST':
-        city_latitude = float(request.POST.get('city_latitude'))
-        city_longitude = float(request.POST.get('city_longitude'))
-
-        # Create a Point object for the selected city
-        selected_city_location = Point(city_longitude, city_latitude, srid=4326)
-        print(selected_city_location)
-        # Query cars near the selected city's location
-        cars_near_city = Car.objects.annotate(
-            distance=Distance('city__location', selected_city_location)
-        ).filter()  # Adjust the distance value as needed
-        print(cars_near_city)
-
-        # Serialize the cars data as JSON
-        cars_data = [{'model': car.model, 'brand': car.brand, 'location': [car.city.latitude, car.city.longitude]} for car in cars_near_city]
-
-        return JsonResponse({'cars': cars_data})
-    else:
-        # Handle other HTTP methods or return an error
-        return JsonResponse({'error': 'Invalid request method'})
-
-def car_available(car_id, start_date, end_date):
-    return Car.objects.filter(
-        Q(id=car_id, available=True) &
-        ~Q(reservation__start_date__lte=end_date, reservation__end_date__gte=start_date)
-    ).exists()
-def book_car(request):
-    if request.method == 'POST':
-        # Retrieve booking details from POST data
-        car_id = request.POST.get('car_id')
-        start_date = request.POST.get('start_date')
-        end_date = request.POST.get('end_date')
-        start_datetime = datetime.strptime(start_date, '%Y-%m-%d')
-        end_datetime = datetime.strptime(end_date, '%Y-%m-%d')
-        pickup_location = request.POST.get('pickup_location')
-        pickup_time = request.POST.get('pickup_time')
-        drop_location = request.POST.get('drop_location')
-        drop_time = request.POST.get('drop_time')
-
-        # Create a Booking object and save it to the database
-        # (You need to import your models and handle this according to your model structure)
-        # booking = Booking(car_id=car_id, start_date=start_date, end_date=end_date, ...)
-        # booking.save()
-        current_time = timezone.now()
-
-        # Assuming a reservation lasts for 30 minutes
-        end_time = current_time + timezone.timedelta(minutes=30)
-
-        if car_available(car_id, start_datetime, end_datetime):
-            reservation = Booking.objects.create(
-                user=request.user,
-                car_id=car_id,
-                start_date=start_datetime,
-                end_date=end_datetime
-            )
-
-        # Schedule a task to free up the car after 30 minutes
-        release_reservation_after_timeout.apply_async(
-            (reservation.id,),
-            eta=end_time
-        )
-
-
-        # Dummy response for illustration purposes
-        response_data = {'status': 'success', 'message': 'Booking successful!'}
-
-        return JsonResponse(response_data)
-
-    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
 
 
 @transaction.atomic

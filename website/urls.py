@@ -14,7 +14,6 @@ urlpatterns = [
     # path('car_list/<int:city_id>/', views.car_list, name='car_list_city'),
 
     path('get_available_cars/', get_available_cars, name='get_available_cars'),
-    path('cars_near_city/', cars_near_city, name='cars_near_city'),
 
     path('privacy-policy/', privacy_policy, name='privacy_policy'),
     path('cars/', car_details, name='car_details'),
