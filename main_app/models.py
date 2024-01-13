@@ -4,7 +4,6 @@ from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
 from django_countries.fields import CountryField
-from django.contrib.gis.db import models
 
 
 class Country(models.Model):
@@ -18,8 +17,6 @@ class City(models.Model):
     latitude = models.FloatField(default=None, null=True, blank=True)
     longitude = models.FloatField(default=None, null=True, blank=True)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
-    location = models.PointField(srid=4326, null=True, blank=True)  # 4326 is a common SRID for WGS 84
-
     slug = models.SlugField(blank=True, null=True)
 
     def save(self, *args, **kwargs):

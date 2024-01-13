@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import *
 # Register your models here.
-from leaflet.admin import LeafletGeoAdmin  # Import LeafletGeoAdmin
+
 
 admin.site.register(CustomUser)
 admin.site.register(Car)
@@ -27,8 +27,4 @@ admin.site.register(Payment)
 admin.site.register(LocationType)
 admin.site.register(Delivery)
 admin.site.register(Country)
-
-@admin.register(City)
-class CityAdmin(LeafletGeoAdmin):  # Use LeafletGeoAdmin instead of OSMGeoAdmin
-    list_display = ('name', 'location')
-    search_fields = ('name', )
+admin.site.register(City)
