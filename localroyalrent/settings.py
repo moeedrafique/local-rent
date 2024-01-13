@@ -102,23 +102,23 @@ WSGI_APPLICATION = 'localroyalrent.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'localrentdb',
-        'USER': 'postgres',
-        'PASSWORD': 'Bhimber786---',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.contrib.gis.db.backends.postgis',
+#         'NAME': 'localrentdb',
+#         'USER': 'postgres',
+#         'PASSWORD': 'Bhimber786---',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 
 # Password validation
@@ -185,14 +185,14 @@ LOGIN_REDIRECT_URL = '/'
 # DJSTRIPE_FOREIGN_KEY_TO_FIELD = "id"
 
 #DEPLOYMENT SETTING
-# CSRF_COOKIE_SECURE = True
-# SESSION_COOKIE_SECURE = True
-# SECURE_HSTS_SECONDS = 31536000
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-# SECURE_HSTS_PRELOAD = True
-# SECURE_SSL_REDIRECT = True
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-# SECURE_REFERRER_POLICY = "strict-origin"
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_REFERRER_POLICY = "strict-origin"
 
 STRIPE_PUBLIC_KEY = 'pk_test_51OL3NULW8TXmjJXuYR63Zpefw9PpQCFfwhZkMhsDMKBlaXMT421bRotLJ4Zqs63mjnAXArmTYz8aAP7hB5zsjNbA00D8EB9DcB'
 STRIPE_SECRET_KEY = 'sk_test_51OL3NULW8TXmjJXuTD4QizPe7nHXyvvGun6zV3FnPHM8RsCtZ378hfarx1lHyCUwsdeS71IaAyUpm6bts8kfYZu700sSal4MEU'
@@ -207,8 +207,8 @@ DJSTRIPE_FOREIGN_KEY_TO_FIELD = "id"
 TBC_API_KEY = 'V6H7jBcqhu9lXinbldkAHG0cYysXZMMP'
 
 
-GDAL_LIBRARY_PATH = r'C:\Users\MR LAPTOP\PycharmProjects\localroyalrent\venv\Lib\site-packages\osgeo\gdal304.dll'
-GEOS_LIBRARY_PATH = r'C:\Users\MR LAPTOP\PycharmProjects\localroyalrent\venv\Lib\site-packages\osgeo\geos_c.dll'
+# GDAL_LIBRARY_PATH = r'C:\Users\MR LAPTOP\PycharmProjects\localroyalrent\venv\Lib\site-packages\osgeo\gdal304.dll'
+# GEOS_LIBRARY_PATH = r'C:\Users\MR LAPTOP\PycharmProjects\localroyalrent\venv\Lib\site-packages\osgeo\geos_c.dll'
 
 # Celery Configuration
 # CELERY_BROKER_URL = 'redis://localhost:6379/0'
