@@ -2794,7 +2794,7 @@ fetch(`/get_available_cars/?city_id=${city}&start_date=${start_date}&end_date=${
             carListContainer.append(carHTML);
             carCounter++;
 
-            $('.HeadingContent__count').text("S{carCounter} results found");
+            $('.HeadingContent__count').text(carCounter + " results found");
 
             carListContainer.on('click', `.open-modal[data-car-id="${availableCar.id}"]`, (event) => {
                 event.preventDefault();

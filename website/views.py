@@ -179,7 +179,7 @@ def calculate_total_price(car, start_date_str, end_date_str):
     duration = (end_date - start_date).days  # Add 1 day to include the end date
     print("Duration", duration)
     # Find applicable tariffs for the given duration
-    tariffs = Tariff.objects.filter(car=car, min_days__lte=duration, max_days__gte=duration)
+    tariffs = Tariff.objects.filter(min_days__lte=duration, max_days__gte=duration)
     print(tariffs)
     # Check if there's a matching rate for each tariff and the current season
     for tariff in tariffs:
@@ -375,7 +375,7 @@ def create_booking(request):
     duration = (end_date - start_date).days  # Add 1 day to include the end date
     print(duration)
     # Find applicable tariffs for the given duration
-    tariffs = Tariff.objects.filter(car=car, min_days__lte=duration, max_days__gte=duration)
+    tariffs = Tariff.objects.filter(min_days__lte=duration, max_days__gte=duration)
     print(tariffs)
     # Check if there's a matching rate for each tariff and the current season
     total_price = None
@@ -412,10 +412,10 @@ def create_booking(request):
             }
         )
         # For testing purposes, set some pickup and drop times
-        pickup_time = timezone.datetime.strptime('12:00:00', '%H:%M:%S').time()
-        drop_time = timezone.datetime.strptime('14:00:00', '%H:%M:%S').time()
-        pickup_location = "Airport"
-        drop_location = "Rental Office"
+        # pickup_time = timezone.datetime.strptime('12:00:00', '%H:%M:%S').time()
+        # drop_time = timezone.datetime.strptime('14:00:00', '%H:%M:%S').time()
+        # pickup_location = "Airport"
+        # drop_location = "Rental Office"
 
         # Fetch delivery prices for the selected locations
         pickup_delivery_price = get_delivery_price(pickup_location, city_id)

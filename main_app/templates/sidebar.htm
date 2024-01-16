@@ -13,7 +13,7 @@
                         <div class="pcoded-inner-navbar main-menu">
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu">
-                                    <a href="">
+                                    <a href="{% url 'home' %}">
                                         <span class="pcoded-micon"><i class="feather icon-home"></i></span>
                                         <span class="pcoded-mtext">Dashboard</span>
                                     </a>
@@ -25,7 +25,7 @@
                                     </a>
                                     <ul class="pcoded-submenu">
                                         <li class=" ">
-                                            <a href="">
+                                            <a href="{% url 'all_cars' %}">
                                                 <span class="pcoded-mtext">Cars List</span>
                                             </a>
                                         </li>
@@ -53,8 +53,8 @@
                                     </a>
                                     <ul class="pcoded-submenu">
                                         <li class=" ">
-                                            <a href="">
-                                                <span class="pcoded-mtext">Product List</span>
+                                            <a href="{% url 'all_bookings' %}">
+                                                <span class="pcoded-mtext">Bookings List</span>
                                             </a>
                                         </li>
                                         <li class=" ">

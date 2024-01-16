@@ -82,20 +82,26 @@
                     <thead class="table-black">
                     <tr>
                         <th></th>
-                        <th>1—4 days</th>
-                        <th>5—14 days</th>
-                        <th>15—30 days</th>
-                        <th>31+</th>
+                        {% for tariff in tariff %}
+                        <th>{{ tariff.min_days }}—{{ tariff.max_days }} days</th>
+                        {% endfor %}
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>Season #1 ------ <span>01 Jan - 31 Dec</span></td>
-                        <td><input type="text" class="form-control" value="0"></td>
-                        <td><input type="text" class="form-control" value="0"></td>
-                        <td><input type="text" class="form-control" value="0"></td>
-                        <td><input type="text" class="form-control" value="0"></td>
-                    </tr>
+            {% for season in season %}
+                <tr>
+                    <td>{{ season.name }} <span>{{ season.date_range }}</span></td>
+                    {% for tariff in tariff %}
+                        <td>
+                            <input type="text" class="form-control" name="rate_price_{{ season.id }}_{{ tariff.id }}" value="0">
+                            <!-- Hidden fields for car, season, and tariff IDs -->
+                            <input type="hidden" name="rate_car_{{ season.id }}_{{ tariff.id }}" value="{{ car.id }}">
+                            <input type="hidden" name="rate_season_{{ season.id }}_{{ tariff.id }}" value="{{ season.id }}">
+                            <input type="hidden" name="rate_tariff_{{ season.id }}_{{ tariff.id }}" value="{{ tariff.id }}">
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
                     <!-- Add more rows as needed -->
                     </tbody>
                 </table>
@@ -826,7 +832,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'POST',
-            url: '{% url "add_cars" %}',
+            url: '{% url "edit_cars" %}',
             data: formData,
             processData: false,
             contentType: false,

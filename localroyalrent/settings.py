@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # "django.contrib.gis",
+    # 'leaflet',
     'main_app',
     'website',
     'allauth',
@@ -174,16 +176,23 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ACCOUNT_EMAIL_VERIFICATION = 'None'
 LOGIN_REDIRECT_URL = '/'
 
+# STRIPE SETTING
+# STRIPE_LIVE_SECRET_KEY = os.environ.get("STRIPE_LIVE_SECRET_KEY", "<your secret key>")
+# STRIPE_TEST_SECRET_KEY = os.environ.get("STRIPE_TEST_SECRET_KEY", "sk_test_51KZDfdAKoNfiT1qbdxqcZCEtvY1Oxa6Ot01Kqr7q6zYsyuJhUUhWFcuk6GeivTkQQYt9Ismh6eOANtC6a4fQ0glT00TwFonfpm")
+# STRIPE_LIVE_MODE = False  # Change to True in production
+# DJSTRIPE_WEBHOOK_SECRET = "whsec_xxx"  # Get it from the section in the Stripe dashboard where you added the webhook endpoint
+# DJSTRIPE_USE_NATIVE_JSONFIELD = True  # We recommend setting to True for new installations
+# DJSTRIPE_FOREIGN_KEY_TO_FIELD = "id"
 
 #DEPLOYMENT SETTING
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-SECURE_HSTS_SECONDS = 31536000
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-SECURE_SSL_REDIRECT = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_REFERRER_POLICY = "strict-origin"
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
+# SECURE_HSTS_SECONDS = 31536000
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_PRELOAD = True
+# SECURE_SSL_REDIRECT = True
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# SECURE_REFERRER_POLICY = "strict-origin"
 
 STRIPE_PUBLIC_KEY = 'pk_test_51OL3NULW8TXmjJXuYR63Zpefw9PpQCFfwhZkMhsDMKBlaXMT421bRotLJ4Zqs63mjnAXArmTYz8aAP7hB5zsjNbA00D8EB9DcB'
 STRIPE_SECRET_KEY = 'sk_test_51OL3NULW8TXmjJXuTD4QizPe7nHXyvvGun6zV3FnPHM8RsCtZ378hfarx1lHyCUwsdeS71IaAyUpm6bts8kfYZu700sSal4MEU'
@@ -195,6 +204,12 @@ DJSTRIPE_USE_NATIVE_JSONFIELD = True  # We recommend setting to True for new ins
 DJSTRIPE_FOREIGN_KEY_TO_FIELD = "id"
 
 
+TBC_API_KEY = 'V6H7jBcqhu9lXinbldkAHG0cYysXZMMP'
+
+
+# GDAL_LIBRARY_PATH = r'C:\Users\MR LAPTOP\PycharmProjects\localroyalrent\venv\Lib\site-packages\osgeo\gdal304.dll'
+# GEOS_LIBRARY_PATH = r'C:\Users\MR LAPTOP\PycharmProjects\localroyalrent\venv\Lib\site-packages\osgeo\geos_c.dll'
+
 # Celery Configuration
 # CELERY_BROKER_URL = 'redis://localhost:6379/0'
 # CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
@@ -204,6 +219,18 @@ DJSTRIPE_FOREIGN_KEY_TO_FIELD = "id"
 # CELERY_TIMEZONE = 'UTC'
 # CELERY_BEAT_SCHEDULE = dynamic_schedule
 
+# LEAFLET_CONFIG = {
+#     'DEFAULT_CENTER': (0, 0),
+#     'DEFAULT_ZOOM': 2,
+#     'MIN_ZOOM': 2,
+#     'MAX_ZOOM': 18,
+#     'PLUGINS': {
+#         'geocoder': {
+#             'provider': 'google',
+#             'view': 'satellite',
+#         },
+#     },
+# }
 
 
 # Set your commission percentage

@@ -90,7 +90,7 @@ class RaiseForm(forms.ModelForm):
 class TariffForm(forms.ModelForm):
     class Meta:
         model = Tariff
-        fields = ['car', 'min_days', 'max_days']
+        fields = ['min_days', 'max_days']
 
 # class RentalCompanyRegistrationForm(SignupForm):
 #     company_name = forms.CharField(max_length=100, label='Company Name')
@@ -113,3 +113,38 @@ class TariffForm(forms.ModelForm):
 #         user.set_password(self.cleaned_data.get('password1'))
 #         user.save()
 #         return user
+
+class CarForm(forms.ModelForm):
+    class Meta:
+        model = Car
+        fields = '__all__'
+
+class MileageForm(forms.ModelForm):
+    class Meta:
+        model = Mileage
+        fields = '__all__'
+
+class CarGalleryForm(forms.ModelForm):
+    class Meta:
+        model = CarGallery
+        fields = '__all__'
+
+class CarAudioFeaturesForm(forms.ModelForm):
+    class Meta:
+        model = CarAudioFeatures
+        fields = '__all__'
+
+class CarDetailsForm(forms.ModelForm):
+    class Meta:
+        model = CarDetails
+        fields = '__all__'
+
+class CarFeaturesForm(forms.ModelForm):
+    class Meta:
+        model = CarFeatures
+        fields = '__all__'
+
+class VehicleRegistrationCertificateForm(forms.ModelForm):
+    class Meta:
+        model = VehicleRegistrationCertificate
+        fields = '__all__'

@@ -116,13 +116,13 @@ class Season(models.Model):
     end_day = models.IntegerField()
 
 class Tariff(models.Model):
-    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+    dealer = models.ForeignKey(Company, on_delete=models.CASCADE, default=None, null=True, blank=True)
     min_days = models.IntegerField()
     max_days = models.IntegerField()
     # price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"{self.car} - {self.min_days} to {self.max_days} days"
+        return f"{self.dealer} - {self.min_days} to {self.max_days} days"
 
 class Rate(models.Model):
     car = models.ForeignKey(Car, on_delete=models.CASCADE)

@@ -9,7 +9,9 @@ urlpatterns = [
     ############## CARS ###################
     path('', views.home, name='home'),
     path('cars/new/', views.addCars, name='add_cars'),
-    path('cars/', views.carsList, name='all_cars'),
+    path('cars/<int:car_id>/edit/', views.edit_car, name='edit_car'),
+    path('cars/', views.all_cars, name='all_cars'),
+    path('bookings/', views.carsList, name='all_bookings'),
 
     ############## USERS ###################
 
@@ -41,6 +43,10 @@ urlpatterns = [
     path('get_extra_details/<int:extra_id>/', get_extra_details_view, name='get_extra_details'),
     ############## SETTINGS ###################
     path('settings/', views.Settings, name='settings'),
+    # AJAX URLs for handling tariff operations
+    path('save_tariff/', save_tariff, name='save_tariff'),
+    path('delete_tariff/<int:tariff_id>/', delete_tariff, name='delete_tariff'),
+    path('list_tariffs/', list_tariffs, name='list_tariffs'),
     path('upload/', views.file_upload, name='upload'),
 
 
