@@ -208,17 +208,20 @@ def addCars(request):
             # Update or create rates
             for key, value in request.POST.items():
                 if key.startswith('rate_price_'):
-                    _, season_id, tariff_id = key.split('_')
-                    car_id = request.POST.get(f'rate_car_{season_id}_{tariff_id}')
-                    price = request.POST.get(key)
+                    parts = key.split('_')
+                    print(len(parts))
+                    if len(parts) == 4:
+                        _, _, season_id, tariff_id = parts
+                        price = request.POST.get(key)
 
-                    if car_id and season_id and tariff_id and price:
-                        rate, created = Rate.objects.update_or_create(
-                            car_id=car_id,
-                            season_id=season_id,
-                            tariff_id=tariff_id,
-                            defaults={'price': Decimal(price)}
-                        )
+                        if season_id and tariff_id and price:
+                            car_id = request.POST.get(f'rate_car_{season_id}_{tariff_id}')
+                            rate, created = Rate.objects.update_or_create(
+                                car_id=car_id,
+                                season_id=season_id,
+                                tariff_id=tariff_id,
+                                defaults={'price': Decimal(price)}
+                            )
 
             # Create the Mileage object only when everything is successful
             mileage = Mileage.objects.create(car=car, unlimited_mileage=mileage_unlimited, limited_mileage=mileage_limited,
