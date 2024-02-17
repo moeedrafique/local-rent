@@ -1321,7 +1321,7 @@ fetch(`/get_available_cars/?city_id=${city}&start_date=${start_date}&end_date=${
                                                 <div class="booking__pickup"><!---->
                                                     <div class="booking__pickup__header"><h5>Pick-up</h5><span>,
                 <strong>${formattedStartDate}</strong></span></div>
-                                                            <div class="place-select" id="placeSelect">
+                                                            <div class="place-select" id="placeSelect1">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="place-select__icon">
             <path d="M18 14L12.7071 8.70711C12.3166 8.31658 11.6834 8.31658 11.2929 8.70711L6 14" stroke="#333E50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
@@ -1331,7 +1331,7 @@ fetch(`/get_available_cars/?city_id=${city}&start_date=${start_date}&end_date=${
     <div class="place__type"></div>
     <div class="place__price"></div>
 </div>
-        <div class="place-select__popup hidden">
+        <div class="place-select__popup">
             <div class="place-select__popup__header">
                 <div class="place-select__city">Tbilisi</div>
                 <div class="change-search-data">
@@ -1341,9 +1341,6 @@ fetch(`/get_available_cars/?city_id=${city}&start_date=${start_date}&end_date=${
             </div>
             <hr>
             <ul role="list" id="deliveryOptionsList">
-                <li data-type="pickup">Rental office</li>
-                <li data-type="pickup">City delivery <span class="place-select__popup__cost">+ 10$</span></li>
-                <li data-type="pickup">Airport <span class="place-select__popup__cost">+ 20$</span></li>
             </ul>
         </div>
     </div>
@@ -1409,7 +1406,7 @@ fetch(`/get_available_cars/?city_id=${city}&start_date=${start_date}&end_date=${
                                                 <div class="booking__dropoff">
                                                     <div class="booking__dropoff__header"><h5>Drop-off</h5><span>,
                 <strong>${formattedEndDate}</strong></span></div>
-                                                    <div class="place-select">
+                                                    <div class="place-select" id="placeSelect2">
                                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                              xmlns="http://www.w3.org/2000/svg"
                                                              class="place-select__icon">
@@ -1420,7 +1417,7 @@ fetch(`/get_available_cars/?city_id=${city}&start_date=${start_date}&end_date=${
                                                         <span class="place__selected">Rental office
                                                             <!----></span>
                                                         <div class="custom-placeholder">Drop-off place</div><!---->
-                                                        <div class="place-select__popup hidden">
+                                                        <div class="place-select__popup">
             <div class="place-select__popup__header">
                 <div class="place-select__city">Tbilisi</div>
                 <div class="change-search-data">
@@ -1429,10 +1426,7 @@ fetch(`/get_available_cars/?city_id=${city}&start_date=${start_date}&end_date=${
                 </div>
             </div>
             <hr>
-            <ul role="list">
-                <li data-type="dropoff">Rental office <!----></li>
-                <li data-type="dropoff">City delivery <span class="place-select__popup__cost">+ 10$</span></li>
-                <li data-type="dropoff">Airport <span class="place-select__popup__cost">+ 20$</span></li>
+            <ul role="list" id="dropOptionsList">
             </ul>
         </div>
                                                     </div>
@@ -3009,12 +3003,12 @@ const form = document.getElementById('booking__form');
         const mainBtn = document.getElementById('mainBtn');
 
         // Check if there is stored data in local storage
-    const storedFormData = localStorage.getItem('formData');
-    if (storedFormData) {
-        // Parse the JSON data and pre-fill the form
-        const formData = JSON.parse(storedFormData);
-        fillFormWithData(formData);
-    }
+//    const storedFormData = localStorage.getItem('formData');
+//    if (storedFormData) {
+//        // Parse the JSON data and pre-fill the form
+//        const formData = JSON.parse(storedFormData);
+//        fillFormWithData(formData);
+//    }
 
         mainBtn.addEventListener('click', function () {
             let valid = true;
@@ -3120,75 +3114,159 @@ const form = document.getElementById('booking__form');
         localStorage.setItem('formData', JSON.stringify(formData));
     }
 
-        function fillFormWithData(formData) {
-        // Set values for each form field
-        document.getElementById('customer_name').value = formData.name || '';
-        document.querySelector('[name="dob"]').value = formData.dob || '';
-        document.getElementById('customer_email').value = formData.email || '';
-        document.querySelector('.form-phone-input .form-input').value = formData.phoneNumber || '';
-        document.querySelector('[name="additional_phone"]').value = formData.additionalPhoneNumber || '';
-        // Add more fields as needed
-        // ...
-    // Use requestAnimationFrame to ensure focus is set after repaint
-    requestAnimationFrame(() => {
-        const inputFields = document.querySelectorAll('.form-text-input input');
-        inputFields.forEach(input => input.focus());
-    });
-    }
+//        function fillFormWithData(formData) {
+//        // Set values for each form field
+//        document.getElementById('customer_name').value = formData.name || '';
+//        document.querySelector('[name="dob"]').value = formData.dob || '';
+//        document.getElementById('customer_email').value = formData.email || '';
+//        document.querySelector('.form-phone-input .form-input').value = formData.phoneNumber || '';
+//        document.querySelector('[name="additional_phone"]').value = formData.additionalPhoneNumber || '';
+//        // Add more fields as needed
+//        // ...
+//    // Use requestAnimationFrame to ensure focus is set after repaint
+//    requestAnimationFrame(() => {
+//        const inputFields = document.querySelectorAll('.form-text-input input');
+//        inputFields.forEach(input => input.focus());
+//    });
+//    }
 
         // Change the onclick method to show booking content
 //        document.getElementById('mainBtn').setAttribute('class', 'mainBtn');
+function fetchDeliveryOptionsAndHandleSelect() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const city = urlParams.get('city_id');
+  $.ajax({
+    url: `/delivery_options/?city_id=${city}`,
+    type: 'GET',
+    success: function(data) {
+      console.log(data);
+      const deliveryOptionsList = document.getElementById('deliveryOptionsList');
+      const dropOptionsList = document.getElementById('dropOptionsList');
+
+      // Clear previous content
+      deliveryOptionsList.innerHTML = '';
+      dropOptionsList.innerHTML = '';
+
+      // Populate dynamic options from server data
+      data.forEach(function(option) {
+        console.log(option);
+        const pickupItem = `<li data-type="pickup">${option.location_type__name} <span class="place-select__popup__cost">+ ${option.price}$</span></li>`;
+        const dropItem = `<li data-type="dropoff">${option.location_type__name} <span class="place-select__popup__cost">+ ${option.price}$</span></li>`;
+        deliveryOptionsList.innerHTML += pickupItem;
+        dropOptionsList.innerHTML += dropItem;
+
+      });
+
+      // Get the placeSelect element
+      handlePickupSelect(document.getElementById('placeSelect1'));
+      handleDropSelect(document.getElementById('placeSelect2'));
+
+    },
+    error: function(xhr, status, error) {
+      console.error('Error fetching delivery options:', error);
+    }
+  });
+}
 
 
-                // Function to handle place-select dropdowns
-        function handlePlaceSelect(placeSelect) {
-            var popup = placeSelect.querySelector('.place-select__popup');
+function handlePickupSelect(placeSelect) {
+  var popup = placeSelect.querySelector('.place-select__popup');
 
-            document.addEventListener('click', function (event) {
-                var isClickInside = placeSelect.contains(event.target);
+  placeSelect.addEventListener('click', function(event) {
+    event.stopPropagation();
+    placeSelect.classList.toggle('active');
+    popup.classList.toggle('hidden');
+  });
 
-                if (!isClickInside) {
-                    placeSelect.classList.remove('active');
-                    popup.classList.add('hidden');
-                }
-            });
+  document.addEventListener('click', function(event) {
+    var isClickInside = placeSelect.contains(event.target);
 
-            placeSelect.addEventListener('click', function (event) {
-                event.stopPropagation(); // Prevents the event from reaching the document click listener
+    if (!isClickInside) {
+      placeSelect.classList.remove('active');
+      popup.classList.add('hidden');
+    }
+  });
 
-                placeSelect.classList.toggle('active');
-                popup.classList.toggle('hidden');
-            });
+  var popupOptions = placeSelect.querySelectorAll('.place-select__popup ul li');
 
-            var popupOptions = placeSelect.querySelectorAll('.place-select__popup ul li');
+  popupOptions.forEach(function(option) {
+    option.addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent default link behavior, if applicable
 
-            popupOptions.forEach(function (option) {
-                option.addEventListener('click', function () {
-                    var selectedText = option.textContent.trim();
-                    var selectedPriceElement = option.querySelector('.place-select__popup__cost');
-                    var selectedType = option.getAttribute('data-type') || '';
-                    var selectedPrice = selectedPriceElement ? selectedPriceElement.textContent.trim() : '';
-                    placeSelect.querySelector('.place__selected').textContent = selectedText;
+      var selectedText = option.textContent.trim();
+      var selectedPriceElement = option.querySelector('.place-select__popup__cost');
+      var selectedType = option.getAttribute('data-type') || '';
+      var selectedPrice = selectedPriceElement ? selectedPriceElement.textContent.trim() : '';
+      placeSelect.querySelector('.place__selected').textContent = selectedText;
 
-                    // Display whether it's a pickup or drop-off location
-                    document.querySelector('.place__type').textContent = selectedType;
-                    if (selectedType === 'pickup' || selectedType === 'dropoff') {
-                        // Customize the display based on pickup or drop-off
-                        document.querySelector('.place__price').textContent = '$' + selectedPrice.replace('+', '');
-                        document.querySelector('.place__info-container').style.display = 'block';
-                    } else {
-                        document.querySelector('.place__info-container').style.display = 'none';
-                    }
+      document.querySelector('.place__type').textContent = selectedType;
+      if (selectedType === 'pickup' || selectedType === 'dropoff') {
+        document.querySelector('.place__price').textContent = '$' + selectedPrice.replace('+', '');
+        document.querySelector('.place__info-container').style.display = 'block';
+      } else {
+        document.querySelector('.place__info-container').style.display = 'none';
+      }
+      // Close the dropdown immediately after selection
+      placeSelect.classList.remove('active');
+      popup.classList.add('hidden');
+    });
+  });
+}
+function handleDropSelect(placeSelect) {
+  var popup = placeSelect.querySelector('.place-select__popup');
 
-                    placeSelect.classList.remove('active');
-                    popup.classList.add('hidden'); // Hide the popup after selection
-                });
-            });
-        }
+  placeSelect.addEventListener('click', function(event) {
+    event.stopPropagation();
+    placeSelect.classList.toggle('active');
+    popup.classList.toggle('hidden');
+  });
 
-        // Apply place-select functionality to all elements with class 'place-select'
-        var placeSelects = document.querySelectorAll('.place-select');
-        placeSelects.forEach(handlePlaceSelect);
+  document.addEventListener('click', function(event) {
+    var isClickInside = placeSelect.contains(event.target);
+
+    if (!isClickInside) {
+      placeSelect.classList.remove('active');
+      popup.classList.add('hidden');
+    }
+  });
+
+  var popupOptions = placeSelect.querySelectorAll('.place-select__popup ul li');
+
+  popupOptions.forEach(function(option) {
+    option.addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent default link behavior, if applicable
+
+      var selectedText = option.textContent.trim();
+      var selectedPriceElement = option.querySelector('.place-select__popup__cost');
+      var selectedType = option.getAttribute('data-type') || '';
+      var selectedPrice = selectedPriceElement ? selectedPriceElement.textContent.trim() : '';
+      placeSelect.querySelector('.place__selected').textContent = selectedText;
+
+      document.querySelector('.place__type').textContent = selectedType;
+      if (selectedType === 'pickup' || selectedType === 'dropoff') {
+        document.querySelector('.place__price').textContent = '$' + selectedPrice.replace('+', '');
+        document.querySelector('.place__info-container').style.display = 'block';
+      } else {
+        document.querySelector('.place__info-container').style.display = 'none';
+      }
+      // Close the dropdown immediately after selection
+      placeSelect.classList.remove('active');
+      popup.classList.add('hidden');
+    });
+  });
+}
+
+
+
+
+
+
+fetchDeliveryOptionsAndHandleSelect();
+
+
+//        // Apply place-select functionality to all elements with class 'place-select'
+//        var placeSelects = document.querySelectorAll('.place-select');
+//        placeSelects.forEach(handlePlaceSelect);
 
         // Function to handle form text input
         function handleFormTextInput(inputField, closeButton, placeholder) {

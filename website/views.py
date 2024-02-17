@@ -420,8 +420,10 @@ def create_booking(request):
         # Fetch delivery prices for the selected locations
         pickup_delivery_price = get_delivery_price(pickup_location, city_id)
         print("pickup_delivery_price", pickup_delivery_price)
+
         drop_delivery_price = get_delivery_price(drop_location, city_id)
         print("drop_delivery_price", drop_delivery_price)
+
         # Add delivery prices to the total_price
         if pickup_delivery_price is not None:
             total_price += pickup_delivery_price
@@ -490,6 +492,25 @@ def get_delivery_price(location_name, city_id):
     delivery = Delivery.objects.filter(city_id=city_id, location_type__name=location_name).first()
     print("Delivery", delivery)
     return delivery.price if delivery else None
+
+def delivery_options(request):
+    city_id = request.GET.get('city_id')  # Get the city_id from the request parameters
+    if city_id:
+        # Filter delivery options based on the provided city_id
+        delivery_options = Delivery.objects.filter(city_id=city_id)
+    else:
+        # If city_id is not provided, return all delivery options
+        delivery_options = Delivery.objects.all()
+
+    # Convert delivery options to JSON format
+    data = [{
+        'location_type__name': delivery.location_type.name,
+        'price': delivery.price,
+        # Include other fields you need
+    } for delivery in delivery_options]
+
+    return JsonResponse(data, safe=False)
+
 
 
 def privacy_policy(request):

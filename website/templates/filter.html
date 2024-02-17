@@ -11,7 +11,14 @@
     <div class="LandingFormDesktopNew__forAnimatn" style="height: 198px;">
         <div class="LandingFormDesktopNew__heading LandingFormDesktopNew__forAnimtn">
             <div class="LandingFormDesktopNew__sellRightWrap"></div>
-            <h1 class="">Car Hire and Rental in Georgia</h1></div>
+            <h1 class="">Car Hire and Rental in Georgia</h1>
+            <div class="content_information_rental">
+<div class="span">
+Total 1735 cars with an average cost of 37$ per day
+</div>
+</div>
+        </div>
+
     </div>
     <div class="LandingFormDesktopNew__mainFormAnimCtn">
         <div class="MainForm__formWrapper MainForm__mainPage">
@@ -23,14 +30,14 @@
             <div class="MainForm__formField MainForm__formFieldWhenToSell  "><span role="none">
                 <div id="drop_off" class="MainForm__valueWrap MainForm__filled"><label title="Drop-off">Drop-off</label><span
                         title="Select drop-off">Select drop-off</span></div></span></div>
-            <div id="date_range" style="width:25%!important;"
+            <div id="date_range"
                  class="MainForm__formField MainForm__formFieldWhenToSell "><span role="none">
                 <div id="rental_dates" class="MainForm__valueWrap MainForm__filled"><label
                         title="Year">Rental Dates</label><span
                         title="Select Year">Select Year</span></div></span></div>
             <button id="searchSvgElementId" class="styles__btn styles__primary  MainForm__getPriceBtn"
                     type="button"><span
-                    class="styles__btnInnerContent">continue</span></button>
+                    class="styles__btnInnerContent">Find Cars</span></button>
         </div>
     </div>
     <div class="LandingFormDesktopNew__marketingContentContainer_new">
@@ -126,10 +133,10 @@
 
 .LandingFormDesktopNew__landingFormContainer .LandingFormDesktopNew__heading h1 {
     color: #fff;
-    font-family: futura-demi-italic;
     font-size: 56px;
     line-height: 60px;
     margin-top: 0
+    font-weight: 800;
 }
 
 .LandingFormDesktopNew__landingFormContainer .LandingFormDesktopNew__heading h1 strong {
@@ -175,7 +182,7 @@
 }
 
 .LandingFormDesktopNew__landingFormContainer .LandingFormDesktopNew__marketingContentContainer_new {
-    margin-top: -180px;
+    margin-top: 65px;
     width: 100%
 }
 
@@ -900,7 +907,6 @@
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    margin-bottom: 416px;
     max-width: 1200px;
     width: 84vw
 }
@@ -1043,12 +1049,10 @@
 }
 
 .MainForm__formWrapper .MainForm__formFieldWhenToSell {
-    width: 15%
+    width: 22%
 }
 
-.MainForm__formWrapper.MainForm__mainPage {
-    margin-bottom: 220px
-}
+
 
 .MainForm__formWrapper.MainForm__mainPage .MainForm__formField.MainForm__active {
     border: none;
@@ -1128,8 +1132,66 @@
     -ms-flex: 1;
     flex: 1
 }
-
-
+.content_information_rental {
+    margin: 16px 0 0;
+    line-height: 18px;
+    font-size: 14px;
+    padding: 0;
+    color: #fff;
+}
+/* Media query for mobile */
+@media (max-width: 768px) {
+.LandingFormDesktopNew__landingFormContainer {
+    height: 65%;
+}
+.LandingFormDesktopNew__landingFormContainer .LandingFormDesktopNew__heading {
+    padding-bottom: 25px;
+    padding-top: 12px;
+}
+.LandingFormDesktopNew__landingFormContainer .LandingFormDesktopNew__heading {
+        padding-left: 25px;
+    padding-right: 25px;
+}
+    .MainForm__formWrapper {
+        display: block;
+    }
+    .MainForm__formWrapper .MainForm__formFieldWhenToSell {
+        width: 100%;
+    }
+    .MainForm__formWrapper .MainForm__getPriceBtn {
+        width: 100%;
+    }
+    .LandingFormDesktopNew__landingFormContainer .LandingFormDesktopNew__heading h1 {
+        font-size: 28px;
+        line-height: 32px;
+    }
+    .content_information_rental {
+        margin-top: 8px;
+    }
+    .ModalOverlay__modalOverlay .ModalOverlay__modalOverlayContainer.ModalOverlay__show {
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        top: 0px;
+    }
+    .styles__desktopHeaderCitySelector {
+        border-radius: 0px;
+        width: 100%;
+        height: 100%;
+    }
+    .styles__desktopHeaderCitySelector .styles__desktopHeaderCitySelectorTopSection {
+        flex-direction: column;
+    }
+    .styles__desktopHeaderCitySelector .styles__desktopHeaderCitySelectorTopSection .styles__heading {
+        margin-bottom: 5px;
+    }
+    .styles__desktopHeaderCitySelector .styles__desktopHeaderCitySelectorOtherCitiesSection .styles__otherCityDivWrapper {
+        width: calc(37% - 16.2px);
+    }
+    .styles__desktopHeaderWrapper .styles__desktopHeader .styles__desktopHeaderContent .styles__desktopHeaderLeftSection .styles__desktopHeaderLogo {
+        margin-left: 8px;
+    }
+}
 
 </style>
 <div class="ListingDesktop__listingDesktopContainer">
@@ -3763,38 +3825,38 @@
             <!--                    <span class="FilterDesktop__eof">You've reached the end</span></div>-->
             <!--            </div>-->
             <div class="ListingDesktop__carListingContainer">
-                <div class="SpinnyMarketingBanner__container SpinnyMarketingBanner__desktop">
-                    <div class="DesktopHorizontalScroll__horizontalScrollWrapper">
-                        <div class="DesktopHorizontalScroll__horizontalScrollSection DesktopHorizontalScroll__fullWidth DesktopHorizontalScroll__noPadding">
+<!--                <div class="SpinnyMarketingBanner__container SpinnyMarketingBanner__desktop">-->
+<!--                    <div class="DesktopHorizontalScroll__horizontalScrollWrapper">-->
+<!--                        <div class="DesktopHorizontalScroll__horizontalScrollSection DesktopHorizontalScroll__fullWidth DesktopHorizontalScroll__noPadding">-->
 
-                            <div class="SpinnyMarketingBanner__slideContainer styles__forGASectionSeen">
-                                <div class="SpinnyMarketingBanner__slideContentWrapper" role="none">
-                                    <img aria-hidden="true" src="" alt="Home test drive"
-                                        class="SpinnyMarketingBanner__backImg Image__animateOpacity">
-                                    <div class="SpinnyMarketingBanner__gradiant"></div>
-                                    <div class="SpinnyMarketingBanner__contetSection"><h2
-                                            class="SpinnyMarketingBanner__mainHeading">Rent your New Car</h2>
-                                        <p class="SpinnyMarketingBanner__subHeading">Rent comfortably from
-                                            your home</p></div>
-                                </div>
-                            </div>
-                            <div class="SpinnyMarketingBanner__slideContainer styles__forGASectionSeen">
-                                <div class="SpinnyMarketingBanner__slideContentWrapper" role="none">
-                                    <img aria-hidden="true" src="" alt="360 background"
-                                        class="Image__animateOpacity SpinnyMarketingBanner__backImg styles__fallBackImgClass">
-                                    <div class="SpinnyMarketingBanner__gradiant"></div>
-                                    <div class="SpinnyMarketingBanner__contetSection"><img aria-hidden="true" src=""
-                                                                                           alt=""
-                                                                                           class="Image__animateOpacity SpinnyMarketingBanner__smallImgClass SpinnyMarketingBanner__addMinHeight styles__fallBackImgClass"
-                                                                                           width="44" height="44">
-                                        <h2 class="SpinnyMarketingBanner__mainHeading">Know each car <br>
-                                            Inside-out</h2></div>
-                                </div>
-                            </div>
+<!--                            <div class="SpinnyMarketingBanner__slideContainer styles__forGASectionSeen">-->
+<!--                                <div class="SpinnyMarketingBanner__slideContentWrapper" role="none">-->
+<!--                                    <img aria-hidden="true" src="" alt="Home test drive"-->
+<!--                                        class="SpinnyMarketingBanner__backImg Image__animateOpacity">-->
+<!--                                    <div class="SpinnyMarketingBanner__gradiant"></div>-->
+<!--                                    <div class="SpinnyMarketingBanner__contetSection"><h2-->
+<!--                                            class="SpinnyMarketingBanner__mainHeading">Rent your New Car</h2>-->
+<!--                                        <p class="SpinnyMarketingBanner__subHeading">Rent comfortably from-->
+<!--                                            your home</p></div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="SpinnyMarketingBanner__slideContainer styles__forGASectionSeen">-->
+<!--                                <div class="SpinnyMarketingBanner__slideContentWrapper" role="none">-->
+<!--                                    <img aria-hidden="true" src="" alt="360 background"-->
+<!--                                        class="Image__animateOpacity SpinnyMarketingBanner__backImg styles__fallBackImgClass">-->
+<!--                                    <div class="SpinnyMarketingBanner__gradiant"></div>-->
+<!--                                    <div class="SpinnyMarketingBanner__contetSection"><img aria-hidden="true" src=""-->
+<!--                                                                                           alt=""-->
+<!--                                                                                           class="Image__animateOpacity SpinnyMarketingBanner__smallImgClass SpinnyMarketingBanner__addMinHeight styles__fallBackImgClass"-->
+<!--                                                                                           width="44" height="44">-->
+<!--                                        <h2 class="SpinnyMarketingBanner__mainHeading">Know each car <br>-->
+<!--                                            Inside-out</h2></div>-->
+<!--                                </div>-->
+<!--                            </div>-->
 
-                        </div>
-                    </div>
-                </div>
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
 
                 <div class="ListingDesktop__carListingTopBar ">
                     <div class="ListingDesktop__leftSection">

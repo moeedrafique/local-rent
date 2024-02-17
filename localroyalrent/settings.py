@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-f+*9f8_b(j^%2!q9gk2s-xsy9^72t*=#a3w(7cn0j8o9yez*i*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -102,23 +102,23 @@ WSGI_APPLICATION = 'localroyalrent.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-#         'NAME': 'localrentdb',
-#         'USER': 'postgres',
-#         'PASSWORD': 'Bhimber786---',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'localrentdb',
+        'USER': 'postgres',
+        'PASSWORD': 'Bhimber786---',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 
 
 # Password validation
@@ -143,7 +143,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
@@ -207,8 +207,8 @@ DJSTRIPE_FOREIGN_KEY_TO_FIELD = "id"
 TBC_API_KEY = 'V6H7jBcqhu9lXinbldkAHG0cYysXZMMP'
 
 
-# GDAL_LIBRARY_PATH = r'C:\Users\MR LAPTOP\PycharmProjects\localroyalrent\venv\Lib\site-packages\osgeo\gdal304.dll'
-# GEOS_LIBRARY_PATH = r'C:\Users\MR LAPTOP\PycharmProjects\localroyalrent\venv\Lib\site-packages\osgeo\geos_c.dll'
+GDAL_LIBRARY_PATH = r'C:\Users\MR LAPTOP\PycharmProjects\localroyalrent\venv\Lib\site-packages\osgeo\gdal304.dll'
+GEOS_LIBRARY_PATH = r'C:\Users\MR LAPTOP\PycharmProjects\localroyalrent\venv\Lib\site-packages\osgeo\geos_c.dll'
 
 # Celery Configuration
 # CELERY_BROKER_URL = 'redis://localhost:6379/0'

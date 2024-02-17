@@ -9,7 +9,7 @@ urlpatterns = [
     ############## CARS ###################
     path('', views.dash, name='home'),
     path('filter/', views.filter, name='filter'),
-    path('show/', views.showCars, name='show_cars'),
+    path('find-cars/', views.showCars, name='show_cars'),
     # path('car_list/', car_list, name='car_list'),
     # path('car_list/<int:city_id>/', views.car_list, name='car_list_city'),
 
@@ -18,7 +18,7 @@ urlpatterns = [
     path('privacy-policy/', privacy_policy, name='privacy_policy'),
     path('cars/', car_details, name='car_details'),
     path('api/bookings/', create_booking, name='create_booking'),
-
+    path('delivery_options/', views.delivery_options, name='delivery_options'),
     path('create_payment_intent/', create_payment_intent, name='create_payment_intent'),
 
 ]
