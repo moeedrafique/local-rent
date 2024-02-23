@@ -16207,9 +16207,9 @@ hr.CarCategory__carCategorySeparator {
   flex: 1;
   height: auto;
   height: 225px;
-  margin: auto;
+  margin: 0px;
   min-width: 0;
-  padding: 12px;
+  padding: 35px;
   width: auto;
 }
 .HowItsWorkV3__howItsWorkContainer
@@ -16408,7 +16408,7 @@ hr.CarCategory__carCategorySeparator {
     }
     .HowItsWorkV3__howItsWorkContainer .HowItsWorkV3__listWrap .HowItsWorkV3__lottieClass {
         margin: 0px;
-        padding: 12px;
+        padding: 50px;
         margin-bottom: 40px;
     }
 }
