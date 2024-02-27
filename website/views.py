@@ -511,7 +511,14 @@ def delivery_options(request):
 
     return JsonResponse(data, safe=False)
 
-
+def contact_us(request):
+    return render(request, 'contact_us.html')
 
 def privacy_policy(request):
     return render(request, 'privacy_policy.html')
+
+def about(request):
+    return render(request, 'about_us.html')
+
+def terms(request):
+    return render(request, 'terms.html')

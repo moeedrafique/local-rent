@@ -24,15 +24,15 @@
                                  data-gtm-vis-has-fired31444436_603="1">
                                 <div class="styles__pageViewportWrapper TopBannerDesktop__contentSection">
                                     <div class="TopBannerDesktop__leftSection"><h2
-                                            class="TopBannerDesktop__mainHeading">A happy <br> farewell</h2>
-                                        <h3 class="TopBannerDesktop__subHeading">Sell your car for the best price</h3>
+                                            class="TopBannerDesktop__mainHeading">Explore More,  <br> Stress Less</h2>
+                                        <h3 class="TopBannerDesktop__subHeading">Unlock Your Adventure Today</h3>
                                         <div class="">
                                             <a href="{% url 'web:show_cars' %}"><button data-category="cta-btn" data-cd34=""
                                                     data-label="Sell your car btn click" data-action="" type=""
                                                     class="styles__btn TopBannerDesktop__btnCta styles__primary styles__fullWidth"
                                                     style="max-width: 220px;">
                                                 <div role="none" class="Ripple__container"></div>
-                                                <span class="styles__btnInnerContent"><span>Sell your car</span></span>
+                                                <span class="styles__btnInnerContent"><span>Explore cars</span></span>
                                             </button></a>
                                         </div>
                                     </div>
@@ -90,7 +90,7 @@
                                 <div class="styles__pageViewportWrapper TopBannerDesktop__contentSection">
                                     <div class="TopBannerDesktop__leftSection"><h1
                                             class="TopBannerDesktop__mainHeading">Go places, <br>go far</h1>
-                                        <h2 class="TopBannerDesktop__subHeading">Buy, sell or upgrade your car</h2>
+                                        <h2 class="TopBannerDesktop__subHeading">Rent your car from us</h2>
                                         <div class="">
                                             <a href="{% url 'web:show_cars' %}"><button class="styles__btn TopBannerDesktop__btnCta styles__primary styles__fullWidth"
                                                     style="max-width: 220px;">
@@ -2267,7 +2267,7 @@
                 </div>
             </div>
         </div>
-        <a href="#">
+        <a href="{% url 'web:show_cars' %}">
             <button data-category="cta-btn" data-cd34="" data-label="hubs Data" data-action="" type=""
                     class="styles__btn ExploreHubs__bottomLinkText ExploreHubs__bottomLinkTextDesktop styles__purpleOutline styles__fullWidth">
                 <div role="none" class="Ripple__container"></div>
@@ -6431,7 +6431,7 @@
                     </div>
                 </div>
             </div>
-            <div class="PopularBrands__centerButtonCTA"><a class="styles__btn styles__forGTM" href="#"><span
+            <div class="PopularBrands__centerButtonCTA"><a class="styles__btn styles__forGTM" href="{% url 'web:show_cars' %}"><span
                     class="styles__btnInnerContent">View all cars</span></a></div>
         </div>
     </div>

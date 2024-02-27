@@ -1,0 +1,295 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="react-view" style="height:100%">
+    <div class="styles__App">
+        <div class="styles__pageContent">
+            <div class="AboutUsDesktop__aboutUsDesktopContainer">
+                <div role="none"
+                     class="styles__backgroundImageWrapper styles__withShadow LandingSection__landingSection LandingSection__desktopWrap"
+                     data-category="" data-label="" data-index="0" data-action=""
+                     style="background-image: url(&quot;https://spn-sta.spinny.com/spinny-web/static-images/assets/images/pages/AboutUs/components/LandingSection/assets/hero_desktop.jpg&quot;);">
+                    <div class="LandingSection__backgroundWrap"><h1>In it to drive it</h1>
+                        <h2><span>Four wheels fuel a billion dreams and </span></h2>
+                        <div class="LandingSection__bannerAction">
+                            <a href="{% url 'web:show_cars' %}"><button type="button"
+                                    class="styles__btn styles__whitePurple LandingSection__bannerActionBtn">Find Cars
+                            </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ImportantToUs__importantToUsContainer ImportantToUs__desktopWrap styles__pageViewportWrapper">
+                    <h3>What's important to us</h3>
+                    <div class="ImportantToUs__listWrap">
+                        <div class="ImportantToUs__storyItem"><img aria-hidden="true"
+                                                                   src="https://spn-sta.spinny.com/spinny-web/static-images/assets/images/pages/AboutUs/components/ImportantToUs/assets/quality.svg?w=360&amp;dpr=1.6"
+                                                                   alt="quality"
+                                                                   class="ImportantToUs__imgClass Image__animateOpacity">
+                            <h4>Quality</h4>
+                            <p>Our cars are the reason we are in business and will be why we continue to exist and
+                                attract customers. Quality at every touchpoint for our customers, is just as important
+                                to us for we are a service-first brand.</p></div>
+                        <div class="ImportantToUs__storyItem"><img aria-hidden="true"
+                                                                   src="https://spn-sta.spinny.com/spinny-web/static-images/assets/images/pages/AboutUs/components/ImportantToUs/assets/transparency.svg?w=360&amp;dpr=1.6"
+                                                                   alt="transparency"
+                                                                   class="ImportantToUs__imgClass Image__animateOpacity">
+                            <h4>Transparency &amp; Accountability</h4>
+                            <p>It brings trust. Laying bare every available fact about our car at our hubs, after our
+                                stringent vetting process, reassures customers. A range of industry-first offerings
+                                including Spinny Assured ® mean that we are not just in the pre-owned car business, but
+                                in the business of growing and building relationships with our customers.</p></div>
+                        <div class="ImportantToUs__storyItem"><img aria-hidden="true"
+                                                                   src="https://spn-sta.spinny.com/spinny-web/static-images/assets/images/pages/AboutUs/components/ImportantToUs/assets/personalizedXp.svg?w=360&amp;dpr=1.6"
+                                                                   alt="personalizedXp"
+                                                                   class="ImportantToUs__imgClass Image__animateOpacity">
+                            <h4>Personalized Experience</h4>
+                            <p>Every customer is unique; each demands different things from a set of four wheels. That’s
+                                why our inventory is varied and the people you meet in your interactions with Spinny are
+                                trained to listen first and at length, then make recommendations.</p></div>
+                    </div>
+                </div>
+                <div class="SquadSpinny__squadSpinnyContainer SquadSpinny__desktopWrapper styles__pageViewportWrapper">
+                    <img aria-hidden="true"
+                         src="https://spn-sta.spinny.com/spinny-web/static-images/assets/images/pages/AboutUs/components/SquadSpinny/assets/squad_spinny.jpg?w=1242&amp;dpr=1.6"
+                         alt="squad_spinny" class="SquadSpinny__imgClass Image__animateOpacity">
+                    <div class="SquadSpinny__contentWrap">
+                        <div class="SquadSpinny__content"><h3>Squad Spinny</h3>
+                            <p>Our team is our beating heart. Each member of our squad intrinsically believes in what
+                                brand Spinny stands for and does. It's a case of mission meets vision meets highly
+                                motivated squad, each of whom understand that the needs and aspirations of every
+                                customer are unique. <br><br> This mindset helps us attract and retain the best talent -
+                                whether on our shop floors, our workshops, or as our ambassadors before the car-buying
+                                customers.<br></p></div>
+                    </div>
+                </div>
+
+
+
+                <div class="DesktopFooter__footerContentContainer styles__pageViewportWrapper  ">
+                    <div class="styles__pageViewportWrapper" style=""></div>
+                    <div class="DesktopFooterContent__textSection styles__pageViewportWrapper"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<style>
+            .LandingSection__landingSection {
+                background-color: #2e054e;
+                background-size: cover;
+                color: #fff;
+                text-align: center;
+            }
+                .LandingSection__landingSection .LandingSection__backgroundWrap {
+                background-color: rgba(46,5,78,.1);
+                box-sizing: border-box;
+                height: 100%;
+                padding: 90px 48px;
+                width: 100%
+            }
+
+            .LandingSection__landingSection .LandingSection__backgroundWrap h1 {
+                font-family: futura-demi-italic;
+                font-size: 40px;
+                line-height: 50px;
+                margin: 0
+            }
+
+            .LandingSection__landingSection .LandingSection__backgroundWrap h2 {
+                font-family: futura-book;
+                font-size: 18px;
+                line-height: 22px
+            }
+
+            .LandingSection__landingSection .LandingSection__backgroundWrap .LandingSection__bannerAction {
+                align-items: center;
+                display: flex;
+                justify-content: center;
+                margin-top: 44px
+            }
+
+            .LandingSection__landingSection .LandingSection__backgroundWrap .LandingSection__bannerAction .LandingSection__bannerActionBtn {
+                font-family: futura-medium;
+                height: 44px;
+                padding: 0 18px 0 24px;
+                text-transform: none
+            }
+
+            .LandingSection__landingSection .LandingSection__backgroundWrap .LandingSection__bannerAction .LandingSection__bannerActionBtn svg {
+                margin: 0
+            }
+
+            .LandingSection__landingSection.LandingSection__desktopWrap {
+                background-position: 50%;
+                background-size: cover
+            }
+
+            .LandingSection__landingSection.LandingSection__desktopWrap .LandingSection__backgroundWrap {
+                height: 500px;
+                padding: 140px 48px
+            }
+
+            .LandingSection__landingSection.LandingSection__desktopWrap .LandingSection__backgroundWrap h1 {
+                font-family: futura-demi-italic;
+                font-size: 80px;
+                line-height: 90px
+            }
+
+            .LandingSection__landingSection.LandingSection__desktopWrap .LandingSection__backgroundWrap h2 {
+                font-size: 30px;
+                line-height: 34px
+            }
+
+            .LandingSection__landingSection.LandingSection__desktopWrap .LandingSection__backgroundWrap .LandingSection__bannerAction .LandingSection__bannerActionBtn {
+                font-size: 16px;
+                height: 50px;
+                width: 10em
+            }
+             .ImportantToUs__importantToUsContainer {
+                background-color: #fff;
+                border-top: 2px solid #f1f1f1;
+                color: #2e054e;
+                font-family: futura-book;
+                font-size: 16px;
+                line-height: 20px;
+                padding: 32px 24px
+            }
+
+            .ImportantToUs__importantToUsContainer h3 {
+                font-family: futura-demi;
+                font-size: 24px;
+                line-height: 28px;
+                margin-bottom: 32px
+            }
+
+            .ImportantToUs__importantToUsContainer .ImportantToUs__storyItem {
+                margin-bottom: 32px
+            }
+
+            .ImportantToUs__importantToUsContainer .ImportantToUs__storyItem:last-child {
+                margin-bottom: 0
+            }
+
+            .ImportantToUs__importantToUsContainer .ImportantToUs__storyItem .ImportantToUs__imgClass {
+                height: 45px
+            }
+
+            .ImportantToUs__importantToUsContainer .ImportantToUs__storyItem h4 {
+                font-family: futura-demi;
+                font-size: 20px;
+                line-height: 24px;
+                margin: 12px 0
+            }
+
+            .ImportantToUs__importantToUsContainer .ImportantToUs__storyItem .ImportantToUs__linkWrap {
+                align-items: center;
+                color: #6300a3;
+                display: flex;
+                font-family: futura-demi;
+                margin-top: 8px
+            }
+
+            .ImportantToUs__importantToUsContainer .ImportantToUs__storyItem .ImportantToUs__linkWrap svg {
+                margin-left: 8px;
+                transform: rotate(-90deg)
+            }
+
+            .ImportantToUs__importantToUsContainer.ImportantToUs__desktopWrap {
+                border: none;
+                border-top: 2px solid #f1f1f1;
+                box-sizing: border-box;
+                padding: 44px 24px 32px
+            }
+
+            .ImportantToUs__importantToUsContainer.ImportantToUs__desktopWrap .ImportantToUs__listWrap {
+                display: flex
+            }
+
+            .ImportantToUs__importantToUsContainer.ImportantToUs__desktopWrap h3 {
+                font-size: 36px;
+                line-height: 40px
+            }
+
+            .ImportantToUs__importantToUsContainer.ImportantToUs__desktopWrap .ImportantToUs__storyItem {
+                flex: 1;
+                font-size: 18px;
+                line-height: 26px;
+                margin-right: 64px;
+                min-width: 0
+            }
+
+            .ImportantToUs__importantToUsContainer.ImportantToUs__desktopWrap .ImportantToUs__storyItem h4 {
+                font-size: 26px;
+                line-height: 30px
+            }
+
+            .ImportantToUs__importantToUsContainer.ImportantToUs__desktopWrap .ImportantToUs__storyItem:last-child {
+                margin-right: 0
+            }
+            .SquadSpinny__squadSpinnyContainer {
+                background-color: #fff;
+                border-top: 2px solid #f1f1f1;
+                box-sizing: border-box;
+                padding: 36px 24px 32px
+            }
+
+            .SquadSpinny__squadSpinnyContainer .SquadSpinny__imgClass {
+                border-radius: 6px;
+                width: 100%
+            }
+
+            .SquadSpinny__squadSpinnyContainer .SquadSpinny__contentWrap {
+                color: #2e054e;
+                font-family: futura-book;
+                font-size: 18px;
+                line-height: 20px;
+                margin-top: 16px
+            }
+
+            .SquadSpinny__squadSpinnyContainer .SquadSpinny__contentWrap .SquadSpinny__content h3 {
+                color: #ed264f;
+                font-family: futura-demi-italic;
+                font-size: 24px;
+                line-height: 28px;
+                margin: 12px 0
+            }
+
+            .SquadSpinny__squadSpinnyContainer .SquadSpinny__contentWrap .SquadSpinny__content p {
+                font-size: 16px
+            }
+
+            .SquadSpinny__squadSpinnyContainer.SquadSpinny__desktopWrapper {
+                align-items: center;
+                display: flex;
+                justify-content: space-between;
+                padding: 64px 0 44px
+            }
+
+            .SquadSpinny__squadSpinnyContainer.SquadSpinny__desktopWrapper .SquadSpinny__imgClass {
+                width: 40%
+            }
+
+            .SquadSpinny__squadSpinnyContainer.SquadSpinny__desktopWrapper .SquadSpinny__contentWrap {
+                margin: 0;
+                width: 45%
+            }
+
+            .SquadSpinny__squadSpinnyContainer.SquadSpinny__desktopWrapper .SquadSpinny__contentWrap .SquadSpinny__content h3 {
+                font-size: 36px;
+                line-height: 40px;
+                margin-top: 0
+            }
+
+            .SquadSpinny__squadSpinnyContainer.SquadSpinny__desktopWrapper .SquadSpinny__contentWrap .SquadSpinny__content p {
+                font-size: 18px;
+                line-height: 26px
+            }
+
+</style>
+{% endblock %}

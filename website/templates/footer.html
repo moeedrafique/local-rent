@@ -107,12 +107,11 @@
         <ul class="m-0 p-0">
           <li>- <a href="/about-us/" target="">Who we are</a></li>
           <li>- <a href="/how-it-works/" target="">How It Works</a></li>
-          <li>- <a href="/customer-reviews/" target="">Customer Reviews</a></li>
-          <li>- <a href="/partners/" target="">Become Partner</a></li>
+          <li>- <a href="{% url 'home' %}" target="_blank">Become Partner</a></li>
           <li>- <a href="/careers/" target="">Work With Us</a></li>
           <li>- <a href="/contact-us/" target="">Contact Us</a></li>
           <li>- <a href="{% url 'web:privacy_policy' %}" target="">Privacy Policy</a></li>
-          <li>- <a href="/terms-and-conditions/" target="">Terms &amp; Conditions</a></li>
+          <li>- <a href="{% url 'web:terms' %}" target="">Terms &amp; Conditions</a></li>
           <li>- <a href="/sitemap/" target="">Sitemap</a></li>
         </ul>
     </div>
@@ -121,7 +120,7 @@
       <p style="margin-bottom:0px;">Call center</p>
       <p class="contact mb-3">+995 574 11 60 66</p>
       <p style="margin-bottom:0px;">Any questions? Contact us</p>
-      <p class="contact"><i class="fa fa-envelope-o mr-3"></i>info@hsdf.com</p>
+      <p class="contact"><i class="fa fa-envelope-o mr-3"></i>info@localroyalrent.com</p>
     </div>
   </div>
   <div class="row mt-5">

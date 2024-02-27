@@ -1,10 +1,542 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block content %}
+<div id="react-view" style="height:100%">
+    <div class="styles__App">
+        <div class="styles__pageContent">
+            <div class="ContactUsDesktop__container">
+                <div role="none" class="styles__backgroundImageWrapper ContactUsDesktop__landingSection"
+                     data-category="" data-label="" data-index="0" data-action=""
+                     style="background-image: url(&quot;https://spn-sta.spinny.com/spinny-web/static-images/assets/images/pages/ContactUs/assets/banner-image-desktop-spinny.jpeg&quot;);">
+                    <div class="ContactUsDesktop__overlay"></div>
+                    <div class="ContactUsDesktop__content"><h1>Contact Us</h1>
+                        <div class="ContactUsDesktop__callMailWrap"><a class="ContactUsDesktop__call"
+                                                                       href="tel:+995 574 11 60 66">++995 574 11 60 66</a><a
+                                class="ContactUsDesktop__mail" href="mailto:info@localroyalrent.com">info@localroyalrent.com</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="styles__pageViewportWrapper styles__sellPage">
+                    <div class="styles__mainBox styles__largeView styles__borderView ContactUsDesktop__contentSection">
+                        <div class="ContactUsDesktop__formWrap"><h2>Have a Query? Ask our Team</h2>
+                            <form class="Form__container">
+                                <div class="Form__formItem">
+                                    <div class="TextArea__textAreaWrap"><textarea maxlength="500"
+                                                                                  placeholder="Describe Your Query"
+                                                                                  id="text-area"
+                                                                                  class="TextArea__textAreaField"
+                                                                                  rows="1"
+                                                                                  style="height: 45px;"></textarea><label
+                                            for="text-area" class="TextArea__textAreaLabel">text-area</label></div>
+                                </div>
+                                <div class="Form__formItem">
+                                    <div class="styles__inputWrap "><input type="text" class="styles__auxilaryInput"
+                                                                           maxlength="50" name="user-name"
+                                                                           id="user-name" placeholder="" tabindex="0"
+                                                                           value=""><label for="user-name"
+                                                                                           class="styles__inputLabel styles__emptyDisabled"
+                                                                                           data-value="Enter Your Name"
+                                                                                           data-focus-value="Name">user-name</label>
+                                    </div>
+                                </div>
+                                <div class="Form__formItem">
+                                    <div class="styles__inputWrap "><input type="tel" class="styles__auxilaryInput"
+                                                                           maxlength="10" name="mobile-number"
+                                                                           id="mobile-number" placeholder=""
+                                                                           tabindex="0" value=""><label
+                                            for="mobile-number" class="styles__inputLabel styles__emptyDisabled"
+                                            data-value="Enter Your Mobile Number" data-focus-value="Mobile Number">mobile-number</label>
+                                    </div>
+                                </div>
+                                <div class="Form__formItem">
+                                    <div class="styles__inputWrap "><input type="text" class="styles__auxilaryInput"
+                                                                           maxlength="50" name="email" id="email"
+                                                                           placeholder="" tabindex="0" value=""><label
+                                            for="email" class="styles__inputLabel styles__emptyDisabled"
+                                            data-value="Enter Your Email" data-focus-value="Email">email</label></div>
+                                </div>
+                                <button data-category="contact-us-form" data-cd34="" data-label="submit-form"
+                                        data-action="button-click" type=""
+                                        class="styles__btn ContactUsDesktop__btnCalss styles__primary styles__fullWidth">
+                                    <div role="none" class="Ripple__container"></div>
+                                    <span class="styles__btnInnerContent">submit</span></button>
+                            </form>
+                        </div>
+                        <div class="ContactUsDesktop__locationWrap"><h2>Visit us here</h2>
+                            <h3>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
+                                    <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"
+                                          fill="#2e054e"></path>
+                                </svg>
+                                Corporate Office
+                            </h3>
+                            <p><br></p><a
+                                    href=""
+                                    target="_blank" rel="noreferrer">View on Google Map
+                                <svg xmlns="http://www.w3.org/2000/svg" stroke="#6300a3" width="10" height="10"
+                                     viewBox="0 0 14 8" class="">
+                                    <path fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"
+                                          stroke-width="2" d="M386 48L392 54 398 48"
+                                          transform="translate(-385 -47)"></path>
+                                </svg>
+                            </a>
+                            <h3>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
+                                    <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"
+                                          fill="#2e054e"></path>
+                                </svg>
+                                Registered Office
+                            </h3>
+                            <p></p><a
+                                    href=""
+                                    target="_blank" rel="noreferrer">View on Google Map
+                                <svg xmlns="http://www.w3.org/2000/svg" stroke="#6300a3" width="10" height="10"
+                                     viewBox="0 0 14 8" class="">
+                                    <path fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"
+                                          stroke-width="2" d="M386 48L392 54 398 48"
+                                          transform="translate(-385 -47)"></path>
+                                </svg>
+                            </a>
+                            <iframe src="https://www.google.com/maps/embed?pb=5!3d28.4156001!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d23776c51cacd%3A0x7077dd947071569f!2sCAPITAL%20BUSINESS%20PARK!5e0!3m2!1sen!2sin!4v1683271250393!5m2!1sen!2sin"
+                                    width="100%" height="300" frameborder="0" title="Google Map"></iframe>
+                        </div>
+                    </div>
+                    <a class="styles__btn ContactUsDesktop__locationBtn styles__darkPurple styles__fullWidth"
+                       href="{% url 'web:show_cars' %}" style="max-width: 400px;"><span class="styles__btnInnerContent">View All Cars</span></a>
+                </div>
+                <div class="DesktopFooter__footerContentContainer styles__pageViewportWrapper  ">
+                    <div class="styles__pageViewportWrapper" style=""></div>
+                    <div class="DesktopFooterContent__textSection styles__pageViewportWrapper DesktopFooterContent__gridSection">
+                        <div class="DesktopFooterContent__leftSection">
+                            <div class="DesktopFooterContent__subTextSection"><h2
+                                    class="DesktopFooterContent__footerHeading">Why you should choose localroyalrent.com ?</h2>
+                                <p class="DesktopFooterContent__text DesktopFooterContent__withBulletListStyling">
+                                    LocalRoyalRent.com functions as a consolidator for local car rental companies, bringing together offerings from small rental businesses operating exclusively within their respective cities. Our rigorous selection process ensures that only top-notch providers are showcased, and we consistently monitor their performance to maintain high-quality standards. Our mission is to provide customers with exceptional service at the most competitive rates.
+                                </p></div>
+                        </div>
+                    </div>
+                    <div class="DesktopFooterContent__textSection styles__pageViewportWrapper"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+                .Form__container .Form__formItem {
+                margin-bottom: 16px
+            }
+
+            .Form__container .Form__formItem.Form__halfWidth {
+                width: 48%
+            }
+
+            .Form__container .Form__formItem.Form__fullWidth {
+                width: 100%
+            }
+
+            .Form__container .Form__formItem.Form__hideField {
+                display: none
+            }
+
+            .Form__container button {
+                margin: 24px auto auto
+            }
+
+            .Form__container .Form__fixed {
+                background-color: #fff;
+                border-top: 1px solid #e8e8e8;
+                bottom: 0;
+                box-sizing: border-box;
+                left: 0;
+                padding: 16px;
+                position: absolute;
+                width: 100%
+            }
+
+            .Form__container .Form__fixed .Form__formErrorLabel {
+                background-color: #2e054e;
+                box-sizing: border-box;
+                color: #fff;
+                display: flex;
+                font-family: futura-book;
+                font-size: 16px;
+                left: 0;
+                line-height: 22px;
+                padding: 16px;
+                position: absolute;
+                top: 0;
+                transform: translateY(-100%);
+                width: 100%
+            }
+
+            .Form__container .Form__fixed .Form__formErrorLabel svg {
+                margin-right: 6px;
+                margin-top: 2px
+            }
+
+            .Form__container .Form__fixed button {
+                margin-top: 0
+            }
+
+            .Form__container .Form__cancel {
+                margin-right: 20px
+            }
+
+            .Form__container .Form__btnSubText {
+                color: #2e054e;
+                font-size: 12px;
+                line-height: 16px;
+                padding-top: 8px;
+                text-align: center
+            }
+
+            .ContactUsDesktop__container {
+                background-color: #f6f4f8;
+                color: #2e054e;
+                font-family: futura-book;
+                font-size: 18px;
+                line-height: 22px
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__landingSection {
+                align-items: center;
+                background-position: 50%!important;
+                background-size: cover;
+                display: flex;
+                height: 35vw;
+                justify-content: center;
+                position: relative
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__landingSection .ContactUsDesktop__content {
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                margin-bottom: 100px;
+                position: relative;
+                z-index: 1
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__landingSection .ContactUsDesktop__content h1 {
+                color: #fff;
+                font-family: futura-heavy;
+                font-size: 34px;
+                line-height: 38px;
+                margin: 0 0 16px
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__landingSection .ContactUsDesktop__content .ContactUsDesktop__callMailWrap {
+                align-items: center;
+                display: flex
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__landingSection .ContactUsDesktop__content .ContactUsDesktop__call,.ContactUsDesktop__container .ContactUsDesktop__landingSection .ContactUsDesktop__content .ContactUsDesktop__mail {
+                color: #fff;
+                font-size: 20px;
+                line-height: 24px
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__landingSection .ContactUsDesktop__content .ContactUsDesktop__mail {
+                margin-left: 64px
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__landingSection .ContactUsDesktop__overlay {
+                background-color: rgba(27,14,31,.52);
+                height: 100%;
+                left: 0;
+                position: absolute;
+                top: 0;
+                width: 100%;
+                z-index: 0
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__contentSection {
+                -moz-column-gap: 96px;
+                column-gap: 96px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                margin-top: -100px;
+                padding: 24px;
+                position: relative
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__formWrap .ContactUsDesktop__btnCalss {
+                max-width: 220px
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__formWrap h2 {
+                font-family: futura-medium;
+                font-size: 24px;
+                line-height: 28px;
+                margin: auto auto 48px;
+                text-align: center
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__formWrap .ContactUsDesktop__thankYouWrap {
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+                justify-content: center
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__formWrap .ContactUsDesktop__thankYouWrap h3 {
+                font-family: futura-medium;
+                margin: 0 0 16px
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__formWrap .ContactUsDesktop__thankYouWrap p {
+                font-size: 16px;
+                line-height: 20px;
+                text-align: center
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__formWrap .ContactUsDesktop__thankYouWrap .ContactUsDesktop__actionWrap {
+                -moz-column-gap: 16px;
+                column-gap: 16px;
+                display: grid;
+                font-family: futura-medium;
+                grid-template-columns: 1fr 1fr;
+                margin-top: 48px;
+                text-align: center
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__formWrap .ContactUsDesktop__thankYouWrap .ContactUsDesktop__actionWrap .ContactUsDesktop__buy {
+                color: #6300a3
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__formWrap .ContactUsDesktop__thankYouWrap .ContactUsDesktop__actionWrap .ContactUsDesktop__buy:hover {
+                text-decoration: underline
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__formWrap .ContactUsDesktop__thankYouWrap .ContactUsDesktop__actionWrap .ContactUsDesktop__sell {
+                color: #ed264f
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__formWrap .ContactUsDesktop__thankYouWrap .ContactUsDesktop__actionWrap .ContactUsDesktop__sell:hover {
+                text-decoration: underline
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__locationWrap h2 {
+                font-family: futura-medium;
+                font-size: 24px;
+                line-height: 28px;
+                margin: auto auto 48px;
+                text-align: center
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__locationWrap h3 {
+                align-items: flex-end;
+                display: flex;
+                font-family: futura-medium;
+                margin-bottom: 12px
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__locationWrap h3 svg {
+                margin-right: 4px
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__locationWrap p {
+                font-size: 16px;
+                line-height: 20px;
+                margin-bottom: 4px
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__locationWrap a {
+                align-items: center;
+                color: #6300a3;
+                display: flex;
+                font-family: futura-demi;
+                font-size: 16px;
+                line-height: 20px;
+                margin-bottom: 24px
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__locationWrap a svg {
+                margin-left: 4px;
+                margin-top: 2px;
+                transform: rotate(-90deg)
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__locationWrap a:hover {
+                text-decoration: underline
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__locationWrap iframe {
+                border: 1px solid #e8e8e8;
+                border-radius: 6px
+            }
+
+            .ContactUsDesktop__container .ContactUsDesktop__locationBtn {
+                margin: 48px auto;
+                width: calc(100% - 64px)!important
+            }
+            .DesktopFooterContent__textSection {
+    color: #2e054e;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 0 32px
+}
+
+.DesktopFooterContent__textSection.DesktopFooterContent__gridSection {
+    display: flex;
+    flex-direction: row
+}
+
+.DesktopFooterContent__textSection.DesktopFooterContent__gridSection .DesktopFooterContent__leftSection {
+    flex: 1;
+    min-width: 0
+}
+
+.DesktopFooterContent__textSection.DesktopFooterContent__gridSection .DesktopFooterContent__rightSection {
+    flex: 1;
+    margin-left: 64px;
+    min-width: 0
+}
+
+.DesktopFooterContent__textSection.DesktopFooterContent__gridSection .DesktopFooterContent__rightSection .DesktopFooterContent__pricingTableHeader {
+    font-family: futura-demi;
+    padding: 16px 0
+}
+
+.DesktopFooterContent__textSection.DesktopFooterContent__gridSection .DesktopFooterContent__rightSection table {
+    margin-bottom: 8px;
+    text-align: left;
+    width: 100%
+}
+
+.DesktopFooterContent__textSection.DesktopFooterContent__gridSection .DesktopFooterContent__rightSection table thead {
+    font-family: futura-medium
+}
+
+.DesktopFooterContent__textSection.DesktopFooterContent__gridSection .DesktopFooterContent__rightSection table thead sup {
+    color: #6300a3
+}
+
+.DesktopFooterContent__textSection.DesktopFooterContent__gridSection .DesktopFooterContent__rightSection table td,.DesktopFooterContent__textSection.DesktopFooterContent__gridSection .DesktopFooterContent__rightSection table th {
+    padding: 12px 12px 12px 0
+}
+
+.DesktopFooterContent__textSection.DesktopFooterContent__gridSection .DesktopFooterContent__rightSection table td:last-child,.DesktopFooterContent__textSection.DesktopFooterContent__gridSection .DesktopFooterContent__rightSection table th:last-child {
+    padding-right: 0;
+    text-align: right
+}
+
+.DesktopFooterContent__textSection.DesktopFooterContent__gridSection .DesktopFooterContent__rightSection table tbody {
+    font-family: futura-book
+}
+
+.DesktopFooterContent__textSection.DesktopFooterContent__gridSection .DesktopFooterContent__rightSection table tbody tr {
+    border-bottom: 1px solid #acacac
+}
+
+.DesktopFooterContent__textSection.DesktopFooterContent__gridSection .DesktopFooterContent__rightSection table tbody tr:last-child {
+    border: none
+}
+
+.DesktopFooterContent__textSection.DesktopFooterContent__gridSection .DesktopFooterContent__rightSection table tbody tr a {
+    color: #2e054e
+}
+
+.DesktopFooterContent__textSection.DesktopFooterContent__gridSection .DesktopFooterContent__rightSection table tbody tr a:hover {
+    text-decoration: underline
+}
+
+.DesktopFooterContent__textSection.DesktopFooterContent__gridSection .DesktopFooterContent__rightSection p {
+    color: #6300a3;
+    font-family: futura-book;
+    font-size: 14px;
+    text-align: end
+}
+
+.DesktopFooterContent__textSection .DesktopFooterContent__subTextSection {
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    line-height: 24px
+}
+
+.DesktopFooterContent__textSection .DesktopFooterContent__subTextSection .DesktopFooterContent__footerHeading {
+    font-family: futura-medium;
+    padding: 16px 0
+}
+
+.DesktopFooterContent__textSection .DesktopFooterContent__subTextSection .DesktopFooterContent__footerHeading .DesktopFooterContent__max {
+    color: #ed264f
+}
+
+.DesktopFooterContent__textSection .DesktopFooterContent__subTextSection .DesktopFooterContent__footerMMLink {
+    color: #2e054e;
+    font-family: futura-medium
+}
+
+.DesktopFooterContent__textSection .DesktopFooterContent__subTextSection .DesktopFooterContent__footerMMLink:hover {
+    text-decoration: underline
+}
+
+.DesktopFooterContent__textSection .DesktopFooterContent__subTextSection .DesktopFooterContent__footerMMLink svg {
+    position: relative;
+    top: 2px
+}
+
+.DesktopFooterContent__textSection .DesktopFooterContent__subTextSection .DesktopFooterContent__text {
+    font-family: futura-book;
+    white-space: normal
+}
+
+.DesktopFooterContent__textSection .DesktopFooterContent__subTextSection .DesktopFooterContent__text a {
+    color: inherit;
+    text-decoration: underline
+}
+
+.DesktopFooterContent__textSection .DesktopFooterContent__subTextSection .DesktopFooterContent__text .DesktopFooterContent__title {
+    display: inline;
+    font-family: futura-medium
+}
+
+.DesktopFooterContent__textSection .DesktopFooterContent__subTextSection .DesktopFooterContent__text .DesktopFooterContent__footerLink {
+    color: #2e054e;
+    text-decoration: none
+}
+
+.DesktopFooterContent__textSection .DesktopFooterContent__subTextSection .DesktopFooterContent__text .DesktopFooterContent__footerLink:hover {
+    text-decoration: underline
+}
+
+.DesktopFooterContent__textSection .DesktopFooterContent__subTextSection .DesktopFooterContent__text ul {
+    display: flex;
+    flex-wrap: wrap
+}
+
+.DesktopFooterContent__textSection .DesktopFooterContent__subTextSection .DesktopFooterContent__text ul li:after {
+    content: " | "
+}
+
+.DesktopFooterContent__textSection .DesktopFooterContent__subTextSection .DesktopFooterContent__text ul li:last-child:after {
+    content: ""
+}
+
+.DesktopFooterContent__textSection .DesktopFooterContent__subTextSection .DesktopFooterContent__text.DesktopFooterContent__withBulletListStyling ul {
+    display: unset;
+    margin: 14px 0
+}
+
+.DesktopFooterContent__textSection .DesktopFooterContent__subTextSection .DesktopFooterContent__text.DesktopFooterContent__withBulletListStyling ul li {
+    display: list-item;
+    list-style: disc;
+    margin-left: 18px
+}
+
+.DesktopFooterContent__textSection .DesktopFooterContent__subTextSection .DesktopFooterContent__text.DesktopFooterContent__withBulletListStyling ul li:after {
+    content: none
+}
+
+.DesktopFooterContent__purerideText {
+    font-family: futura-book;
+    white-space: normal
+}
+
+</style>
+{% endblock %}
