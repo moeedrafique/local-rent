@@ -1,0 +1,111 @@
+{% extends 'base.htm' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<body>
+{% block content %}
+
+<div class="card">
+    <div class="agent-new mt-2">
+        <div class="card-block-table">
+            <style>
+        /* Custom CSS for black table header */
+        .table-black th {
+            background-color: #01a9ac;
+            color: #fff;
+            border-left: 1px solid #fff;
+        }
+
+            </style>
+<select id="citySelect">
+    <option value="">Select City</option>
+    {% for city in cities %}
+        <option value="{{ city.id }}">{{ city.name }}</option>
+    {% endfor %}
+</select>
+
+<table id="deliveryTable">
+    <!-- Table headers -->
+    <thead>
+        <tr>
+            <th>Location Type</th>
+            <th>Price</th>
+            <th>Free From</th>
+            <th>Delivery Time</th>
+        </tr>
+    </thead>
+    <tbody id="deliveryItems">
+        <!-- Delivery items will be added here dynamically -->
+    </tbody>
+</table>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+    $('#citySelect').change(function() {
+        var cityId = $(this).val();
+        $.ajax({
+            url: '/get_location_types/',
+            data: {
+                'city_id': cityId
+            },
+            dataType: 'json',
+            success: function(data) {
+                $('#id_location_type').empty();
+                $.each(data.location_types, function(index, locationType) {
+                    $('#id_location_type').append('<option value="' + locationType.id + '">' + locationType.name + '</option>');
+                });
+            }
+        });
+    });
+});
+</script>
+<script>
+function loadDeliveryItems(cityId) {
+    if (cityId) {
+        fetch('/partner/get_delivery_items/' + cityId + '/')
+            .then(response => response.json())
+            .then(data => {
+                // Clear previous table content
+                document.getElementById('deliveryItems').innerHTML = '';
+
+                // Populate table with fetched delivery items
+                data.forEach(function(item) {
+                    var row = '<tr>';
+                    row += '<td>' + item.location_type + '</td>';
+                    row += '<td>' + item.price + '</td>';
+                    row += '<td>' + item.free_from + '</td>';
+                    row += '<td>' + item.delivery_time + '</td>';
+                    row += '</tr>';
+                    document.getElementById('deliveryItems').innerHTML += row;
+                });
+            });
+    } else {
+        // Clear table if no city is selected
+        document.getElementById('deliveryItems').innerHTML = '';
+    }
+}
+
+document.getElementById('citySelect').addEventListener('change', function() {
+    var cityId = this.value;
+    loadDeliveryItems(cityId);
+});
+
+</script>
+
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+</body>
+</html>

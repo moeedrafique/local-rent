@@ -2,88 +2,283 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
 
 
 <body>
-    {% block content %}
-    <div class="card">
-        <div class="agent-new mt-2">
-            <div class="card-block-table">
-                    <style>
+{% block content %}
+                    <select id="citySelect" class="" name="new_city" style="width: 50px;">
+                         {% for city in cities %}
+        <option value="{{ city.id }}">{{ city.name }}</option>
+    {% endfor %}
+                    </select>
+<div class="card">
+    <div class="agent-new mt-2">
+        <div class="card-block-table">
+            <style>
         /* Custom CSS for black table header */
         .table-black th {
             background-color: #01a9ac;
             color: #fff;
             border-left: 1px solid #fff;
         }
-    </style>
-        <table class="table table-striped">
-            <thead class="table-black">
-                <tr>
-<th class="city" width="20%">City</th>
-<th class="place" width="20%">Place</th>
-<th class="cost" width="10%">Price</th>
-<th class="halava" width="10%">Free from</th>
-<th class="time" width="10%">Delivery time</th>
-</tr>
-            </thead>
-            <tbody>
-                <tr class="not_places ">
-<td class="city">
-Batumi
-<a class="remove_city_delivery" data-id="481921" href="/delivery/?id=481921">Remove</a>
-</td>
-<td class="place">
-<input id="city_481921_0_work" name="city[481921][0][work]" type="hidden" value="0">
-<input checked="checked" id="city_481921_0_work" name="city[481921][0][work]" type="checkbox" value="1">
-<span>
-Any location
-</span>
-</td>
-<td class="cost">
-<input id="city_481921_0_cost" name="city[481921][0][cost]" type="number" value="100">
-</td>
-<td class="halava">
-<input id="city_481921_0_halava" name="city[481921][0][halava]" type="number" value="150">
-</td>
-<td class="time">
-<select id="city_481921_0_hours" name="city[481921][0][hours]"><option value="0">0</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option selected="selected" value="6">6</option>
-<option value="7">7</option>
-<option value="8">8</option>
-<option value="9">9</option>
-<option value="10">10</option>
-<option value="11">11</option>
-<option value="12">12</option></select>
-<span>
-h.
-</span>
-<select id="city_481921_0_minutes" name="city[481921][0][minutes]"><option selected="selected" value="0.0">00</option>
-<option value="0.25">15</option>
-<option value="0.5">30</option>
-<option value="0.75">45</option></select>
-<span>
-m.
-</span>
-</td>
-</tr>
-                <!-- Add more rows as needed -->
-            </tbody>
-        </table>
-            </div>
+        .disabled {
+            opacity: 0.5;
+            pointer-events: none;
+            }
+
+            </style>
+            <table id="deliveryTable" class="table table-striped">
+    <thead class="table-black">
+        <tr>
+            <th class="city" width="20%">City</th>
+            <th class="place" width="20%">Place</th>
+            <th class="cost" width="10%">Price</th>
+            <th class="halava" width="10%">Free from</th>
+            <th class="time" width="10%">Delivery time</th>
+        </tr>
+    </thead>
+    <tbody id="deliveryItems">
+        {% for city_delivery in city_deliveries %}
+            {% for city_delivery_info in city_delivery.city_delivery_info %}
+                {% for delivery in city_delivery_info.deliveries %}
+                <tr class="city" data-city-id="{{city_delivery.city.id}}">
+                    {% if forloop.first %}
+                        <td rowspan="{{ city_delivery.deliveries.count }}" class="city">{{ city_delivery.city.name }}
+                            <a class="remove_city_delivery" data-id="{{ city_delivery.city.id }}" href="#">Remove</a>
+                        </td>
+                    {% endif %}
+                    <td class="place">
+                        <input id="city_{{ city_delivery.city.id }}_{{ forloop.counter0 }}_work" name="city[{{ city_delivery.city.id }}][{{ forloop.counter0 }}][work]" type="hidden" value="0">
+                        <input class="city-checkbox" checked="checked" id="city_{{ city_delivery.city.id }}_{{ forloop.counter0 }}_work" name="city[{{ city_delivery.city.id }}][{{ forloop.counter0 }}][work]" type="checkbox" value="1">
+                        <span>{{ city_delivery_info.location_type.name }}</span>
+                    </td>
+                    <td class="cost">
+                        <input id="city_{{ city_delivery.city.id }}_{{ forloop.counter0 }}_cost" name="city[{{ city_delivery.city.id }}][{{ forloop.counter0 }}][cost]" type="number" value="{{ delivery.price }}">
+                    </td>
+                    <td class="halava">
+                        <input id="city_{{ city_delivery.city.id }}_{{ forloop.counter0 }}_halava" name="city[{{ city_delivery.city.id }}][{{ forloop.counter0 }}][halava]" type="number" value="{{ delivery.free_from }}">
+                    </td>
+                    <td class="time">
+
+                    </td>
+                </tr>
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+
+        <!-- Add more rows as needed -->
+    </tbody>
+</table>
+
+<button type="button" class="btn btn-primary" onclick="saveChanges()">Save</button>
+
         </div>
     </div>
-    {% endblock %}
+</div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+        // If no data, do not render the empty row
+        var emptyRow = document.querySelector('#deliveryItems tr.footable-empty');
+        console.log(emptyRow);
+        if (emptyRow) {
+            emptyRow.parentNode.removeChild(emptyRow); // Remove the empty row
+        }
+
+
+function loadDeliveryItems(cityId) {
+    if (cityId) {
+        // Check if the city is already in the table
+        var cityAlreadyExists = false;
+        var cityRows = document.querySelectorAll('#deliveryItems tr.city');
+        cityRows.forEach(function(row) {
+            if (row.dataset.cityId == cityId) {
+                cityAlreadyExists = true;
+                return;
+            }
+        });
+
+        if (cityAlreadyExists) {
+            alert('You already have such a city.');
+            return;
+        }
+
+
+
+        fetch('/partner/get_location_types/' + cityId + '/')
+            .then(response => response.json())
+            .then(data => {
+                var isFirstRow = true; // Flag to track if it's the first row for the city
+                // Populate table with fetched delivery items
+                data.forEach(function(item, index) {
+                    var row = '<tr class="city" data-city-id="' + item.city_id + '">';
+                    if (isFirstRow) {
+                        row += '<td rowspan="' + data.length + '" class="footable-first-visible" style="display: table-cell;">' + item.city__name +
+                            '<a class="remove_city_delivery" data-id="' + item.city_id + '" href="#">Remove</a>' +
+                            '</td>';
+                        isFirstRow = false; // Set flag to false after the first row
+                    }
+                    row += '<td class="place" style="display: table-cell;">';
+                    row += '<input id="city_' + item.city_id + '_work" name="city[' + cityId + '][work]" type="hidden" value="0">';
+                    row += '<input class="city-checkbox" style="pointer-events: all;" data-city-id="' + item.city_id + '" checked="checked" id="city_' + item.city_id + '_work" name="city[' + item.city_id + '][work]" type="checkbox" value="1">';
+                    row += '<span>' + item.name + '</span></td>';
+
+                    row += '<td class="cost" style="display: table-cell;"><input type="number" class="form-control" name="price" /></td>';
+                    row += '<td class="free_from" style="display: table-cell;"><input type="number" class="form-control" name="free_from" /></td>';
+                    row += '<td>' + item.delivery_time + '</td>';
+                    row += '</tr>';
+                    document.getElementById('deliveryItems').innerHTML += row;
+                });
+            });
+    } else {
+        // Clear table if no city is selected
+        document.getElementById('deliveryItems').innerHTML = '';
+    }
+}
+
+// Remove city row when "Remove" link is clicked
+document.getElementById('deliveryItems').addEventListener('click', function(event) {
+    if (event.target.classList.contains('remove_city_delivery')) {
+        var cityId = event.target.dataset.id;
+        var cityRow = document.querySelector('#deliveryItems tr.city[data-city-id="' + cityId + '"]');
+        cityRow.remove();
+    }
+});
+
+// Add event listener for checkboxes
+document.getElementById('deliveryItems').addEventListener('change', function(event) {
+    if (event.target.classList.contains('city-checkbox')) {
+        var isChecked = event.target.checked;
+        var cityId = event.target.dataset.cityId;
+        var checkboxes = document.querySelectorAll('.city-checkbox[data-city-id="' + cityId + '"]');
+        var checkedCount = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
+
+        if (!isChecked && checkedCount === 0) {
+            event.target.checked = true;
+            alert('At least one checkbox must be checked for the city.');
+        } else {
+            var row = event.target.closest('tr.city');
+            if (!isChecked && checkedCount === 1) {
+                row.classList.add('disabled');
+            } else {
+                row.classList.remove('disabled');
+            }
+
+            // Check if "Any location" checkbox is checked
+            var anyLocationCheckbox = row.querySelector('.place .city-checkbox:checked + span');
+            if (anyLocationCheckbox !== null && anyLocationCheckbox.textContent.trim() === 'Any location') {
+                var isAnyLocationChecked = true;
+                console.log(isAnyLocationChecked);
+            } else {
+                var isAnyLocationChecked = false;
+                console.log(isAnyLocationChecked);
+            }
+            // If "Any location" checkbox is checked, hide rows with other location types
+            if (isAnyLocationChecked) {
+                hideNonAnyLocationRows(cityId);
+            }
+        }
+    }
+});
+
+// Function to hide rows with location types other than "Any location"
+function hideNonAnyLocationRows(cityId) {
+    var rows = document.querySelectorAll('#deliveryItems tr.city');
+    rows.forEach(function(row) {
+        if (row.dataset.cityId === cityId) {
+            var locationType = row.querySelector('.place span').textContent;
+            if (locationType !== 'Any location') {
+                row.style.display = 'none';
+            }
+            else {
+                row.style.display = ''; // Remove the display: none style
+            }
+        }
+    });
+}
+
+
+
+function saveChanges() {
+        var rows = document.querySelectorAll('#deliveryItems tr');
+        var data = [];
+
+        // Iterate over table rows and extract data
+        rows.forEach(function(row) {
+            var deliveryId = row.getAttribute('data-city-id');
+            var locationType = row.querySelector('.place').innerText;
+            var PriceElement = row.querySelector('.cost input[type="number"]');
+            var Price = PriceElement.value;
+            console.log(Price);
+
+            // Construct object with updated data
+            var item = {
+                id: deliveryId,
+                location_type: locationType,
+                price: Price,
+
+            };
+            data.push(item);
+        });
+
+        // Send AJAX request to save changes
+        fetch('/partner/save_changes/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Changes saved successfully.');
+                // Optionally, reload the table to reflect saved changes
+                // loadDeliveryItems(cityId);
+            } else {
+                alert('Failed to save changes.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to save changes.');
+        });
+    }
+
+    // Function to get CSRF token from cookies
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+
+
+document.getElementById('citySelect').addEventListener('change', function() {
+    var cityId = this.value;
+    loadDeliveryItems(cityId);
+});
+</script>
+
+
+
+
+
+{% endblock %}
 </body>
 </html>

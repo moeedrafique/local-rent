@@ -46,12 +46,23 @@ class RentalCompanyRegistrationView(SignupForm):
         if 'username' in self.fields:
             del self.fields['username']
 
-
     def save(self, request):
+        # First, save the CustomUser instance
         user = super(RentalCompanyRegistrationView, self).save(request)
-        user.company_name = self.cleaned_data['company_name']
-        user.country = self.cleaned_data['country']
+
+        # Retrieve or create the Company instance
+        company_name = self.cleaned_data['company_name']
+        # Assuming you have fetched the Tblisi city object already
+        tblisi_city = City.objects.get(name='Tblisi')
+        country = self.cleaned_data['country']
+        email = self.cleaned_data['email']
+        company, created = Company.objects.get_or_create(name_of_company=company_name, defaults={'email': email, 'country': country, 'central_office_location': tblisi_city})
+
+        # Assign the Company instance to the CustomUser and save
+        user.company_name = company
+        user.country = country
         user.save()
+
         return user
 
 class ExtrasForm(forms.ModelForm):

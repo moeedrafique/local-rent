@@ -79,8 +79,8 @@
                                                                         <div class="dropdown dropdown-action show" style="width: 40px;">
                                                                     <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="true" style="float: left"><i class="fa fa-ellipsis-v"></i></a>
                                                                     <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-9px, 26px, 0px);">
-                                                                    <a class="dropdown-item" href=""><i class="fa fa-arrow-circle-o-right  "></i>Edit Car</a>
-                                                                    <a class="dropdown-item" href=""><i class="fa fa-arrow-circle-o-right  "></i>Delete Car</a>
+                                                                    <a class="dropdown-item" href="{% url 'edit_car' qs.id %}"><i class="fa fa-arrow-circle-o-right  "></i>Edit Car</a>
+                                                                    <a class="dropdown-item" href="{% url 'delete_car' qs.id %}"><i class="fa fa-arrow-circle-o-right  "></i>Delete Car</a>
                                                                     </div></div>
                                                                     <style>.dropdown-toggle::after{display:none;}</style>
                                                                     </td>

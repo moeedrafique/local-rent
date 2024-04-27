@@ -90,9 +90,10 @@
                     <tbody>
 {% for season in season %}
     <tr>
-        <td>{{ season.name }} <span>{{ season.date_range }}</span></td>
+        <td>{{ season.name }} <span></span></td>
         {% for tariff in tariff %}
             <td>
+                {% if existing_rates %}
                 {% for rate in existing_rates %}
                     {% if rate.season_id == season.id and rate.tariff_id == tariff.id %}
                         <!-- If there is a rate, display its value -->
@@ -100,7 +101,9 @@
                     {% endif %}
 
                 {% endfor %}
-
+                                    {% else %}
+                        <input type="text" class="form-control" name="rate_price_{{ season.id }}_{{ tariff.id }}" value="0">
+{% endif %}
                     <!-- If there is no rate, display '0' -->
 
                 <!-- Hidden fields for car, season, and tariff IDs -->
@@ -156,12 +159,12 @@
                             <div id="limitedMileageContainer" class="form-group col-md-2" style="display: none;">
                                 <label for="limitedMileage">Limit</label>
                                 <input type="text" class="form-control" id="limitedMileage" name="mileage_limited"
-                                       placeholder="">
+                                       placeholder="" value="0">
                             </div>
                             <div id="overageFeesContainer" class="form-group col-md-2" style="display: none;">
                                 <label for="overageFees">Overage fee</label>
                                 <input type="text" class="form-control" id="overageFees" name="mileage_overage_fee"
-                                       placeholder="">
+                                       placeholder="" value="0">
                             </div>
                         </div>
                     </div>
@@ -322,16 +325,21 @@
                         <div class="form-group row">
                             <label for="car_details-0-engine_type" class="col-md-4 col-form-label">Engine type</label>
                             <div class="col-md-4">
-                                <input type="text" name="engine_type" maxlength="50" class="form-control"
-                                       id="id_car_details-0-engine_type">
+    <div class="input-group">
+        <input type="text" name="engine_type" maxlength="50" class="form-control" id="id_car_details-0-engine_type">
+        <span class="input-group-addon">l.</span>
+    </div>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="car_details-0-capacity" class="col-md-4 col-form-label">Capacity </label>
                             <div class="col-md-4">
+                                <div class="input-group">
                                 <input class="form-control" type="number" name="engine_capacity" step="0.01"
                                        id="car_details-0-capacity">
+                                    <span class="input-group-addon">HP</span>
+                                </div>
                             </div>
                         </div>
 
@@ -339,7 +347,7 @@
                             <label for="car_details-0-fuel_type" class="col-md-4 col-form-label">Fuel </label>
                             <div class="col-md-4">
                                 <select class="form-control" id="car_details-0-fuel_type" name="fuel_type">
-                                    <option value="Benzin">Benzin</option>
+                                    <option value="Petrol">Petrol</option>
                                     <option value="Dizel">Dizel</option>
                                     <option value="Hybrid">Hybrid</option>
                                     <option value="Turbo Dizel">Turbo Dizel</option>
@@ -353,8 +361,11 @@
                         <div class="form-group row">
                             <label for="car_details-0-tank_size" class="col-md-4 col-form-label">Tank </label>
                             <div class="col-md-4">
+                                <div class="input-group">
                                 <input class="form-control" type="number" name="tank_size" step="0.01"
                                        id="car_details-0-tank_size">
+                                 <span class="input-group-addon">l.</span>
+                                </div>
                             </div>
                         </div>
 
@@ -362,8 +373,11 @@
                             <label for="car_details-0-fuel_consumption" class="col-md-4 col-form-label">Fuel consumption
                                 (l/100 km)</label>
                             <div class="col-md-4">
+                                <div class="input-group">
                                 <input class="form-control" type="number" name="fuel_consumption" step="0.01"
                                        id="car_details-0-fuel_consumption">
+                                    <span class="input-group-addon">l/100 km.</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -841,13 +855,14 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'POST',
-            url: '{% url "edit_car" %}',
+            url: '{% url "add_cars" %}',
             data: formData,
             processData: false,
             contentType: false,
             success: function (data) {
                 console.log(data);
-                // Update the UI or redirect the user as needed
+                // Redirect to all_cars page upon successful submission
+                window.location.href = '{% url "all_cars" %}';
             },
             error: function (error) {
                 console.log(error.responseText);

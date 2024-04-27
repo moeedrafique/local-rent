@@ -23399,7 +23399,9 @@ span.value {
         width: 100% !important
     }
     .header-navbar .navbar-wrapper .navbar-logo a img {
-        display: block !important
+        max-width: 25%!important;
+        margin: 0 auto!important;
+        display: block
     }
     .header-navbar .navbar-wrapper .navbar-logo .mobile-menu {
         display: block;

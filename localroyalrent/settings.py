@@ -174,7 +174,7 @@ MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ACCOUNT_EMAIL_VERIFICATION = 'None'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'home'
 
 # STRIPE SETTING
 # STRIPE_LIVE_SECRET_KEY = os.environ.get("STRIPE_LIVE_SECRET_KEY", "<your secret key>")
@@ -231,6 +231,13 @@ GEOS_LIBRARY_PATH = r'C:\Users\MR LAPTOP\PycharmProjects\localroyalrent\venv\Lib
 #         },
 #     },
 # }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'Localroyalrent@gmail.com'
+EMAIL_HOST_PASSWORD = 'Mustang786'
 
 
 # Set your commission percentage

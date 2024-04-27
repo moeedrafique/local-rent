@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.text import slugify
 from django_countries.fields import CountryField
@@ -31,19 +33,30 @@ class City(models.Model):
 # Create your models here.
 class Company(models.Model):
     name_of_company = models.CharField(max_length=255)
-    language = models.CharField(max_length=50)
-    legal_name_of_business = models.CharField(max_length=255)
-    phone = models.CharField(max_length=15)  # Adjust the max_length based on your requirements
+    language = models.CharField(max_length=50, default=None, null=True, blank=True)
+    legal_name_of_business = models.CharField(max_length=255, default=None, null=True, blank=True)
+    phone = models.CharField(max_length=15, default=None, null=True, blank=True)  # Adjust the max_length based on your requirements
     second_phone = models.CharField(max_length=15, blank=True, null=True)  # Adjust the max_length based on your requirements
-    country = models.CharField(max_length=100)
+    country = models.CharField(max_length=100, default=None, null=True, blank=True)
     company_logo = models.ImageField(upload_to='company_logos/', null=True, blank=True)
     central_office_location = models.ForeignKey(City, on_delete=models.CASCADE, default=None, null=True, blank=True)
-    email = models.EmailField()
-    web_site = models.URLField()
-    central_office_address = models.TextField()
+    email = models.EmailField(default=None, null=True, blank=True)
+    web_site = models.URLField(default=None, null=True, blank=True)
+    central_office_address = models.TextField(default=None, null=True, blank=True)
 
     def __str__(self):
         return f"{self.name_of_company} - Language: {self.language} - Legal Name: {self.legal_name_of_business} - Phone: {self.phone} - Country: {self.country}"
+
+
+# @receiver(post_save, sender=Company)
+# def create_default_tariffs(sender, instance, created, **kwargs):
+#     if created:
+#         # Create the first tariff for days 1-10
+#         Tariff.objects.create(dealer=instance, min_days=1, max_days=10)
+#         # Create the second tariff for days 11-20
+#         Tariff.objects.create(dealer=instance, min_days=11, max_days=20)
+#         # Create the third tariff for days 21-30
+#         Tariff.objects.create(dealer=instance, min_days=21, max_days=30)
 
 
 class CustomUser(AbstractUser):
@@ -256,12 +269,20 @@ class WorkingHours(models.Model):
         ('Saturday', 'Saturday'),
         ('Sunday', 'Sunday'),
     ])
-    opening_time = models.TimeField()
-    closing_time = models.TimeField()
-    preparation_time = models.DurationField(default='00:30')
+    opening_time = models.IntegerField(default=None, null=True, blank=True)
+    closing_time = models.IntegerField(default=None, null=True, blank=True)
+    is_enabled = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.company.name_of_company} - {self.day_of_week} - {self.opening_time} to {self.closing_time}"
+
+class PublicHoliday(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    holiday_date = models.DateField()
+
+    def __str__(self):
+        return f"{self.company.name_of_company} - {self.holiday_date}"
+
 
 class ServiceAtNonBusinessHours(models.Model):
     company = models.OneToOneField(Company, on_delete=models.CASCADE)
@@ -272,6 +293,7 @@ class ServiceAtNonBusinessHours(models.Model):
 
 
 class Discount(models.Model):
+    dealer = models.ForeignKey(Company, on_delete=models.CASCADE, default=None, null=True, blank=True)
     name = models.CharField(max_length=255)
     valid_from = models.DateField()
     valid_to = models.DateField()
@@ -283,6 +305,7 @@ class Discount(models.Model):
 
 
 class Raise(models.Model):
+    dealer = models.ForeignKey(Company, on_delete=models.CASCADE, default=None, null=True, blank=True)
     name = models.CharField(max_length=255)
     valid_from = models.DateField()
     valid_to = models.DateField()
@@ -293,12 +316,14 @@ class Raise(models.Model):
         return self.name
 
 class LocationType(models.Model):
+    city = models.ForeignKey(City, on_delete=models.CASCADE, default=None, null=True, blank=True)
     name = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.city} ({self.name})"
 
 class Delivery(models.Model):
+    dealer = models.ForeignKey(Company, on_delete=models.CASCADE, default=None, null=True, blank=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE, default=None, null=True, blank=True)
     location_type = models.ForeignKey(LocationType, on_delete=models.CASCADE, default=None)
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -306,7 +331,7 @@ class Delivery(models.Model):
     delivery_time = models.PositiveIntegerField()  # Assuming delivery time is in minutes
 
     def __str__(self):
-        return f"{self.city} ({self.location_type})"
+        return f"{self.dealer.name_of_company} ({self.location_type})"
 
 
 class Customer(models.Model):

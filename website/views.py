@@ -146,8 +146,22 @@ def get_available_cars(request):
 
         car_city = City.objects.filter(car=car).first()
 
-        # Call calculate_total_price function and handle None
-        total_price, rate_price = calculate_total_price(car, start_date, end_date)
+        # Retrieve discounts and raises applicable to the booking
+        discounts = Discount.objects.filter(
+            valid_from__lte=start_date,
+            valid_to__gte=end_date,
+            cars=car
+        )
+        print(discounts)
+
+        raises = Raise.objects.filter(
+            valid_from__lte=start_date,
+            valid_to__gte=end_date,
+            cars=car
+        )
+
+        total_price, rate_price = calculate_total_price(car, start_date, end_date, discounts=discounts, raises=raises)
+
         if total_price is None:
             total_price = Decimal('0.00')
         if rate_price is None:
@@ -173,9 +187,18 @@ def get_available_cars(request):
         car_list.append(car_data)
     return JsonResponse({'cars': car_list})
 
-def calculate_total_price(car, start_date_str, end_date_str):
-    start_date = timezone.datetime.strptime(start_date_str, '%Y-%m-%d').date()
-    end_date = timezone.datetime.strptime(end_date_str, '%Y-%m-%d').date()
+
+def calculate_total_price(car, start_date_str, end_date_str, discounts=None, raises=None):
+    if isinstance(start_date_str, str):
+        start_date = timezone.datetime.strptime(start_date_str, '%Y-%m-%d').date()
+    else:
+        start_date = start_date_str
+
+    if isinstance(end_date_str, str):
+        end_date = timezone.datetime.strptime(end_date_str, '%Y-%m-%d').date()
+    else:
+        end_date = end_date_str
+
     duration = (end_date - start_date).days  # Add 1 day to include the end date
     print("Duration", duration)
     # Find applicable tariffs for the given duration
@@ -200,10 +223,37 @@ def calculate_total_price(car, start_date_str, end_date_str):
             print("rate", rate)
             if rate:
                 total_price = rate.price * duration  # Assuming daily rate
-                print(total_price, rate.price)
+                print("Before Discounts/Raises:", total_price)
+                if discounts:
+                    total_price = apply_discounts(total_price, discounts)
+                if raises:
+                    total_price = apply_raises(total_price, raises)
+                print("After Discounts/Raises:", total_price)
                 return total_price, rate.price
 
     return None, None  # Return None if no valid rate is found
+
+
+def apply_discounts(total_price, discounts):
+    """
+    Apply discounts to the total price.
+    """
+    for discount in discounts:
+        print("Discount", discount.discount_percentage)
+        discount_amount = (total_price * discount.discount_percentage) / Decimal(100)
+        total_price -= discount_amount
+        print("After Discount", total_price)
+    return total_price
+
+def apply_raises(total_price, raises):
+    """
+    Apply raises to the total price.
+    """
+    for raise_ in raises:
+        raise_amount = (total_price * raise_.raise_percentage) / Decimal(100)
+        total_price += raise_amount
+    return total_price
+
 
 # Assuming you have obtained start_date and end_date from the request's GET parameters
 # start_date = request.GET.get('start_date')
@@ -257,8 +307,22 @@ def car_details(request):
                 'maximum_price': car_extra.maximum_price,
             })
 
-        total_price, rate_price = calculate_total_price(car, start_date, end_date)
+        # Retrieve discounts and raises applicable to the booking
+        discounts = Discount.objects.filter(
+            valid_from__lte=start_date,
+            valid_to__gte=end_date,
+            cars=car
+        )
+        print(discounts)
 
+        raises = Raise.objects.filter(
+            valid_from__lte=start_date,
+            valid_to__gte=end_date,
+            cars=car
+        )
+
+        total_price, rate_price = calculate_total_price(car, start_date, end_date, discounts=discounts, raises=raises)
+        print("Car detila", total_price)
         # Retrieve commission percentage from Django settings (you can also use a configuration file)
         commission_percentage = getattr(settings, 'COMMISSION_PERCENTAGE', 0.15)# Calculate commission
         # Calculate commission
@@ -342,7 +406,6 @@ def car_details(request):
     except CarAudioFeatures.DoesNotExist:
         return JsonResponse({'error': 'Car audio features not found'}, status=404)
 
-
 @transaction.atomic
 def create_booking(request):
     # city_id = 1
@@ -354,15 +417,16 @@ def create_booking(request):
     city_id = request.POST.get('city_id')
     car_id = request.POST.get('car_id')
     start_date = request.POST.get('start_date')
-    print(start_date)
     end_date = request.POST.get('end_date')
-    print(start_date)
+
     start_datetime = datetime.strptime(start_date, '%Y-%m-%d')
     end_datetime = datetime.strptime(end_date, '%Y-%m-%d')
     pickup_location = request.POST.get('pickup_location')
+    print(pickup_location)
     pickup_time = request.POST.get('pickup_time')
     drop_location = request.POST.get('drop_location')
-    drop_time = request.POST.get('drop_time')
+    print(drop_location)
+    drop_time = request.POST.get('dropoff_time')
     customer_name = request.POST.get('customer_name')
     customer_email = request.POST.get('customer_email')
 
@@ -411,6 +475,22 @@ def create_booking(request):
                 # ... Set other customer-related fields with default values
             }
         )
+        # Retrieve discounts and raises applicable to the booking
+        discounts = Discount.objects.filter(
+            valid_from__lte=start_date,
+            valid_to__gte=end_date,
+            cars=car
+        )
+        print(discounts)
+
+        raises = Raise.objects.filter(
+            valid_from__lte=start_date,
+            valid_to__gte=end_date,
+            cars=car
+        )
+        # Calculate the total price including discounts and raises
+        total_price = calculate_total_price(car, start_date, end_date, discounts=discounts, raises=raises)
+        print("After Discount 2", total_price)
         # For testing purposes, set some pickup and drop times
         # pickup_time = timezone.datetime.strptime('12:00:00', '%H:%M:%S').time()
         # drop_time = timezone.datetime.strptime('14:00:00', '%H:%M:%S').time()
@@ -419,17 +499,25 @@ def create_booking(request):
 
         # Fetch delivery prices for the selected locations
         pickup_delivery_price = get_delivery_price(pickup_location, city_id)
-        print("pickup_delivery_price", pickup_delivery_price)
-
         drop_delivery_price = get_delivery_price(drop_location, city_id)
-        print("drop_delivery_price", drop_delivery_price)
 
         # Add delivery prices to the total_price
         if pickup_delivery_price is not None:
+            # Unpack total_price if it's a tuple
+            if isinstance(total_price, tuple):
+                base_price, additional_charges = total_price
+                print(base_price, additional_charges)
+                total_price = base_price
+            # Add pickup_delivery_price to total_price
             total_price += pickup_delivery_price
             print("After pickup_delivery_price", total_price)
 
         if drop_delivery_price is not None:
+            # Unpack total_price if it's a tuple
+            if isinstance(total_price, tuple):
+                base_price, additional_charges = total_price
+                total_price = base_price
+            # Add drop_delivery_price to total_price
             total_price += drop_delivery_price
             print("After drop_delivery_price", total_price)
 
@@ -497,7 +585,7 @@ def delivery_options(request):
     city_id = request.GET.get('city_id')  # Get the city_id from the request parameters
     if city_id:
         # Filter delivery options based on the provided city_id
-        delivery_options = Delivery.objects.filter(city_id=city_id)
+        delivery_options = Delivery.objects.filter(location_type__city_id=city_id)
     else:
         # If city_id is not provided, return all delivery options
         delivery_options = Delivery.objects.all()

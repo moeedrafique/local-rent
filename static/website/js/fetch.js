@@ -1325,7 +1325,7 @@ fetch(`/get_available_cars/?city_id=${city}&start_date=${start_date}&end_date=${
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="place-select__icon">
             <path d="M18 14L12.7071 8.70711C12.3166 8.31658 11.6834 8.31658 11.2929 8.70711L6 14" stroke="#333E50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
-        <span class="place__selected">Choose</span>
+        <span id="pickup_lc" class="place__selected">Choose</span>
         <div class="custom-placeholder">Drop-off place</div>
 <div class="place__info-container" style="display: none;">
     <div class="place__type"></div>
@@ -1414,7 +1414,7 @@ fetch(`/get_available_cars/?city_id=${city}&start_date=${start_date}&end_date=${
                                                                   stroke="#333E50" stroke-width="2"
                                                                   stroke-linecap="round" stroke-linejoin="round"></path>
                                                         </svg>
-                                                        <span class="place__selected">Rental office
+                                                        <span id="dropoff_lc" class="place__selected">Rental office
                                                             <!----></span>
                                                         <div class="custom-placeholder">Drop-off place</div><!---->
                                                         <div class="place-select__popup">
@@ -3448,13 +3448,41 @@ fetchDeliveryOptionsAndHandleSelect();
 
     // Existing submitBookingForm function
     function submitBookingForm() {
+        // Get the selected city from the HTML structure
+        var dropoffCityElement = document.getElementById('dropoff_lc');
+        var dropoffLocation;
+        if (dropoffCityElement) {
+            var dropoffLocationWithPrice = dropoffCityElement.textContent.trim();
+            dropoffLocation = dropoffLocationWithPrice.split('+')[0].trim(); // Take the first part before the '+'
+            console.log("Dropoff Location:", dropoffLocation);
+        } else {
+            console.error("Element with ID 'dropoff_lc' not found in the DOM.");
+        }
+
+        // Extract city name from the span element with ID "pickup_lc"
+        var pickupCityElement = document.getElementById('pickup_lc');
+        var pickupLocation;
+        if (pickupCityElement) {
+            var pickupLocationWithPrice = pickupCityElement.textContent.trim();
+            pickupLocation = pickupLocationWithPrice.split('+')[0].trim(); // Take the first part before the '+'
+            console.log("Pickup Location:", pickupLocation);
+        } else {
+            console.error("Element with ID 'pickup_lc' not found in the DOM.");
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const city = urlParams.get('city_id');
+
         // Your existing AJAX request code
         var formData = {
+            city_id: city,
             car_id: $('#car_id').val(),
             pickup_time: $('#pickup_time').val(),
             dropoff_time: $('#dropoff_time').val(),
             start_date: $('#start_date').val(),
             end_date: $('#end_date').val(),
+            drop_location: dropoffLocation,
+            pickup_location: pickupLocation
             // Add other form fields as needed
         };
         console.log("FORM DATA: ", formData)

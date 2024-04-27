@@ -5,7 +5,7 @@
 <html lang="en">
 
 <head>
-    <title>Adminty - Premium Admin Template by Colorlib </title>
+    <title>Partner | Global Rentz </title>
     <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 10]>
@@ -41,6 +41,633 @@
 
 <body>
 {% block content %}
+<style>
+header.fixed {
+    z-index: 4;
+    position: fixed;
+    width: 100%;
+    right: 0;
+    top: 50px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+header table {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 6px 0 0 0;
+}
+header table thead {
+    color: white;
+}
+header table thead th:first-child {
+    min-width: 258px;
+}
+header table thead th {
+    background: #68747c !important;
+    z-index: 200;
+    position: relative;
+    border-right: 1px solid #919ca5;
+    border-bottom: 3px solid #919ca5;
+    padding: 6px 0;
+    white-space: nowrap;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+header table #filters_month-wrapper {
+    width: 110px;
+    margin-left: 12px;
+    float: left;
+}
+.dropdown {
+    border: 2px solid #ededed;
+    line-height: 34px;
+    height: 36px;
+    background: transparent !important;
+    display: inline-block;
+    position: relative !important;
+    background: #ededed;
+    min-width: 60px;
+    padding: 0 6px;
+    overflow: hidden;
+    text-align: left;
+    margin: 6px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.dropdown .dropdown-button {
+    position: absolute;
+    margin: 1px 0;
+    right: 1px;
+    background: #f8f8f8 url(data:image/png;base64,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) center center no-repeat;
+    width: 30px;
+    height: 30px;
+}
+.dropdown .dropdown-text {
+    margin-right: 42px;
+    height: 100%;
+    position: relative;
+    text-overflow: ellipsis;
+}
+.dropdown select {
+    display: block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 3;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+}
+header table #filters_year-wrapper {
+    width: 80px;
+    margin-left: 0;
+    float: left;
+}
+header table #reset {
+    float: left;
+    width: 24px;
+    height: 24px;
+    position: relative;
+    top: 12px;
+    margin-left: 6px;
+    background: url(https://partner.localrent.com/assets/private/reset.png) no-repeat;
+}
+header table thead td {
+    background: #68747c !important;
+    text-align: center !important;
+    overflow: hidden;
+    border-right: 1px solid #7a8891;
+    border-bottom: 3px solid #7a8891;
+    font-weight: 200;
+    font-size: 30px;
+    line-height: 36px;
+    padding: 3px 0 0px 0;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+header table thead td a {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+header table thead td strong, header table thead td span {
+    display: block;
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 200;
+    line-height: 12px;
+}
+header table thead td span {
+    background-color: #919ca5;
+    line-height: 18px;
+}
+
+#calendar-wrapper {
+    position: relative
+}
+
+#calendar-wrapper #slide-button {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    background: #68747c url(left-right.png) center center no-repeat;
+    width: 72px;
+    height: 48px;
+    z-index: 600;
+    display: none
+}
+
+#calendar-wrapper #slide-overlay {
+    z-index: 599;
+    color: white;
+    font-size: 60px;
+    background: red;
+    position: absolute;
+    display: none;
+    width: 100%;
+    height: 100%
+}
+
+#calendar-wrapper #slide-overlay span {
+    position: absolute;
+    background: rgba(122,177,33,0.9);
+    width: 60%;
+    height: 200px;
+    left: 50%;
+    top: 50%;
+    line-height: 200px;
+    margin-left: -30%;
+    margin-top: -100px;
+    display: block;
+    position: absolute;
+    text-align: center;
+    color: white
+}
+
+#calendar-wrapper .loader {
+    display: none;
+    position: absolute;
+    z-index: 600
+}
+
+#calendar-wrapper thead {
+    position: fixed;
+    top: 200px;
+    width: 100%
+}
+
+#calendar-wrapper #calendar #grid {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    overflow: hidden
+}
+
+#calendar-wrapper #calendar #grid #grid-first {
+    min-width: 258px
+}
+
+#calendar-wrapper #calendar #grid div {
+    float: left;
+    border-right: 1px solid white;
+    height: 100%;
+    background: #e5e5e5
+}
+
+#calendar-wrapper #calendar #grid div.saturday {
+    background: #ddd !important
+}
+
+#calendar-wrapper #calendar table {
+    opacity: 0.9;
+    font-size: 14px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+#calendar-wrapper #calendar table th.ui-draggable.ui-draggable-dragging {
+    z-index: 1000;
+    background: #CFCECE
+}
+
+#calendar-wrapper #calendar table tfoot {
+    display: none
+}
+
+#calendar-wrapper #calendar table .unavailable.ui-draggable.ui-draggable-dragging {
+    z-index: 3
+}
+
+#calendar-wrapper #calendar table tbody tr.car-row,#calendar-wrapper #calendar table tfoot tr.car-row {
+    position: relative
+}
+
+#calendar-wrapper #calendar table tbody tr.car-row th,#calendar-wrapper #calendar table tbody tr.car-row td,#calendar-wrapper #calendar table tfoot tr.car-row th,#calendar-wrapper #calendar table tfoot tr.car-row td {
+    position: relative
+}
+
+#calendar-wrapper #calendar table tbody tr.car-row th,#calendar-wrapper #calendar table tfoot tr.car-row th {
+    position: relative;
+    z-index: 88
+}
+
+#calendar-wrapper #calendar table tbody tr.car-row th span.not_active,#calendar-wrapper #calendar table tfoot tr.car-row th span.not_active {
+    text-decoration: line-through
+}
+
+#calendar-wrapper #calendar table tbody tr.car-row th.hovered,#calendar-wrapper #calendar table tfoot tr.car-row th.hovered {
+    z-index: 100
+}
+
+#calendar-wrapper #calendar table tbody tr.car-row th #booking-popup,#calendar-wrapper #calendar table tfoot tr.car-row th #booking-popup {
+    position: absolute;
+    bottom: -32px;
+    white-space: nowrap;
+    left: 10%;
+    background: black;
+    color: white;
+    display: block;
+    z-index: 900;
+    width: auto;
+    padding: 3px 6px
+}
+
+#calendar-wrapper #calendar table tbody tr.car-row th #booking-popup:after,#calendar-wrapper #calendar table tfoot tr.car-row th #booking-popup:after {
+    position: absolute;
+    display: block;
+    content: " ";
+    border-bottom: 4px solid black;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    left: 14px;
+    top: -4px
+}
+
+#calendar-wrapper #calendar table tbody tr.car-row .no_car_photo,#calendar-wrapper #calendar table tfoot tr.car-row .no_car_photo {
+    position: absolute;
+    left: 6px;
+    top: 11px;
+    color: #D90600;
+    width: 14px;
+    height: 14px;
+    font-size: 11px;
+    text-align: center
+}
+
+#calendar-wrapper #calendar table tbody tr.car-row.normal td,#calendar-wrapper #calendar table tbody tr.car-row.normal th,#calendar-wrapper #calendar table tfoot tr.car-row.normal td,#calendar-wrapper #calendar table tfoot tr.car-row.normal th {
+    top: 0px !important
+}
+
+#calendar-wrapper #calendar table tbody tr.car-row.slide_up td,#calendar-wrapper #calendar table tbody tr.car-row.slide_up th,#calendar-wrapper #calendar table tfoot tr.car-row.slide_up td,#calendar-wrapper #calendar table tfoot tr.car-row.slide_up th {
+    top: -31px !important
+}
+
+#calendar-wrapper #calendar table tbody tr.car-row.slide_down td,#calendar-wrapper #calendar table tbody tr.car-row.slide_down th,#calendar-wrapper #calendar table tfoot tr.car-row.slide_down td,#calendar-wrapper #calendar table tfoot tr.car-row.slide_down th {
+    top: 31px !important
+}
+
+#calendar-wrapper #calendar table tbody tr:first-child td,#calendar-wrapper #calendar table tfoot tr:first-child td {
+    background: #777;
+    height: 10px
+}
+
+#calendar-wrapper #calendar table tbody tr td,#calendar-wrapper #calendar table tbody tr th,#calendar-wrapper #calendar table tfoot tr td,#calendar-wrapper #calendar table tfoot tr th {
+    font-weight: 200;
+    border-bottom: 1px solid white;
+    border-right: 1px solid white;
+    background: #fbfbfb;
+    position: relative
+}
+
+#calendar-wrapper #calendar table tbody tr th,#calendar-wrapper #calendar table tfoot tr th {
+    line-height: 18px;
+    width: 246px;
+    z-index: 1
+}
+
+#calendar-wrapper #calendar table tbody tr th .car-sheeld,#calendar-wrapper #calendar table tfoot tr th .car-sheeld {
+    position: absolute;
+    top: 0;
+    left: 0px;
+    width: 3px;
+    height: 100%;
+    background: #27bf91
+}
+
+#calendar-wrapper #calendar table tbody tr th .car-sheeld.enabled-false,#calendar-wrapper #calendar table tfoot tr th .car-sheeld.enabled-false {
+    background-color: #323435
+}
+
+#calendar-wrapper #calendar table tbody tr th .car-sheeld.enabled-false.moderation-true,#calendar-wrapper #calendar table tfoot tr th .car-sheeld.enabled-false.moderation-true {
+    background-color: #EEAC57
+}
+
+#calendar-wrapper #calendar table tbody tr th i,#calendar-wrapper #calendar table tfoot tr th i {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    color: #68747C;
+    display: none;
+    height: 30px;
+    width: 22px;
+    max-width: 100%;
+    text-align: center;
+    line-height: 30px;
+    font-size: 16px;
+    z-index: 1001
+}
+
+#calendar-wrapper #calendar table tbody tr th.ui-draggable i,#calendar-wrapper #calendar table tfoot tr th.ui-draggable i {
+    display: block
+}
+
+#calendar-wrapper #calendar table tbody tr th .checkbox-wrapper,#calendar-wrapper #calendar table tfoot tr th .checkbox-wrapper {
+    padding: 0;
+    margin: 0 6px 0 0;
+    border: none;
+    height: 30px;
+    width: 22px;
+    float: left
+}
+
+#calendar-wrapper #calendar table tbody tr th .checkbox-wrapper div,#calendar-wrapper #calendar table tfoot tr th .checkbox-wrapper div {
+    margin-right: 0
+}
+
+#calendar-wrapper #calendar table tbody tr th .checkbox-wrapper div.ez-checkbox,#calendar-wrapper #calendar table tfoot tr th .checkbox-wrapper div.ez-checkbox {
+    background: url(car-check.png) 6px 4px no-repeat
+}
+
+#calendar-wrapper #calendar table tbody tr th .checkbox-wrapper div.ez-checked,#calendar-wrapper #calendar table tfoot tr th .checkbox-wrapper div.ez-checked {
+    background-position: 6px -21px
+}
+
+#calendar-wrapper #calendar table tbody tr th.readonly,#calendar-wrapper #calendar table tfoot tr th.readonly {
+    padding-left: 12px
+}
+
+#calendar-wrapper #calendar table tbody tr th.readonly.unpaid,#calendar-wrapper #calendar table tfoot tr th.readonly.unpaid {
+    background-color: #919ca5 !important
+}
+
+#calendar-wrapper #calendar table tbody tr th a,#calendar-wrapper #calendar table tfoot tr th a {
+    display: block;
+    text-decoration: none;
+    padding: 6px 12px 6px 10px;
+    color: #444;
+    height: 18px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    z-index: 1000
+}
+
+#calendar-wrapper #calendar table tbody tr th span.right,#calendar-wrapper #calendar table tfoot tr th span.right {
+    position: absolute;
+    right: 3px;
+    top: 5px;
+    width: 110px;
+    overflow: hidden;
+    text-align: right
+}
+
+#calendar-wrapper #calendar table tbody tr th span.plate,#calendar-wrapper #calendar table tbody tr th span.price,#calendar-wrapper #calendar table tfoot tr th span.plate,#calendar-wrapper #calendar table tfoot tr th span.price {
+    display: block;
+    font-weight: 200;
+    font-size: 9px;
+    display: none;
+    whitespace: nowrap
+}
+
+#calendar-wrapper #calendar table tbody tr th small.plate,#calendar-wrapper #calendar table tfoot tr th small.plate {
+    font-size: 9px;
+    color: #999;
+    border-bottom: 1px solid #bbb !important;
+    background-color: #e0e0e0;
+    padding: 1px 6px;
+    min-width: 50px;
+    display: inline-block;
+    text-align: center;
+    position: relative;
+    float: right
+}
+
+#calendar-wrapper #calendar table tbody tr th small.plate#car-mark,#calendar-wrapper #calendar table tfoot tr th small.plate#car-mark {
+    color: #68747C
+}
+
+#calendar-wrapper #calendar table tbody tr th small.price,#calendar-wrapper #calendar table tfoot tr th small.price {
+    float: right;
+    font-size: 9px;
+    background: #ededed;
+    padding: 0 4px;
+    color: #666;
+    margin-left: 3px;
+    width: 18px;
+    text-align: center;
+    overflow: hidden
+}
+
+#calendar-wrapper #calendar table tbody tr th small.gearbox,#calendar-wrapper #calendar table tfoot tr th small.gearbox {
+    float: left;
+    width: 15px;
+    overflow: hidden;
+    border: 1px solid #ededed;
+    padding: 0;
+    margin-right: 3px;
+    position: relative;
+    top: 2px;
+    font-size: 9px;
+    text-align: center;
+    line-height: 16px
+}
+
+#calendar-wrapper #calendar table tbody tr th small.auto,#calendar-wrapper #calendar table tfoot tr th small.auto {
+    color: #1f8bb2;
+    border-color: #1f8bb2
+}
+
+#calendar-wrapper #calendar table tbody tr td,#calendar-wrapper #calendar table tfoot tr td {
+    padding: 0;
+    position: relative;
+    opacity: 0.6
+}
+
+#calendar-wrapper #calendar table tbody tr td.unavailable,#calendar-wrapper #calendar table tfoot tr td.unavailable {
+    background-color: #1f8bb2 !important;
+    opacity: 1
+}
+
+#calendar-wrapper #calendar table tbody tr td.unavailable.from_system,#calendar-wrapper #calendar table tfoot tr td.unavailable.from_system {
+    background-color: #5BB69A !important
+}
+
+#calendar-wrapper #calendar table tbody tr td.unavailable.approved-form_reservation-stop_sale,#calendar-wrapper #calendar table tfoot tr td.unavailable.approved-form_reservation-stop_sale {
+    background-color: #97bac2 !important
+}
+
+#calendar-wrapper #calendar table tbody tr td.unavailable.readonly,#calendar-wrapper #calendar table tfoot tr td.unavailable.readonly {
+    opacity: 0.3
+}
+
+#calendar-wrapper #calendar table tbody tr td.unavailable.unpaid,#calendar-wrapper #calendar table tfoot tr td.unavailable.unpaid {
+    background-color: #919ca5 !important
+}
+
+#calendar-wrapper #calendar table tbody tr td.unavailable.unpaid.from_system,#calendar-wrapper #calendar table tfoot tr td.unavailable.unpaid.from_system {
+    background-color: #919ca5 !important
+}
+
+#calendar-wrapper #calendar table tbody tr td.unavailable.unpaid.from_system.not-approved,#calendar-wrapper #calendar table tfoot tr td.unavailable.unpaid.from_system.not-approved {
+    background-color: #EE9966 !important
+}
+
+#calendar-wrapper #calendar table tbody tr td.unavailable i,#calendar-wrapper #calendar table tfoot tr td.unavailable i {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    color: #fff;
+    display: none;
+    height: 30px;
+    width: 31px;
+    max-width: 100%;
+    border-right: 1px solid #fff;
+    text-align: center;
+    line-height: 30px;
+    font-size: 16px
+}
+
+#calendar-wrapper #calendar table tbody tr td.unavailable.ui-draggable i,#calendar-wrapper #calendar table tfoot tr td.unavailable.ui-draggable i {
+    display: block
+}
+
+#calendar-wrapper #calendar table tbody tr td div,#calendar-wrapper #calendar table tfoot tr td div {
+    height: 30px;
+    position: relative;
+    width: 100%;
+    overflow: hidden
+}
+
+#calendar-wrapper #calendar table tbody tr td a.edit,#calendar-wrapper #calendar table tfoot tr td a.edit {
+    display: block;
+    height: 30px;
+    z-index: 2;
+    color: #d9a180;
+    line-height: 30px;
+    text-align: center;
+    text-decoration: none;
+    overflow: hidden;
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis
+}
+
+#calendar-wrapper #calendar table tbody tr td .tariff,#calendar-wrapper #calendar table tfoot tr td .tariff {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 12px;
+    color: black;
+    opacity: 0.9;
+    background: #ccd9b7;
+    z-index: -1
+}
+
+#calendar-wrapper #calendar table tbody tr td #booking-popup,#calendar-wrapper #calendar table tfoot tr td #booking-popup {
+    position: absolute;
+    bottom: -32px;
+    white-space: nowrap;
+    right: 40%;
+    background: black;
+    color: white;
+    display: block;
+    z-index: 90;
+    width: auto;
+    padding: 3px 6px
+}
+
+#calendar-wrapper #calendar table tbody tr td #booking-popup:after,#calendar-wrapper #calendar table tfoot tr td #booking-popup:after {
+    position: absolute;
+    display: block;
+    content: " ";
+    border-bottom: 4px solid black;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    right: 14px;
+    top: -4px
+}
+
+#calendar-wrapper #calendar table tbody tr:nth-child(2n) td,#calendar-wrapper #calendar table tbody tr:nth-child(2n) th,#calendar-wrapper #calendar table tfoot tr:nth-child(2n) td,#calendar-wrapper #calendar table tfoot tr:nth-child(2n) th {
+    background: #f6f6f6
+}
+
+#calendar-wrapper #calendar table tbody tr:first-child td,#calendar-wrapper #calendar table tfoot tr:first-child td {
+    height: 2px;
+    overflow: hidden
+}
+
+#calendar-wrapper #calendar table tbody tr.not-found td,#calendar-wrapper #calendar table tfoot tr.not-found td {
+    text-align: center;
+    padding: 24px 0;
+    font-size: 18px
+}
+
+#calendar-wrapper #calendar table tbody tr.add td,#calendar-wrapper #calendar table tfoot tr.add td {
+    padding: 6px 12px !important;
+    background: #fbfbfb
+}
+
+#calendar-wrapper #calendar table tbody tr.add .button,#calendar-wrapper #calendar table tfoot tr.add .button {
+    display: inline-block;
+    color: white;
+    background-image: url(add.png);
+    background-repeat: no-repeat;
+    background-position: 6px center;
+    padding-right: 24px
+}
+
+#calendar-wrapper #calendar table tbody tr .quarter,#calendar-wrapper #calendar table tfoot tr .quarter {
+    position: relative;
+    width: 25%;
+    float: left;
+    display: block;
+    height: 30px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    opacity: 0.5
+}
+
+#calendar-wrapper #calendar table tbody tr.available.past,#calendar-wrapper #calendar table tfoot tr.available.past {
+    background-color: #e5e5e5;
+    opacity: 0.4 !important
+}
+
+#calendar-wrapper #calendar table tbody tr:nch-child(2n+1) td span.right,#calendar-wrapper #calendar table tfoot tr:nch-child(2n+1) td span.right {
+    background: #fbfbfb
+}
+
+#calendar-wrapper #calendar table tbody tr:nth-child(2n) td span.right,#calendar-wrapper #calendar table tfoot tr:nth-child(2n) td span.right {
+    background: #f6f6f6
+}
+  </style>
 <div class="pcoded-inner-content">
     <!-- Main-body start -->
     <div class="main-body">
@@ -48,41 +675,122 @@
             <!-- Page-body start -->
             <div class="page-body">
                 <div class="row">
+                    <div class="col-lg-12 mb-5">
+<header class="fixed">
+  <table>
+    <thead style="display:flex;" id="calendar-head">
+      <tr>
+        <th scope="row" style="width: 258.556px;">
+          <div class="dropdown" id="filters_month-wrapper">
+            <div class="dropdown-button"></div>
+            <div class="dropdown-text">February</div>
+            <select id="filters_month" name="filters[month]" style="width: 98px; height: 36px;">
+              <option value="1">January</option>
+              <option selected="selected" value="2">February</option>
+              <option value="3">March</option>
+              <option value="4">April</option>
+              <option value="5">May</option>
+              <option value="6">June</option>
+              <option value="7">July</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          <div class="dropdown" id="filters_year-wrapper">
+            <div class="dropdown-button"></div>
+            <div class="dropdown-text">2024</div>
+            <select id="filters_year" name="filters[year]" style="width: 68px; height: 36px;">
+              <option value="2002">2002</option>
+              <!-- Add more options for years -->
+              <option selected="selected" value="2024">2024</option>
+              <!-- Add more options for years -->
+            </select>
+          </div>
+          <a href="#" id="reset" title="Reset"></a>
+        </th>
+      </tr>
+    </thead>
+  </table>
+</header>
+
+<div id="calendar-wrapper">
+  <div id="slide-button" class="" style="display: block;"></div>
+
+  <div id="slide-overlay" style="top: 78px; display: none;">
+    <span data-days="day%days%days" style="top: 332.5px;">+2 days</span>
+  </div>
+
+  <div id="calendar" style="padding-top: 78px;">
+      <div id="grid">
+<div id="grid-first" style="width: 258px;"></div>
+<div class="cell saturday" style="width: 92.75px;"></div>
+<div class="cell" style="width: 92.75px;"></div>
+<div class="cell" style="width: 92.75px;"></div>
+<div class="cell" style="width: 92.75px;"></div>
+<div class="cell" style="width: 92.75px;"></div>
+<div class="cell" style="width: 92.75px;"></div>
+<div class="cell" style="width: 92.75px;"></div>
+<div class="cell saturday" style="width: 92.7501px;"></div>
+<div class="cell" style="width: 92.7499px;"></div>
+<div class="cell" style="width: 92.75px;"></div>
+<div class="cell" style="width: 92.75px;"></div>
+<div class="cell" style="width: 92.75px;"></div>
+<div class="cell" style="width: 92.75px;"></div>
+<div class="cell" style="width: 92.7501px;"></div>
+<div class="cell saturday" style="width: 92.75px;"></div>
+<div class="cell" style="width: 90.7778px;"></div>
+</div>
+        <table>
+      <tbody id="calendar-body">
+      </tbody>
+    </table>
+  </div>
+</div>
+
+                    </div>
                     <div class="col-xl-3 col-md-6">
-                                                <div class="card" style="background: hsl(210deg 60.5% 46.67%);">
-                                                    <div class="card-block">
-                                                        <div class="row align-items-center m-l-0">
-                                                            <div class="col-auto">
-                                                                <i class="feather icon-shopping-cart f-30 text-white"></i>
-                                                            </div>
-                                                            <div class="col-auto">
-                                                                <h6 class="text-muted-light m-b-10">Happy Customers</h6>
-                                                                <h2 class="m-b-0 text-white">Customers</h2>
+                        <a href="{% url 'all_cars' %}">
+                        <div class="card" style="background: hsl(210deg 60.5% 46.67%);">
+                            <div class="card-block">
+                                <div class="row align-items-center m-l-0">
+                                    <div class="col-auto">
+                                        <i class="feather icon-shopping-cart f-30 text-white"></i>
+                                    </div>
+                                    <div class="col-auto">
+                                        <h6 class="text-muted-light m-b-10">Discover</h6>
+                                        <h2 class="m-b-0 text-white">Cars</h2>
 <!--                                                                          <h6 class="m-b-0 text-white">Order Status</h6>-->
-                                                                <p class="m-b-0 text-white">36% From Last 6 Months</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <p class="m-b-0 text-white">Find All Cars Here!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
                     <div class="col-xl-3 col-md-6">
-                                                <div class="card" style="background: hsl(177.21deg 59.45% 42.55%);">
+                        <a href="{% url 'all_bookings' %}">
+                            <div class="card" style="background: hsl(177.21deg 59.45% 42.55%);">
                                                     <div class="card-block">
                                                         <div class="row align-items-center m-l-0">
                                                             <div class="col-auto">
                                                                 <i class="feather icon-filter f-30 text-white"></i>
                                                             </div>
                                                             <div class="col-auto">
-                                                                <h6 class="text-muted-light m-b-10">Happy Customers</h6>
+                                                                <h6 class="text-muted-light m-b-10">Navigate</h6>
                                                                 <h2 class="m-b-0 text-white">Bookings</h2>
 <!--                                                                          <h6 class="m-b-0">Order Status</h6>-->
-                                                                <p class="m-b-0 text-white">36% From Last 6 Months</p>
+                                                                <p class="m-b-0 text-white">Find All Bookings Here!</p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                        </a>
+                    </div>
                     <div class="col-xl-3 col-md-6">
+                        <a href="{% url 'agents' %}">
                                                 <div class="card" style="background: hsl(26.84deg 100% 55.29%);">
                                                     <div class="card-block">
                                                         <div class="row align-items-center m-l-0">
@@ -90,16 +798,18 @@
                                                                 <i class="feather icon-users f-30 text-white"></i>
                                                             </div>
                                                             <div class="col-auto">
-                                                                <h6 class="text-muted-light m-b-10">Happy Customers</h6>
-                                                                <h2 class="m-b-0 text-white">Suppliers</h2>
+                                                                <h6 class="text-muted-light m-b-10">Journey</h6>
+                                                                <h2 class="m-b-0 text-white">Agents</h2>
 <!--                                                                          <h6 class="m-b-0">Order Status</h6>-->
-                                                                <p class="m-b-0 text-white">36% From Last 6 Months</p>
+                                                                <p class="m-b-0 text-white">Find All Agents Here!</p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                        </a>
                                             </div>
                     <div class="col-xl-3 col-md-6">
+                        <a href="#">
                                                 <div class="card" style="background: hsl(3.37deg 86.02% 63.53%);">
                                                     <div class="card-block">
                                                         <div class="row align-items-center m-l-0">
@@ -107,16 +817,18 @@
                                                                 <i class="feather icon-people f-30 text-white"></i>
                                                             </div>
                                                             <div class="col-auto">
-                                                                <h6 class="text-muted-light m-b-10">Happy Customers</h6>
-                                                                <h2 class="m-b-0 text-white">Customers</h2>
+                                                                <h6 class="text-muted-light m-b-10">Trek</h6>
+                                                                <h2 class="m-b-0 text-white">Invoices</h2>
 <!--                                                                          <h6 class="m-b-0">Order Status</h6>-->
-                                                                <p class="m-b-0 text-white">36% From Last 6 Months</p>
+                                                                <p class="m-b-0 text-white">Find All Invoices Here!</p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                        </a>
                                             </div>
                     <div class="col-xl-3 col-md-6">
+                        <a href="{% url 'clients' %}">
                                                 <div class="card" style="background: hsl(191.59deg 80.73% 42.75%);">
                                                     <div class="card-block">
                                                         <div class="row align-items-center m-l-0">
@@ -124,16 +836,18 @@
                                                                 <i class="feather icon-users icons f-30 text-white"></i>
                                                             </div>
                                                             <div class="col-auto">
-                                                                <h6 class="text-muted-light m-b-10">Happy Customers</h6>
-                                                                <h2 class="m-b-0 text-white">Stock</h2>
+                                                                <h6 class="text-muted-light m-b-10">Roam</h6>
+                                                                <h2 class="m-b-0 text-white">Customers</h2>
 <!--                                                                          <h6 class="m-b-0">Order Status</h6>-->
-                                                                <p class="m-b-0 text-white">36% From Last 6 Months</p>
+                                                                <p class="m-b-0 text-white">Find All Customers Here!</p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                        </a>
                                             </div>
                     <div class="col-xl-3 col-md-6">
+                        <a href="{% url 'delivery' %}">
                                                 <div class="card" style="background: hsl(245.28deg 100% 75.49%);">
                                                     <div class="card-block">
                                                         <div class="row align-items-center m-l-0">
@@ -141,16 +855,18 @@
                                                                 <i class="feather icon-pie-chart icons f-30 text-white"></i>
                                                             </div>
                                                             <div class="col-auto">
-                                                                <h6 class="text-muted-light m-b-10">Happy Customers</h6>
-                                                                <h2 class="m-b-0 text-white">Reports</h2>
+                                                                <h6 class="text-muted-light m-b-10">Adventure</h6>
+                                                                <h2 class="m-b-0 text-white">Delivery</h2>
 <!--                                                                          <h6 class="m-b-0">Order Status</h6>-->
-                                                                <p class="m-b-0 text-white">36% From Last 6 Months</p>
+                                                                <p class="m-b-0 text-white">Find All Deliveries Here!</p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                        </a>
                                             </div>
                     <div class="col-xl-3 col-md-6">
+                        <a href="{% url 'discounts' %}">
                                                 <div class="card" style="background: hsl(69.69deg 95.27% 33.14%);">
                                                     <div class="card-block">
                                                         <div class="row align-items-center m-l-0">
@@ -158,16 +874,18 @@
                                                                 <i class="feather icon-users f-30 text-white"></i>
                                                             </div>
                                                             <div class="col-auto">
-                                                                <h6 class="text-muted-light m-b-10">Happy Customers</h6>
-                                                                <h2 class="m-b-0 text-white">Products</h2>
+                                                                <h6 class="text-muted-light m-b-10">Expedition</h6>
+                                                                <h2 class="m-b-0 text-white">Discounts</h2>
 <!--                                                                          <h6 class="m-b-0">Order Status</h6>-->
-                                                                <p class="m-b-0 text-white">36% From Last 6 Months</p>
+                                                                <p class="m-b-0 text-white">Find All Discounts Here!</p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                        </a>
                                             </div>
                     <div class="col-xl-3 col-md-6">
+                        <a href="#">
                                                 <div class="card" style="background: hsl(41.35deg 94.87% 45.88%);">
                                                     <div class="card-block">
                                                         <div class="row align-items-center m-l-0">
@@ -175,14 +893,15 @@
                                                                 <i class="feather icon-settings f-30 text-white"></i>
                                                             </div>
                                                             <div class="col-auto">
-                                                                <h6 class="text-muted-light m-b-10">Happy Customers</h6>
+                                                                <h6 class="text-muted-light m-b-10">Traverse</h6>
                                                                 <h2 class="m-b-0 text-white">Settings</h2>
 <!--                                                                          <h6 class="m-b-0">Order Status</h6>-->
-                                                                <p class="m-b-0 text-white">36% From Last 6 Months</p>
+                                                                <p class="m-b-0 text-white">Find All Settings Here!</p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                        </a>
                                             </div>
                     <div class="col-xl-12 col-md-12">
                         <div class="card">
@@ -280,6 +999,370 @@
 </div>
 
 {% endblock %}
+
+{% block js %}
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const monthSelect = document.getElementById('filters_month');
+      const yearSelect = document.getElementById('filters_year');
+      const calendarBody = document.getElementById('calendar-head');
+
+// Function to populate the calendar grid
+function populateCalendar(year, month, numDays) {
+  const calendarHead = document.getElementById('calendar-head');
+  const daysRow = calendarHead.querySelector('tr'); // Assuming the first row contains the days
+
+  // Get the number of days in the selected month
+  const daysInMonth = new Date(year, month, 0).getDate();
+
+  // Calculate the end day based on the start day and the number of days to display
+  const endDay = Math.min(numDays, daysInMonth);
+
+  // Clear existing grid
+  const calendarBody = document.getElementById('calendar-body');
+  //calendarBody.innerHTML = '';
+
+  // Create table cells for each day and append them below the existing row
+  for (let day = 1; day <= endDay; day++) {
+    const cell = document.createElement('td');
+    const link = document.createElement('a');
+
+    // Customize the link attributes as needed
+    link.href = `/printable/?print_date_url=${year}-${month}-${day}&url=%2Fschedule%2F${year}-${month}-${day}%2F`;
+    link.innerHTML = `<strong>${getMonthName(month)}</strong>${day}<span>${getDayName(new Date(year, month - 1, day).getDay())}</span>`;
+
+    // Add ID and style to the cell
+    cell.id = `calendar-day-${day - 1}`; // Subtract 1 because IDs should start from 0
+    cell.style.width = '94.4861px';
+
+    // Append the link to the cell
+    cell.appendChild(link);
+
+    // Append the cell to the row
+    daysRow.appendChild(cell);
+  }
+}
+
+// Call the function to populate the calendar initially with 16 days
+const today = new Date();
+populateCalendar(today.getFullYear(), today.getMonth() + 1, 16);
+
+
+// Define a variable to track whether the slider is being actively moved
+let isSliderMoving = false;
+
+// Add event listeners to detect the start and end of slider movement
+$('#slide-button').on('mousedown', function() {
+  isSliderMoving = true;
+  showOverlay();
+});
+
+$(document).on('mouseup', function() {
+  isSliderMoving = false;
+  hideOverlay();
+});
+
+// Function to show the overlay
+function showOverlay() {
+  const slideOverlay = document.getElementById('slide-overlay');
+  slideOverlay.style.display = 'block';
+}
+
+// Function to hide the overlay
+function hideOverlay() {
+  const slideOverlay = document.getElementById('slide-overlay');
+  slideOverlay.style.display = 'none';
+}
+
+function updateCalendar(leftPosition, populateCalendar) {
+  // Check if the slider is actively moving
+  if (!isSliderMoving) {
+    return;
+  }
+
+  // Get the width of the slide container
+  const containerWidth = $('#calendar-wrapper').width(); // Assuming there's a container for the slide button
+
+  // Check if containerWidth is non-zero to avoid division by zero
+  if (containerWidth !== 0) {
+    // Calculate the percentage of the slide button's position relative to its container width
+    const slidePercentage = (leftPosition / containerWidth) * 100;
+
+    // Define a tolerance range for the slidePercentage around 50%
+    const tolerance = 0.1; // You can adjust this value depending on your tolerance level
+
+    // Calculate the maximum number of days to slide (16 days left or right)
+    const maxDaysToSlide = 16;
+
+    // Calculate the number of days to slide based on the percentage
+    let daysToSlide;
+    let overlayText;
+    if (slidePercentage > 50 + tolerance) {
+      // Sliding to the right
+      daysToSlide = Math.ceil(((slidePercentage - 50) / 50) * maxDaysToSlide);
+      overlayText = `+${Math.min(maxDaysToSlide, daysToSlide)} day`;
+    } else if (slidePercentage < 50 - tolerance && slidePercentage > 0) {
+      // Sliding to the left
+      daysToSlide = Math.ceil(((50 - slidePercentage) / 50) * maxDaysToSlide);
+      overlayText = `-${Math.min(maxDaysToSlide, daysToSlide)} day`;
+    } else if (Math.abs(slidePercentage - 50) <= tolerance) {
+      daysToSlide = 0;
+      overlayText = `0 day`;
+    } else {
+      // Handle negative percentage (should not happen but included for robustness)
+      daysToSlide = Math.floor((Math.abs(slidePercentage) / 50) * maxDaysToSlide);
+      overlayText = `-${Math.min(maxDaysToSlide, daysToSlide)} day`;
+    }
+
+    // Ensure that daysToSlide is within the range of -16 to 16
+    daysToSlide = Math.max(-maxDaysToSlide, Math.min(maxDaysToSlide, daysToSlide));
+
+    // Update the slide overlay content with the range of days to add or subtract
+    const slideOverlay = document.getElementById('slide-overlay');
+    slideOverlay.textContent = overlayText;
+
+    // Show the slide overlay
+    slideOverlay.style.display = 'block';
+
+    // Get the calendar body element
+    const calendarBody = document.getElementById('calendar-head');
+
+    // Update the content of the existing td elements based on the new date
+    const currentDate = new Date();
+    for (let i = 0; i < maxDaysToSlide; i++) {
+      const newDate = new Date(currentDate);
+      newDate.setDate(newDate.getDate() + i - daysToSlide);
+      const dayElement = document.getElementById(`calendar-day-${i}`);
+      dayElement.querySelector('a').textContent = newDate.getDate();
+      dayElement.querySelector('a').setAttribute('href', `/printable/?print_date_url=${newDate.toISOString().split('T')[0]}&url=%2Fschedule%2F${newDate.toISOString().split('T')[0]}%2F`);
+    }
+
+    // Update the calendar accordingly based on the direction of sliding
+    const newDate = new Date();
+    newDate.setDate(newDate.getDate() + daysToSlide);
+
+    const newYear = newDate.getFullYear();
+    const newMonth = newDate.getMonth() + 1; // Months are zero-indexed, so add 1
+
+    populateCalendar(newYear, newMonth, 16);
+  } else {
+    console.error("Container width is zero. Cannot perform division.");
+  }
+}
+
+
+
+
+    // jQuery code to make the slide button draggable
+    $(document).ready(function() {
+      $('#slide-button').draggable({
+        axis: 'x', // Only allow horizontal dragging
+        containment: 'parent', // Limit dragging within the parent element
+        drag: function(event, ui) {
+          // Calculate the number of days to slide based on the position of the slide button
+          // Update the calendar accordingly
+          updateCalendar(ui.position.left, populateCalendar);
+        }
+      });
+    });
+      // Function to get the name of the month
+      function getMonthName(month) {
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        return months[month - 1];
+      }
+
+      // Function to get the name of the day
+      function getDayName(day) {
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        return days[day];
+      }
+
+      // Populate the calendar initially
+      populateCalendar(parseInt(yearSelect.value), parseInt(monthSelect.value));
+
+      // Event listener for month and year selection change
+      monthSelect.addEventListener('change', function() {
+        populateCalendar(parseInt(yearSelect.value), parseInt(monthSelect.value));
+      });
+
+      yearSelect.addEventListener('change', function() {
+        populateCalendar(parseInt(yearSelect.value), parseInt(monthSelect.value));
+      });
+
+      // Event listener for reset button (if needed)
+      const resetBtn = document.getElementById('reset');
+      resetBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        // Implement reset logic if needed
+      });
+    });
+
+function populateCalendarBody() {
+  const calendarBody = document.getElementById('calendar-body');
+
+  // Fetch cars data from the server
+  fetch('/partner/api/cars')
+    .then(response => response.json())
+    .then(carsData => {
+      // Once cars data is fetched successfully, fetch bookings data
+      fetch('/partner/api/bookings') // Replace '/api/bookings' with the actual endpoint URL that returns your bookings data
+        .then(response => response.json())
+        .then(bookingsData => {
+          // Once bookings data is fetched successfully, populate the calendar
+          carsData.forEach(car => {
+            const row = document.createElement('tr');
+            row.classList.add('car-row');
+            row.setAttribute('data-car-id', car.id);
+
+                        // Create cell for car details
+            const cell = document.createElement('th');
+            cell.classList.add('readonly', 'rentacar_admin');
+            cell.setAttribute('data-company', car.company);
+            cell.setAttribute('nowrap', 'nowrap');
+            cell.setAttribute('scope', 'row');
+
+            const link = document.createElement('a');
+            link.setAttribute('href', `/cars/${car.id}/edit/`);
+
+            const plate = document.createElement('small');
+            plate.classList.add('plate');
+            plate.textContent = car.plate;
+
+            const gearbox = document.createElement('small');
+            gearbox.classList.add('auto', 'gearbox');
+            gearbox.textContent = car.gearbox;
+
+            const model = document.createElement('span');
+            model.textContent = car.brand + " " + car.model;
+
+            link.appendChild(plate);
+            link.appendChild(gearbox);
+            link.appendChild(model);
+            cell.appendChild(link);
+
+            row.appendChild(cell);
+
+            // Initialize variables for tracking available colspan
+            let availableColspan = 0;
+            let currentDate = new Date(); // Start with current date
+
+            // Check if there are any bookings for this car
+            const bookingsForCar = bookingsData.filter(booking => booking.car_id === car.id);
+            if (bookingsForCar.length === 0) {
+              // If no bookings, create a single available cell for the entire row
+              const availableCell = document.createElement('td');
+              availableCell.classList.add('available');
+              availableCell.setAttribute('colspan', '64'); // Set colspan for the entire row (maximum allowable)
+                        const bookingDiv = document.createElement('div');
+              const editLink = document.createElement('a');
+                editLink.classList.add('edit');
+                editLink.setAttribute('href', `/cars/${car.id}/bookings/new/`);
+                bookingDiv.appendChild(editLink);
+                availableCell.appendChild(bookingDiv);
+              row.appendChild(availableCell);
+            } else {
+              // Sort bookings by start date
+              bookingsForCar.sort((a, b) => new Date(a.from) - new Date(b.from));
+
+              // Process each booking to create cells
+              bookingsForCar.forEach(booking => {
+                const fromDate = new Date(booking.start_date);
+                const toDate = new Date(booking.end_date);
+                const daysCount = Math.ceil((toDate - fromDate) / (1000 * 60 * 60 * 24)); // Calculate number of days
+
+                // Create available cell before the booking start date
+                if (fromDate > currentDate) {
+                  const availableCell = document.createElement('td');
+                  availableCell.classList.add('available');
+                  const daysUntilBooking = Math.ceil((fromDate - currentDate) / (1000 * 60 * 60 * 24));
+                  availableCell.setAttribute('colspan', daysUntilBooking * 4); // Calculate colspan based on days
+                  const bookingDiv = document.createElement('div');
+                  const editLink = document.createElement('a');
+                    editLink.classList.add('edit');
+                    editLink.setAttribute('href', `/cars/${car.id}/bookings/new/`);
+                    bookingDiv.appendChild(editLink);
+                    availableCell.appendChild(bookingDiv);
+                  row.appendChild(availableCell);
+                  availableColspan += daysUntilBooking * 4; // Update available colspan
+                }
+
+                // Create unavailable cell for the booking duration
+                const unavailableCell = document.createElement('td');
+                unavailableCell.classList.add('unavailable', 'approved-form_reservation-standard', 'can-drag', 'from_system');
+                unavailableCell.setAttribute('colspan', daysCount * 4); // Each day takes 4 columns (assuming 4 columns per day)
+
+                const bookingDiv = document.createElement('div');
+                const editLink = document.createElement('a');
+                editLink.classList.add('edit');
+                editLink.setAttribute('href', `/cars/${car.id}/bookings/${booking.id}/edit/`);
+                bookingDiv.appendChild(editLink);
+                unavailableCell.appendChild(bookingDiv);
+
+                row.appendChild(unavailableCell);
+
+                // Update current date to the end date of this booking + 1 day
+                currentDate = new Date(toDate.getTime() + (1000 * 60 * 60 * 24));
+              });
+
+              // Create available cell for any remaining days after the last booking
+              const remainingDays = Math.ceil((currentDate - new Date()) / (1000 * 60 * 60 * 24));
+              if (remainingDays > 0) {
+                const availableCell = document.createElement('td');
+                availableCell.classList.add('available');
+                availableCell.setAttribute('colspan', remainingDays * 4); // Calculate colspan for remaining days
+                const bookingDiv = document.createElement('div');
+                const editLink = document.createElement('a');
+                editLink.classList.add('edit');
+                editLink.setAttribute('href', `/cars/${car.id}/bookings/new/`);
+                bookingDiv.appendChild(editLink);
+                availableCell.appendChild(bookingDiv);
+                row.appendChild(availableCell);
+                availableColspan += remainingDays * 4; // Update available colspan
+              }
+            }
+
+            // Fill any remaining colspan to reach the total of 64
+            if (availableColspan < 64) {
+              const remainingColspan = 64 - availableColspan;
+              const fillerCell = document.createElement('td');
+              fillerCell.classList.add('available');
+              fillerCell.setAttribute('colspan', remainingColspan);
+              const bookingDiv = document.createElement('div');
+              const editLink = document.createElement('a');
+              editLink.classList.add('edit');
+              editLink.setAttribute('href', `/cars/${car.id}/bookings/new/`);
+              bookingDiv.appendChild(editLink);
+              fillerCell.appendChild(bookingDiv);
+              row.appendChild(fillerCell);
+            }
+
+            calendarBody.appendChild(row);
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching bookings data:', error);
+        });
+    })
+    .catch(error => {
+      console.error('Error fetching cars data:', error);
+    });
+}
+
+
+
+
+// Call the function to populate the calendar body
+populateCalendarBody();
+
+
+
+
+
+
+
+  </script>
+{% endblock js %}
 </body>
 
 </html>

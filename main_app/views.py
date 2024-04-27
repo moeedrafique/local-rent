@@ -1,6 +1,8 @@
+import json
 from decimal import Decimal
 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.db.models import F, Value
 from django.db.models.functions import Concat
 from django.http import HttpResponse, JsonResponse
@@ -15,15 +17,25 @@ from .forms import *
 ############## AUTHENTICATION ###################
 
 
+def cars_api(request):
+    cars = Car.objects.all().values()  # Retrieve all cars data
+    return JsonResponse(list(cars), safe=False)
+
+# View for fetching bookings data
+def bookings_api(request):
+    bookings = Booking.objects.all().values()  # Retrieve all bookings data
+    return JsonResponse(list(bookings), safe=False)
+
 
 class RentalCompanyRegistrationView(SignupView):
-    template_name = 'accounts/signup.html'
+    template_name = 'account/signup.html'
 
     def form_valid(self, form):
         # Custom logic for processing the form, if needed
         return super(RentalCompanyRegistrationView, self).form_valid(form)
 
 ############## CARS ###################
+@login_required(login_url='account_login')
 def home(request):
     cars_with_bookings = Car.objects.filter(
         booking__isnull=False,
@@ -33,12 +45,14 @@ def home(request):
     return render(request, 'index.html', context)
 
 
+@login_required(login_url='account_login')
 def all_cars(request):
     cars = Car.objects.filter(dealer=request.user.company_name)
     context = {'cars':cars}
     return render(request, 'all_cars.html', context)
 
 
+@login_required(login_url='account_login')
 def carsList(request):
     # Filter cars that have bookings and belong to the user's company
     cars_with_bookings = Car.objects.filter(
@@ -126,6 +140,7 @@ def convert_to_boolean(value):
 ############## AGENTS ###################
 
 
+@login_required(login_url='account_login')
 def addCars(request):
     # Fetch all extras and annotate with a concatenated string of prices for each extra
     extras = Extras.objects.prefetch_related('car_extras').distinct()
@@ -140,6 +155,7 @@ def addCars(request):
         body_color = request.POST.get('body_color')
         body_type = request.POST.get('body_type')
         car_gallery_files = request.FILES.getlist('car_gallery')
+        print("GALLERY", car_gallery_files)
         mileage_unlimited = convert_to_boolean(request.POST.get('mileage_unlimited'))
         mileage_limited = request.POST.get('mileage_limited')
         mileage_overage_fee = request.POST.get('mileage_overage_fee')
@@ -215,24 +231,20 @@ def addCars(request):
                         price = request.POST.get(key)
 
                         if season_id and tariff_id and price:
-                            car_id = request.POST.get(f'rate_car_{season_id}_{tariff_id}')
+                            car_id = car.id
                             rate, created = Rate.objects.update_or_create(
                                 car_id=car_id,
                                 season_id=season_id,
                                 tariff_id=tariff_id,
                                 defaults={'price': Decimal(price)}
                             )
+            # Add the following line to check the values received in the request
+            print(request.POST.items())
 
             # Create the Mileage object only when everything is successful
             mileage = Mileage.objects.create(car=car, unlimited_mileage=mileage_unlimited, limited_mileage=mileage_limited,
                                    overage_fee=mileage_overage_fee)
             print(mileage)
-
-            # Handle car gallery files
-            for file in car_gallery_files:
-                # Do something with each file, such as save it to the server or associate it with the car model
-                CarGallery.objects.create(car=car, image=file)
-            #
 
             # Create the CarAudioFeatures object
             audio_features = CarAudioFeatures.objects.create(
@@ -274,17 +286,24 @@ def addCars(request):
                 airbags=airbags,
                 side_wheel=side_wheel,
             )
+
+            # Handle car gallery files
+            for file in car_gallery_files:
+                # Do something with each file, such as save it to the server or associate it with the car model
+                CarGallery.objects.create(car=car, image=file)
+
             registration = VehicleRegistrationCertificate.objects.create(
                 car=car,
                 image=vehicle_registration_certificate,
             )
             print(features)
-            if car_id:
-                messages.success(request, 'Car updated successfully!')
-            else:
-                messages.success(request, 'Car added successfully!')
-            return redirect('all_cars')  # Redirect to the car list page
+
+            messages.success(request, 'Car added successfully!')
+            # return redirect('all_cars')  # Redirect to the car list page
+
+
         except Exception as e:
+            messages.success(request, str(e))
             # Handle any other exceptions
             return JsonResponse({'error': str(e)}, status=500)
     context = {
@@ -294,6 +313,8 @@ def addCars(request):
     }
     return render(request, 'add_car.html', context)
 
+
+@login_required(login_url='account_login')
 def edit_car(request, car_id):
     # Fetch all extras and annotate with a concatenated string of prices for each extra
     extras = Extras.objects.prefetch_related('car_extras').distinct()
@@ -488,9 +509,23 @@ def edit_car(request, car_id):
     return render(request, 'edit_car.html', context)
 
 
+@login_required(login_url='account_login')
+def delete_car(request, car_id):
+    # Get the car object or return a 404 error if not found
+    car = get_object_or_404(Car, id=car_id)
+
+    # Delete the car
+    car.delete()
+
+    # Redirect to the "all_cars" page
+    return redirect('all_cars')
+
+@login_required(login_url='account_login')
 def Agents(request):
     return render(request, 'all_agents.html')
 
+
+@login_required(login_url='account_login')
 def addAgents(request):
     return render(request, 'add_agent.html')
 
@@ -498,6 +533,7 @@ def addAgents(request):
 
 
 ############## CUSTOMERS ###################
+@login_required(login_url='account_login')
 def Customers(request):
     return render(request, 'all_clients.html')
 
@@ -505,15 +541,122 @@ def Customers(request):
 #     return render(request, 'add_clients.html')
 
 ############## DELIVERY ###################
-def Delivery(request):
-    return render(request, 'all_delivery.html')
+@login_required(login_url='account_login')
+def all_delivery(request):
+    user = request.user
+    cities = City.objects.all()
+
+    city_deliveries = []
+
+    for city in cities:
+        # Fetch location types for the current city
+        location_types = LocationType.objects.filter(city=city)
+
+        # Initialize a list to store deliveries for the current city
+        city_delivery_info = []
+
+        # Iterate over each location type for the current city
+        for location_type in location_types:
+            # Fetch deliveries for the current city and location type
+            deliveries = Delivery.objects.filter(dealer=user.company_name ,location_type=location_type)
+
+            # Append deliveries to city_delivery_info
+            city_delivery_info.append({'location_type': location_type, 'deliveries': deliveries})
+
+        # Append city and its delivery information to city_deliveries
+        city_deliveries.append({'city': city, 'city_delivery_info': city_delivery_info})
+
+    print(city_deliveries)
+
+    context = {
+        'city_deliveries': city_deliveries,
+        'cities': cities
+    }
+    return render(request, 'all_delivery.html', context)
+
+
+@csrf_exempt
+def update_delivery(request, delivery_id):
+    if request.method == 'POST':
+        # Retrieve delivery object
+        delivery = get_object_or_404(Delivery, pk=delivery_id)
+
+        # Parse JSON data from request body
+        data = json.loads(request.body)
+
+        # Update delivery object with new data
+        delivery.city = data.get('city', delivery.city)
+        delivery.location_type = data.get('location_type', delivery.location_type)
+        delivery.price = data.get('price', delivery.price)
+        delivery.free_from = data.get('free_from', delivery.free_from)
+        delivery.delivery_time = data.get('delivery_time', delivery.delivery_time)
+
+        # Save the updated delivery object
+        delivery.save()
+
+        # Return success response
+        return JsonResponse({'message': 'Delivery updated successfully'}, status=200)
+    else:
+        # Return error response for unsupported request method
+        return JsonResponse({'error': 'Only POST requests are supported'}, status=405)
+
+def save_changes(request):
+    user = request.user
+    if request.method == 'POST':
+        # Parse JSON data from request body
+        data = json.loads(request.body)
+        print(data)
+        # Iterate through the data and update or create each delivery item
+        for item_data in data:
+            city_id = item_data.get('id')
+            location_type_name = item_data.get('location_type')
+            location_type = LocationType.objects.get(name=location_type_name.lstrip())
+            # print(city_id)
+            # Filter all delivery items with the given city_id
+            delivery_queryset = Delivery.objects.filter(dealer=user.company_name, location_type=location_type ,location_type__city_id=city_id)
+            # Iterate over the queryset
+            print(delivery_queryset)  # Print the queryset here
+            for delivery in delivery_queryset:
+                # Update or create delivery item attributes
+                delivery.dealer = user.company_name
+                delivery.location_type = location_type
+                delivery.price = item_data.get('price')
+                delivery.free_from = 7.00
+                delivery.delivery_time = 0
+                # Save the delivery item
+                delivery.save()
+
+            # If no delivery item exists, create a new one and save it
+            if not delivery_queryset.exists():
+                print(f"No delivery item found for city_id {city_id}")
+                delivery = Delivery()
+                # Retrieve or create LocationType instance
+                location_type_name = item_data.get('location_type')
+                location_type = LocationType.objects.get(name=location_type_name.lstrip())
+                # Update or create delivery item attributes
+                delivery.dealer = user.company_name
+                delivery.location_type = location_type
+                delivery.price = item_data.get('price')
+                delivery.free_from = 7.00
+                delivery.delivery_time = 0
+                # Save the delivery item
+                delivery.save()
+
+        # Return success response
+        return JsonResponse({'message': 'Changes saved successfully'}, status=200)
+    else:
+        # Return error response for unsupported request method
+        return JsonResponse({'error': 'Only POST requests are supported'}, status=405)
+
 
 ############## DISCOUNTS AND PRICE RAISES ###################
+@login_required(login_url='account_login')
 def Discounts(request):
     car_discount = Discount.objects.all()
     add_raise = Raise.objects.all()
     return render(request, 'all_discounts.html', {'car_discount': car_discount, 'add_raise': add_raise})
 
+@login_required(login_url='account_login')
 def addDiscounts(request, discount_id=None):
     cars = Car.objects.all()
     discount_instance = None
@@ -530,11 +673,11 @@ def addDiscounts(request, discount_id=None):
     else:
         discount_form = DiscountForm(instance=discount_instance)
 
-    return render(request, 'add_discounts.html', {'discount_form': discount_form, 'cars': cars})
+    return render(request, 'add_discounts.html', {'discount_instance':discount_instance, 'discount_form': discount_form, 'cars': cars})
 
 # def editDiscounts(request):
 #     return render(request, 'edit_discounts.html')
-
+@login_required(login_url='account_login')
 def addRaise(request, raise_id=None):
     cars = Car.objects.all()
     raise_instance = None
@@ -584,13 +727,16 @@ def get_extra_details_view(request, extra_id):
         # Handle the case where multiple CarExtras are found
         return JsonResponse({'error': 'Multiple CarExtras found for the given Extras ID'}, status=500)
 
+@login_required(login_url='account_login')
 def extraCosts(request):
     car_extras = CarExtras.objects.all()
     return render(request, 'all_extras.html', {'car_extras': car_extras})
 
+@login_required(login_url='account_login')
 def newExtraCosts(request):
     return render(request, 'add_extras.html')
 
+@login_required(login_url='account_login')
 def editExtraCosts(request, extra_id=None):
     extra_instance = None
 
@@ -625,14 +771,22 @@ def editExtraCosts(request, extra_id=None):
     # return render(request, 'edit_extras.html', {'extra': extra})
 
 ############## SETTINGS ###################
+@login_required(login_url='account_login')
 def Settings(request):
     user = request.user
     tariff = Tariff.objects.filter(dealer=user.company_name)
+    city = City.objects.all()
     if request.method == 'POST':
         # If the form is submitted
         name_of_company = request.POST.get('name_of_company')
         language = request.POST.get('language')
         legal_name_of_business = request.POST.get('legal_name')
+        phone = request.POST.get('phone_number')
+        second_phone = request.POST.get('second_phone')
+        country = request.POST.get('country')
+        email = request.POST.get('email')
+        web_site = request.POST.get('website')
+        central_office_address = request.POST.get('central_office_address')
         # ... get other form fields ...
         min_days_list = request.POST.getlist('minDays[]')
         max_days_list = request.POST.getlist('maxDays[]')
@@ -642,20 +796,86 @@ def Settings(request):
             company.company_name = name_of_company
             company.language = language
             company.legal_name_of_business = legal_name_of_business
+            company.phone = phone
+            company.second_phone = second_phone
+            company.country = country
+            company.email = email
+            company.web_site = web_site
+            company.central_office_address = central_office_address
             # ... set other fields ...
 
             company.full_clean()  # Perform model validation
             company.save()
 
+            # Iterate over each day of the week
+            for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']:
+                # Check if the checkbox for this day is checked
+                checkbox_name = f'company[{day.lower()}]'
+                print(checkbox_name)
+                if checkbox_name in request.POST:
+                    # Get start and end times in minutes past midnight
+                    start_minutes = int(request.POST.get(f'company[{day.lower()}_start]', 0))
+                    end_minutes = int(request.POST.get(f'company[{day.lower()}_end]', 1440))
+                    is_enabled = True if request.POST.get(f'company[{day.lower()}]') == '1' else False
+                    print(start_minutes, end_minutes, is_enabled)
+
+                    # Create or update WorkingHours object for this day
+                    working_hours, created = WorkingHours.objects.get_or_create(
+                        company=request.user.company_name,  # Assuming you have a logged-in user with associated company
+                        day_of_week=day,
+                    )
+                    working_hours.opening_time = start_minutes
+                    working_hours.closing_time = end_minutes
+                    working_hours.is_enabled = is_enabled
+                    working_hours.save()
+                else:
+                    # If checkbox is unchecked, delete WorkingHours object for this day
+                    WorkingHours.objects.filter(
+                        company=request.user.company_name,  # Assuming you have a logged-in user with associated company
+                        day_of_week=day,
+                    ).delete()
+
+            print(request.POST.get('holidayIndex'))
+            # Iterate over each holiday index
+            for holiday_index in range(1, int(request.POST.get('holidayIndex', 0)) + 1):
+                day = request.POST.get(f'day_{holiday_index}')
+                month = request.POST.get(f'month_{holiday_index}')
+                year = request.POST.get(f'year_{holiday_index}')
+
+                print("DAY", day, month, year)
+
+                # Check if the holiday already exists for the company
+                if not PublicHoliday.objects.filter(company=request.user.company_name,
+                                                    holiday_date=f'{year}-{month}-{day}').exists():
+                    # Create PublicHoliday object
+                    holiday = PublicHoliday(
+                        company=request.user.company_name,  # Assuming you have a logged-in user with associated company
+                        holiday_date=f'{year}-{month}-{day}'
+                    )
+                    holiday.save()
             # Validate and save the data
             for min_days, max_days in zip(min_days_list, max_days_list):
-                Tariff.objects.create(
-                    dealer=company,
-                    min_days=min_days,
-                    max_days=max_days,
-                )
+                # Check if there is an existing tariff for the given min_days and update it
+                existing_tariff_min = tariff.filter(min_days=min_days).first()
+                existing_tariff_max = tariff.filter(max_days=max_days).first()
+                if existing_tariff_min:
+                    existing_tariff_min.max_days = max_days
+                    existing_tariff_min.save()
+
+                elif existing_tariff_max:
+                    existing_tariff_max.min_days = min_days
+                    existing_tariff_max.save()
+
+                else:
+                    # Create a new tariff entry
+                    Tariff.objects.create(
+                        dealer=company,
+                        min_days=min_days,
+                        max_days=max_days,
+                    )
 
             messages.success(request, 'Settings saved successfully!')
+            return redirect('home')
         except ValidationError as e:
             # Handle validation errors
             error_messages = e.message_dict.values()
@@ -668,9 +888,16 @@ def Settings(request):
             'name_of_company': user.company_name.name_of_company,
             'language': user.company_name.language,
             'legal_name_of_business': user.company_name.legal_name_of_business,
+            'phone_number': user.company_name.phone,
+            'second_phone': user.company_name.second_phone,
+            'country': user.company_name.country,
+            'email': user.company_name.email,
+            'website': user.company_name.web_site,
+            'central_office_location': user.company_name.central_office_location,
+            'central_office_address': user.company_name.central_office_address,
             # ... get other fields ...
         }
-        return render(request, 'setting.html', {'company_data': company_data, 'tariff':tariff})
+        return render(request, 'setting.html', {'company_data': company_data, 'tariff':tariff, 'city':city})
 
 @csrf_exempt
 def save_tariff(request):
@@ -729,4 +956,10 @@ def file_upload(request):
         return HttpResponse('')
     return JsonResponse({'post':'fasle'})
 
+def get_location_types(request, city_id):
+    delivery_items = LocationType.objects.filter(city_id=city_id).values('name', 'city__name' , 'city_id')
+    return JsonResponse(list(delivery_items), safe=False)
 
+def get_delivery_items(request, city_id):
+    delivery_items = Delivery.objects.filter(city_id=city_id).values('location_type__name', 'price', 'free_from', 'delivery_time')
+    return JsonResponse(list(delivery_items), safe=False)

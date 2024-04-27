@@ -90,9 +90,10 @@
                     <tbody>
 {% for season in season %}
     <tr>
-        <td>{{ season.name }} <span>{{ season.date_range }}</span></td>
+        <td>{{ season.name }} <span></span></td>
         {% for tariff in tariff %}
             <td>
+                {% if existing_rates %}
                 {% for rate in existing_rates %}
                     {% if rate.season_id == season.id and rate.tariff_id == tariff.id %}
                         <!-- If there is a rate, display its value -->
@@ -100,7 +101,9 @@
                     {% endif %}
 
                 {% endfor %}
-
+                                    {% else %}
+                        <input type="text" class="form-control" name="rate_price_{{ season.id }}_{{ tariff.id }}" value="0">
+{% endif %}
                     <!-- If there is no rate, display '0' -->
 
                 <!-- Hidden fields for car, season, and tariff IDs -->
@@ -321,16 +324,21 @@
                         <div class="form-group row">
                             <label for="car_details-0-engine_type" class="col-md-4 col-form-label">Engine type</label>
                             <div class="col-md-4">
-                                <input type="text" name="engine_type" maxlength="50" class="form-control"
-                                       id="id_car_details-0-engine_type" value="{{details.engine_type}}">
+    <div class="input-group">
+        <input type="text" name="engine_type" maxlength="50" class="form-control" id="id_car_details-0-engine_type"  value="{{details.engine_type}}">
+        <span class="input-group-addon">l.</span>
+    </div>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="car_details-0-capacity" class="col-md-4 col-form-label">Capacity </label>
                             <div class="col-md-4">
+                                <div class="input-group">
                                 <input class="form-control" type="number" name="engine_capacity" step="0.01"
                                        id="car_details-0-capacity" value="{{details.capacity}}">
+                                    <span class="input-group-addon">HP</span>
+                                </div>
                             </div>
                         </div>
 
@@ -338,7 +346,7 @@
                             <label for="car_details-0-fuel_type" class="col-md-4 col-form-label">Fuel </label>
                             <div class="col-md-4">
                               <select class="form-control" id="car_details-0-fuel_type" name="fuel_type">
-                                <option value="Benzin" {% if details.fuel_type == 'Benzin' %}selected{% endif %}>Benzin</option>
+                                <option value="Petrol" {% if details.fuel_type == 'Petrol' %}selected{% endif %}>Petrol</option>
                                 <option value="Dizel" {% if details.fuel_type == 'Dizel' %}selected{% endif %}>Dizel</option>
                                 <option value="Hybrid" {% if details.fuel_type == 'Hybrid' %}selected{% endif %}>Hybrid</option>
                                 <option value="Turbo Dizel" {% if details.fuel_type == 'Turbo Dizel' %}selected{% endif %}>Turbo Dizel</option>
@@ -352,8 +360,11 @@
                         <div class="form-group row">
                             <label for="car_details-0-tank_size" class="col-md-4 col-form-label">Tank </label>
                             <div class="col-md-4">
+                                <div class="input-group">
                                 <input class="form-control" type="number" name="tank_size" step="0.01"
                                        id="car_details-0-tank_size" value="{{details.tank_size}}">
+                                 <span class="input-group-addon">l.</span>
+                                </div>
                             </div>
                         </div>
 
@@ -361,8 +372,11 @@
                             <label for="car_details-0-fuel_consumption" class="col-md-4 col-form-label">Fuel consumption
                                 (l/100 km)</label>
                             <div class="col-md-4">
+                                <div class="input-group">
                                 <input class="form-control" type="number" name="fuel_consumption" step="0.01"
                                        id="car_details-0-fuel_consumption" value="{{details.fuel_consumption}}">
+                                    <span class="input-group-addon">l/100 km.</span>
+                                </div>
                             </div>
                         </div>
                     </div>
